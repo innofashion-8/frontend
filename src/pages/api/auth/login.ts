@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { email, password } = req.body;
 
     try {
-        const backendRes = await fetchBackend('/login', {
+        const backendRes = await fetchBackend('/auth/login', {
             method: 'POST',
             body: JSON.stringify({ email, password }),
         });
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const token = response.data.token;
 
-        res.setHeader('Set-Cookie', serialize('AUTH_TOKEN', token, {
+        res.setHeader('Set-Cookie', serialize('USER_TOKEN', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development',
             sameSite: 'lax',

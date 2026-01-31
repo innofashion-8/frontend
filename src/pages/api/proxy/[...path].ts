@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const token = req.cookies.AUTH_TOKEN;
+    const token = req.cookies.USER_TOKEN;
     const { path } = req.query;
     const urlPath = Array.isArray(path) ? `${path.join('/')}` : '';
 
