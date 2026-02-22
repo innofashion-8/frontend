@@ -1,26 +1,32 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 interface BackendOptions extends RequestInit {
-  token?: string; // Kita oper token dari cookie kesini
+  token?: string;
 }
 
 export const fetchBackend = async (path: string, options: BackendOptions = {}) => {
   const { token, headers, ...rest } = options;
   
-  const reqHeaders: Record<string, string> = {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    ...(headers as Record<string, string>),
-  };
-
-  if (token) {
-    reqHeaders['Authorization'] = `Bearer ${token}`;
+  const reqHeaders = new Headers(headers as HeadersInit);
+  
+  if (!reqHeaders.has('Accept')) {
+      reqHeaders.set('Accept', 'application/json');
   }
 
-  const res = await fetch(`${BASE_URL}/api${path}`, {
+  if (!(rest.body instanceof FormData)) {
+      if (!reqHeaders.has('Content-Type')) {
+          reqHeaders.set('Content-Type', 'application/json');
+      }
+  } else {
+      reqHeaders.delete('Content-Type');
+  }
+
+  if (token) {
+    reqHeaders.set('Authorization', `Bearer ${token}`);
+  }
+
+  return fetch(`${BASE_URL}/api${path}`, {
     ...rest,
     headers: reqHeaders,
   });
-
-  return res;
 };
