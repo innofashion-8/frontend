@@ -1,9 +1,11 @@
 import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
+import { sendProxyError } from "@/lib/error-response";
+import { send } from "process";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'POST') return res.status(405).end();
+    if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
 
     try {
         const backendRes = await fetchBackend('/auth/admin/login/google', {
@@ -25,8 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             path: '/',
         }));
 
-        return res.status(200).json({ message: 'Login Admin Berhasil' });
+        return res.status(backendRes.status).json(response);
     } catch (error) {
-        return res.status(500).json({ message: 'Terjadi Kesalahan pada server' });
+        return sendProxyError(res, 500, 'Internal Server Error');
     }
 }

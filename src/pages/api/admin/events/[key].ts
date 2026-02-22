@@ -1,9 +1,10 @@
+import { sendProxyError } from "@/lib/error-response";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const token = req.cookies.ADMIN_TOKEN;
-    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+    if (!token) return sendProxyError(res, 401, 'Unauthorized');
 
     const { key } = req.query;
 
@@ -27,8 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(backendRes.status).json(response);
         }
 
-        return res.status(405).end();
+        return sendProxyError(res, 405, 'Method Not Allowed');
     } catch (error) {
-        return res.status(500).json({ message: 'Terjadi Kesalahan pada server' });
+        return sendProxyError(res, 500, 'Internal Server Error');
     }
 }

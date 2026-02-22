@@ -1,9 +1,10 @@
 import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
+import { sendProxyError } from "@/lib/error-response";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'POST') return res.status(405).end();
+    if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
 
     const { email, password } = req.body;
 
@@ -27,8 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             path: '/',
         }));
 
-        return res.status(200).json({ message: 'Login Berhasil' });
+        return res.status(backendRes.status).json(response);
     } catch (error) {
-        return res.status(500).json({ message: 'Terjadi Kesalahan pada server' });
+        return sendProxyError(res, 500, 'Internal Server Error');
     }  
 }
