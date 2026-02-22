@@ -2,6 +2,8 @@ import { sendProxyError } from "@/lib/error-response";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 
+export const config = { api: { bodyParser: false } };
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
 
@@ -9,13 +11,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!token) return sendProxyError(res, 401, 'Unauthorized');
 
     try {
-        const backendRes = await fetchBackend('/profile/submit', {
+        const backendRes = await fetchBackend(`/profile/submit`, { 
             method: 'POST',
-            body: JSON.stringify(req.body),
-            token
-        });
+            token,
+            headers: {
+                'Content-Type': req.headers['content-type'] || '',
+            },
+            body: req as any,
+            duplex: 'half',
+        } as any);
 
-        const response = await backendRes.json();
+        const response = await backendRes.json().catch(() => ({}));
         return res.status(backendRes.status).json(response);
     } catch (error) {
         return sendProxyError(res, 500, 'Internal Server Error');

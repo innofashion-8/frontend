@@ -2,6 +2,8 @@ import { sendProxyError } from "@/lib/error-response";
 import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 
+export const config = { api: { bodyParser: false } };
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
 
@@ -11,13 +13,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { key } = req.query;
 
     try {
-        const backendRes = await fetchBackend(`/competitions/${key}/draft`, {
+        const backendRes = await fetchBackend(`/competitions/${key}/draft`, { 
             method: 'POST',
-            body: JSON.stringify(req.body),
             token,
-        });
+            headers: {
+                'Content-Type': req.headers['content-type'] || '',
+            },
+            body: req as any, // Teruskan stream-nya
+            duplex: 'half',   // Syarat mutlak Node.js fetch stream
+        } as any);
 
-        const response = await backendRes.json();
+        const response = await backendRes.json().catch(() => ({}));
         return res.status(backendRes.status).json(response);
     } catch (error) {
         return sendProxyError(res, 500, 'Internal Server Error');
