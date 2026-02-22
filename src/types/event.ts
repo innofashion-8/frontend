@@ -1,5 +1,6 @@
 export type EventCategory = 'TALKSHOW' | 'WORKSHOP';
 
+// untuk /events
 export interface Event {
   id: string;
   title: string;
@@ -14,6 +15,7 @@ export interface Event {
   updated_at?: string;
 }
 
+// Untuk API /events/{key}
 export interface EventResource {
   id: string;
   title: string;
