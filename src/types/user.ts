@@ -1,3 +1,4 @@
+import { Division } from './division';
 import { CompetitionRegistration, EventRegistration } from './registration';
 
 export type UserTypes = 'EXTERNAL' | 'INTERNAL';
@@ -45,3 +46,13 @@ export interface DraftProfilePayload {
     id_card_path?: File; 
   }
 }
+
+export interface AdminProfile {
+  name: string;
+  email: string;
+  division: Division;
+  roles: string;
+  permissions: string[];
+}
+
+export type AuthProfile = AdminProfile | UserWithRegistrations;
