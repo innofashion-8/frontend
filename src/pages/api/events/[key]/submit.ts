@@ -19,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             headers: {
                 'Content-Type': req.headers['content-type'] || '',
             },
-            body: req as any,
+            body: req as unknown as BodyInit,
             duplex: 'half',
-        } as any);
+        });
 
         const response = await backendRes.json().catch(() => ({}));
         return res.status(backendRes.status).json(response);

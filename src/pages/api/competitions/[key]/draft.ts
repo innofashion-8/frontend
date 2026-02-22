@@ -19,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             headers: {
                 'Content-Type': req.headers['content-type'] || '',
             },
-            body: req as any, // Teruskan stream-nya
-            duplex: 'half',   // Syarat mutlak Node.js fetch stream
-        } as any);
+            body: req as unknown as BodyInit,
+            duplex: 'half',
+        });
 
         const response = await backendRes.json().catch(() => ({}));
         return res.status(backendRes.status).json(response);
