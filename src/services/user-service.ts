@@ -1,7 +1,7 @@
 import { fetchClient } from '@/lib/fetch-client';
 import { ApiResponse, ApiValidationErrors } from '@/types/api';
 import { UserRegistrations } from '@/types/registration';
-import { DraftProfilePayload, SubmitProfilePayload, UserWithRegistrations } from '@/types/user';
+import { DraftProfilePayload, ProfileData, ProfileStatusResponse, UserWithRegistrations } from '@/types/user';
 
 export const profileService = {
     getUser: async(id: string): Promise<UserWithRegistrations> => {
@@ -25,8 +25,19 @@ export const profileService = {
         throw new Error(error.message);
         }
     },
+
+    checkStatus: async(): Promise<ProfileStatusResponse> => {
+        try {
+        const res = await fetchClient<ApiResponse<ProfileStatusResponse>>('/api/profile/status', {
+            method: 'GET',
+        });
+        return res.data as ProfileStatusResponse;
+        } catch (error: any) {
+        throw new Error(error.message);
+        }
+    },
   
-    submitProfile: async (payload: SubmitProfilePayload): Promise<string> => {
+    submitProfile: async (payload: ProfileData): Promise<string> => {
         try {
         const formData = new FormData();
         formData.append('major', payload.major);

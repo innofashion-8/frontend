@@ -28,12 +28,18 @@ export interface UserWithRegistrations extends User {
 }
 
 // Payload untuk POST /profile/submit
-export interface SubmitProfilePayload {
+export interface ProfileData {
   major: string;
   nrp?: string;
   batch?: string;
   ktm_path?: File;       // Tipe File untuk form upload
   id_card_path?: File;   // Tipe File untuk form upload
+}
+
+export interface ProfileStatusResponse {
+  is_completed: boolean;
+  draft_data: ProfileData; // Akan berisi object kosong {} jika belum ada draft
+  profile_data: ProfileData | null; // Null kalau belum komplit
 }
 
 // Payload untuk POST /profile/draft
