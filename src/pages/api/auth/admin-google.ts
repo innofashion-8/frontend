@@ -2,7 +2,6 @@ import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 import { sendProxyError } from "@/lib/error-response";
-import { send } from "process";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
