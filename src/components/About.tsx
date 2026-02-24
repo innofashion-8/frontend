@@ -1,134 +1,116 @@
-"use client";
-import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useAnimationFrame, useTransform } from 'motion/react';
+'use client';
 
-interface ShinyTextProps {
-  text: string;
-  disabled?: boolean;
-  speed?: number;
-  className?: string;
-  color?: string;
-  shineColor?: string;
-  spread?: number;
-  yoyo?: boolean;
-  pauseOnHover?: boolean;
-  direction?: 'left' | 'right';
-  delay?: number;
-}
+import Image from 'next/image';
+import styles from './about.module.css';
 
-const ShinyText: React.FC<ShinyTextProps> = ({
-  text,
-  disabled = false,
-  speed = 2,
-  className = '',
-  color = '#b5b5b5',
-  shineColor = '#ffffff',
-  spread = 120,
-  yoyo = false,
-  pauseOnHover = false,
-  direction = 'left',
-  delay = 0
-}) => {
-  const [isPaused, setIsPaused] = useState(false);
-  const progress = useMotionValue(0);
-  const elapsedRef = useRef(0);
-  const lastTimeRef = useRef<number | null>(null);
-  const directionRef = useRef(direction === 'left' ? 1 : -1);
-
-  const animationDuration = speed * 1000;
-  const delayDuration = delay * 1000;
-
-  useAnimationFrame(time => {
-    if (disabled || isPaused) {
-      lastTimeRef.current = null;
-      return;
-    }
-
-    if (lastTimeRef.current === null) {
-      lastTimeRef.current = time;
-      return;
-    }
-
-    const deltaTime = time - lastTimeRef.current;
-    lastTimeRef.current = time;
-
-    elapsedRef.current += deltaTime;
-
-    // Animation goes from 0 to 100
-    if (yoyo) {
-      const cycleDuration = animationDuration + delayDuration;
-      const fullCycle = cycleDuration * 2;
-      const cycleTime = elapsedRef.current % fullCycle;
-
-      if (cycleTime < animationDuration) {
-        // Forward animation: 0 -> 100
-        const p = (cycleTime / animationDuration) * 100;
-        progress.set(directionRef.current === 1 ? p : 100 - p);
-      } else if (cycleTime < cycleDuration) {
-        // Delay at end
-        progress.set(directionRef.current === 1 ? 100 : 0);
-      } else if (cycleTime < cycleDuration + animationDuration) {
-        // Reverse animation: 100 -> 0
-        const reverseTime = cycleTime - cycleDuration;
-        const p = 100 - (reverseTime / animationDuration) * 100;
-        progress.set(directionRef.current === 1 ? p : 100 - p);
-      } else {
-        // Delay at start
-        progress.set(directionRef.current === 1 ? 0 : 100);
-      }
-    } else {
-      const cycleDuration = animationDuration + delayDuration;
-      const cycleTime = elapsedRef.current % cycleDuration;
-
-      if (cycleTime < animationDuration) {
-        // Animation phase: 0 -> 100
-        const p = (cycleTime / animationDuration) * 100;
-        progress.set(directionRef.current === 1 ? p : 100 - p);
-      } else {
-        // Delay phase - hold at end (shine off-screen)
-        progress.set(directionRef.current === 1 ? 100 : 0);
-      }
-    }
-  });
-
-  useEffect(() => {
-    directionRef.current = direction === 'left' ? 1 : -1;
-    elapsedRef.current = 0;
-    progress.set(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [direction]);
-
-  // Transform: p=0 -> 150% (shine off right), p=100 -> -50% (shine off left)
-  const backgroundPosition = useTransform(progress, p => `${150 - p * 2}% center`);
-
-  const handleMouseEnter = useCallback(() => {
-    if (pauseOnHover) setIsPaused(true);
-  }, [pauseOnHover]);
-
-  const handleMouseLeave = useCallback(() => {
-    if (pauseOnHover) setIsPaused(false);
-  }, [pauseOnHover]);
-
-  const gradientStyle: React.CSSProperties = {
-    backgroundImage: `linear-gradient(${spread}deg, ${color} 0%, ${color} 35%, ${shineColor} 50%, ${color} 65%, ${color} 100%)`,
-    backgroundSize: '200% auto',
-    WebkitBackgroundClip: 'text',
-    backgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
-  };
-
+export default function AboutSection() {
   return (
-    <motion.span
-      className={`inline-block ${className}`}
-      style={{ ...gradientStyle, backgroundPosition }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {text}
-    </motion.span>
-  );
-};
+    <section className={styles.section}>
+      {/* Background silk texture */}
+      <div className={styles.bgWrapper}>
+        <Image
+          src="/assets/background.png"
+          alt="background"
+          fill
+          className={styles.bgImage}
+          priority
+          quality={90}
+        />
+        {/* Darkening overlay */}
+        <div className={styles.bgOverlay} />
+      </div>
 
-export default ShinyText;
-//   plugins: [],
-// };
+      {/* Dust texture overlay on right side */}
+      <div className={styles.dustWrapper}>
+        <Image
+          src="/assets/dust.png"
+          alt=""
+          fill
+          className={styles.dustImage}
+        />
+      </div>
+
+      {/* Main content */}
+      <div className={styles.container}>
+        {/* LEFT COLUMN */}
+        <div className={styles.leftCol}>
+          {/* ABOUT US metallic title */}
+          <div className={styles.titleWrapper}>
+            <Image
+              src="/assets/about-us-title.png"
+              alt="About Us"
+              width={700}
+              height={160}
+              className={styles.titleImage}
+              priority
+            />
+          </div>
+
+          {/* Body text */}
+          <p className={styles.bodyText}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+            mollit anim id est laborum.
+          </p>
+        </div>
+
+        {/* RIGHT COLUMN — Board + Model stack */}
+        <div className={styles.rightCol}>
+          {/* Board frame (rounded rect container) */}
+          <div className={styles.boardWrapper}>
+            <Image
+              src="/assets/board-frame.png"
+              alt=""
+              fill
+              className={styles.boardFrame}
+            />
+            {/* Layer 20 sandy texture — rendered INSIDE the board */}
+            <div className={styles.layer20Wrapper}>
+              <Image
+                src="/assets/layer20.png"
+                alt=""
+                fill
+                className={styles.layer20Image}
+              />
+            </div>
+          </div>
+
+          {/* Blurry / chromatic aberration model — behind main */}
+          <div className={styles.modelBlurryWrapper}>
+            <Image
+              src="/assets/model-blurry.png"
+              alt=""
+              fill
+              className={styles.modelBlurry}
+            />
+          </div>
+
+          {/* Shadow white glow behind model */}
+          <div className={styles.modelShadowWrapper}>
+            <Image
+              src="/assets/model-shadow.png"
+              alt=""
+              fill
+              className={styles.modelShadow}
+            />
+          </div>
+
+          {/* Main model image */}
+          <div className={styles.modelMainWrapper}>
+            <Image
+              src="/assets/model-main.png"
+              alt="Fashion model"
+              fill
+              className={styles.modelMain}
+              priority
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
