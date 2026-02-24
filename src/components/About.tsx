@@ -6,7 +6,6 @@ import styles from './about.module.css';
 export default function AboutSection() {
   return (
     <section className={styles.section}>
-      {/* Background silk texture */}
       <div className={styles.bgWrapper}>
         <Image
           src="/assets/background.png"
@@ -16,11 +15,9 @@ export default function AboutSection() {
           priority
           quality={90}
         />
-        {/* Darkening overlay */}
         <div className={styles.bgOverlay} />
       </div>
 
-      {/* Dust texture overlay on right side */}
       <div className={styles.dustWrapper}>
         <Image
           src="/assets/dust.png"
@@ -58,9 +55,7 @@ export default function AboutSection() {
           </p>
         </div>
 
-        {/* RIGHT COLUMN — Board + Model stack */}
         <div className={styles.rightCol}>
-          {/* Board frame (rounded rect container) */}
           <div className={styles.boardWrapper}>
             <Image
               src="/assets/board-frame.png"
@@ -68,7 +63,6 @@ export default function AboutSection() {
               fill
               className={styles.boardFrame}
             />
-            {/* Layer 20 sandy texture — rendered INSIDE the board */}
             <div className={styles.layer20Wrapper}>
               <Image
                 src="/assets/layer20.png"
@@ -79,7 +73,6 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Blurry / chromatic aberration model — behind main */}
           <div className={styles.modelBlurryWrapper}>
             <Image
               src="/assets/model-blurry.png"
@@ -89,7 +82,6 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Shadow white glow behind model */}
           <div className={styles.modelShadowWrapper}>
             <Image
               src="/assets/model-shadow.png"
@@ -99,7 +91,6 @@ export default function AboutSection() {
             />
           </div>
 
-          {/* Main model image */}
           <div className={styles.modelMainWrapper}>
             <Image
               src="/assets/model-main.png"
