@@ -1,7 +1,7 @@
 import { fetchBackend } from "@/lib/fetch-backend";
 import { fetchClient } from "@/lib/fetch-client";
 import { ApiResponse, ApiValidationErrors } from "@/types/api";
-import { RegisterPayload, LoginPayload, BackendAuthResponse } from "@/types/auth";
+import { RegisterPayload, BackendAuthResponse } from "@/types/auth";
 import { AuthProfile } from "@/types/user";
 
 export const authService = {
@@ -32,6 +32,7 @@ export const authService = {
             token: result.data.token,
             name: result.data.admin.name,
             email: result.data.admin.email,
+            division: result.data.admin.division,
             role: result.data.admin.roles || null,
             permissions: result.data.admin.permissions || [],
             userType: 'ADMIN',
@@ -52,6 +53,7 @@ export const authService = {
             token: result.data.token,
             name: result.data.user.name,
             email: result.data.user.email,
+            division: null,
             role: null,
             permissions: [],
             userType: result.data.user.type || 'USER',
@@ -72,6 +74,7 @@ export const authService = {
             token: result.data.token,
             name: result.data.user.name,
             email: result.data.user.email,
+            division: null,
             role: null,
             permissions: [],
             userType: result.data.user.type || 'USER',

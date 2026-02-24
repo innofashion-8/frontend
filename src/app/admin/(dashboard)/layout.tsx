@@ -6,7 +6,7 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-[100dvh] bg-[#e9e4e2] text-[#1c1c1b] flex font-body">
+    <div className="min-h-[100dvh] bg-[#dcdad9] text-[#1c1c1b] flex font-body">
       
       <Sidebar />
       

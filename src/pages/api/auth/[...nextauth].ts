@@ -36,6 +36,7 @@ export const authOptions: NextAuthOptions = {
         const data = user as unknown as BackendAuthResponse;
         token.accessToken = data.token;
         token.role = data.role;
+        token.division = data.division;
         token.permissions = data.permissions;
         token.userType = data.userType;
       } 
@@ -44,6 +45,7 @@ export const authOptions: NextAuthOptions = {
             const data = await authService.loginGoogleAdmin(account.access_token);
             token.accessToken = data.token;
             token.role = data.role;
+            token.division = data.division;
             token.permissions = data.permissions;
             token.userType = data.userType;
         } catch(e: any) { 
@@ -55,6 +57,7 @@ export const authOptions: NextAuthOptions = {
             const data = await authService.loginGoogleUser(account.access_token);
             token.accessToken = data.token;
             token.role = data.role;
+            token.division = data.division;
             token.permissions = data.permissions;
             token.userType = data.userType;
         } catch(e: any) { 
@@ -68,7 +71,7 @@ export const authOptions: NextAuthOptions = {
       session.accessToken = token.accessToken as string;
       session.user.role = (token.role as string) || null;
       session.user.permissions = (token.permissions as string[]) || [];
-      
+      session.user.division = token.division as string;
       session.user.userType = token.userType as (UserTypes | 'ADMIN');
       
       return session;

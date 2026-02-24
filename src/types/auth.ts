@@ -21,6 +21,7 @@ export interface BackendAuthResponse {
   token: string;
   name: string;
   email: string;
+  division: string | null;
   role: string | null;       // Admin punya string (misal: "super_admin"), User = null
   permissions: string[];     // Admin punya array, User = []
   userType: UserTypes | 'ADMIN'; // Gabungan dari 'EXTERNAL' | 'INTERNAL' | 'ADMIN'

@@ -5,6 +5,7 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     user: {
+      division: string;
       role: string | null;
       permissions: string[];
       userType: UserTypes | 'ADMIN';
