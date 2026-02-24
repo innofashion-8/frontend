@@ -8,7 +8,7 @@ export const eventService = {
   
     submitFinal: async (key: string, paymentProof?: File | null): Promise<string> => {
         try {
-        const formData = new FormData();]
+        const formData = new FormData();
         if (paymentProof) {
             formData.append('payment_proof', paymentProof);
         }
