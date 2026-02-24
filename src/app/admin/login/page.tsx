@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 import LoginCard from "@/components/admin/LoginCard";
-import Plasma from "@/components/admin/Plasma";
 import LightRays from "@/components/admin/LightRays";
 
 export default async function AdminLoginPage() {
