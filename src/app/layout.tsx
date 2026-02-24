@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./providers";
+import { Toaster } from "react-hot-toast";
 
 const creatoTitle = localFont({
   src: "../../public/assets/fonts/CreatoDisplay-Black.otf",
@@ -32,6 +33,10 @@ export default function RootLayout({
       >
         <Providers>
           {children}
+          <Toaster
+            position="top-right" // Bisa diganti 'top-center', 'bottom-right', dll
+            reverseOrder={false}
+          />
         </Providers>
       </body>
     </html>

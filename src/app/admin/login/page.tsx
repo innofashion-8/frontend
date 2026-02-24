@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
-import LightRays from "@/components/admin/LightRays";
 import LoginCard from "@/components/admin/LoginCard";
+import Plasma from "@/components/admin/Plasma";
+import LightRays from "@/components/admin/LightRays";
 
 export default async function AdminLoginPage() {
   const session = await getServerSession(authOptions);
@@ -15,16 +16,22 @@ export default async function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center relative bg-[#000000] overflow-hidden p-4">
       
       <div className="absolute inset-0 z-0">
+        
         <LightRays
-          raysOrigin="top-center"
-          raysColor="#00ffff"
-          raysSpeed={1.5}
-          lightSpread={0.6}
-          rayLength={3}
+          raysOrigin="bottom-center"
+          raysColor="#979085"
+          raysSpeed={3}
+          lightSpread={2}
+          rayLength={5}
           followMouse={true}
           mouseInfluence={0.1}
-          className="w-full h-full"
-        />
+          noiseAmount={0}
+          distortion={0}
+          className="custom-rays w-full h-full"
+          pulsating={false}
+          fadeDistance={2}
+          saturation={1}
+      />
       </div>
       
       <LoginCard />

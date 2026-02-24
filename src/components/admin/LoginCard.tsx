@@ -16,7 +16,7 @@ export default function LoginCard() {
       <h1 className="font-creato-title mix-blend-lighten text-glowing text-white drop-shadow-md font-bold text-2xl md:text-5xl text-center uppercase tracking-wider">
         Admin
         <br />
-        <span className="text-xl text-2xl md:text-5xl block text-cyan-100 font-creato-title">Innofashion 2026</span>
+        <span className="text-2xl md:text-5xl block text-cyan-100 font-creato-title">Innofashion 2026</span>
       </h1>
 
       {/* TOMBOL LOGIN */}

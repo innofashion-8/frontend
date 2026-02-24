@@ -1,3 +1,5 @@
+import { signOut } from "next-auth/react";
+
 export const fetchClient = async <T = any>(path: string, options: RequestInit = {}): Promise<T> => {
     const url = path.startsWith('/api/') ? path : `/api/proxy${path}`;
     
@@ -19,8 +21,7 @@ export const fetchClient = async <T = any>(path: string, options: RequestInit = 
 
     if (res.status === 401) {
         if (typeof window !== 'undefined') {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = '/login';
+            signOut({ callbackUrl: '/login' });
         }
         throw { code: 401, message: 'Unauthorized', isValidationError: false };
     }
