@@ -1,24 +1,43 @@
-export const fetchClient = async (path: string, options: RequestInit = {}) => {
-    const url = path.startsWith('/api/') ? path : `/api/proxy${path}`;
+import { signOut } from "next-auth/react";
+
+export const fetchClient = async <T = any>(path: string, options: RequestInit = {}): Promise<T> => {
+    const isServer = typeof window === 'undefined';
+    const baseUrl = isServer ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000') : '';
+    const url = isServer ? `${baseUrl}${path}` : path;
+    
+    const headers = new Headers(options.headers);
+    
+    // Kalau body BUKAN FormData, baru kita paksa jadi JSON
+    if (!(options.body instanceof FormData)) {
+        if (!headers.has('Content-Type')) {
+            headers.set('Content-Type', 'application/json');
+        }
+    } else {
+        headers.delete('Content-Type');
+    }
+
     const res = await fetch(url, {
-        headers: { 'Content-Type': 'application/json', ...options.headers },
         ...options,
+        headers,
     });
 
     if (res.status === 401) {
         if (typeof window !== 'undefined') {
-            await fetch('/api/auth/logout', { method: 'POST' });
-            
-            window.location.href = '/login';
+            signOut({ callbackUrl: '/login' });
         }
-        
-        throw new Error('Unauthorized');
+        throw { code: 401, message: 'Unauthorized', isValidationError: false };
     }
+
+    const responseData = await res.json().catch(() => ({})); 
 
     if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || 'Terjadi Kesalahan');
+        throw {
+            code: responseData.code || res.status,
+            message: responseData.message || 'Terjadi Kesalahan',
+            data: responseData.data || null,
+            isValidationError: res.status === 422 || responseData.code === 422
+        };
     }
 
-    return res.json();
+    return responseData as T;
 };
