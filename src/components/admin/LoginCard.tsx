@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
 
-interface AdminLoginCardProps {
-  onLogin: () => void;
-  isLoading?: boolean;
-}
-
-export default function LoginCard({ onLogin, isLoading = false }: AdminLoginCardProps) {
+export default function LoginCard() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const handleGoogleLogin = async () => {
+    setIsLoggedIn(true);
+    await signIn("google-admin", { callbackUrl: "/admin" });
+  };
   return (
     <div className="w-11/12 max-w-[45rem] card-bubble-glass shadow-[0_0_30px_rgba(0,0,0,0.5)] p-6 md:p-10 flex flex-col items-center space-y-10 z-10 relative">
       
@@ -20,11 +21,11 @@ export default function LoginCard({ onLogin, isLoading = false }: AdminLoginCard
 
       {/* TOMBOL LOGIN */}
       <button
-        onClick={onLogin}
-        disabled={isLoading}
+        onClick={handleGoogleLogin}
+        disabled={isLoggedIn}
         className="w-full font-creato-body font-bold text-white btn-login border-2 border-cyan-400 font-semibold drop-shadow-2xl text-lg md:text-2xl rounded-full py-3 md:py-4 text-center disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
-        {isLoading ? (
+        {isLoggedIn ? (
           "Memproses..."
         ) : (
           <>
