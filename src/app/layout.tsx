@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const creatoTitle = localFont({
+  src: "../../public/assets/fonts/CreatoDisplay-Black.otf",
+  variable: "--font-creato-title",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const creatoBody = localFont({
+  src: "../../public/assets/fonts/CreatoDisplay-Regular.otf",
+  variable: "--font-creato-body",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${creatoTitle.variable} ${creatoBody.variable} antialiased`}
       >
         <Providers>
           {children}

@@ -5,6 +5,11 @@
   --foreground: #171717;
 }
 
+@theme {
+  --font-creato-title: var(--font-creato-title), sans-serif;
+  --font-creato-body: var(--font-creato-body), sans-serif;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -23,4 +28,81 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .card-bubble-glass {
+    position: relative;
+    
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.0) 100%
+    );
+    
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    /* 3. Border radius agak gedean dikit biar feel 'bubble'-nya dapet */
+    border-radius: 1.5rem; 
+    
+    /* 4. Border putih tipis banget buat nutupin ujung kaca */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    
+    /* 5. INI RAHASIA BUBBLE-NYA: Bayangan luar + pantulan cahaya di dalam kaca */
+    box-shadow: 
+      0 10px 40px -10px rgba(0, 0, 0, 0.3),
+      inset 0 2px 2px rgba(255, 255, 255, 0.2), /* Pantulan lampu dari atas (kaca atas) */
+      inset 0 -2px 5px rgba(0, 255, 255, 0.05);
+    overflow: hidden;
+  }
+
+  .card-bubble-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: glassShine 6s infinite;
+    pointer-events: none;
+  }
+
+  .text-glowing {
+    animation: glowingText 3s ease-in-out infinite alternate;
+  }
+
+  .btn-login {
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+
+  .btn-login:hover {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+  }
+
+  .btn-login:active {
+    box-shadow: none;
+    transform: scale(0.97);
+  }
+}
+
+/* Animasi kilap kaca lewat */
+@keyframes glassShine {
+  0% { left: -100%; }
+  15% { left: 200%; }
+  100% { left: 200%; }
+}
+
+@keyframes glowingText {
+  0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+  50% { text-shadow: 0 0 22px rgba(255, 255, 255, 0.9); }
+  100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
 }

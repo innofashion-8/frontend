@@ -1,12 +1,15 @@
 "use client";
 
+import LightRays from "@/components/admin/LightRays";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation"; //
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import LoginCard from "@/components/admin/LoginCard";
 
 export default function AdminLoginPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.userType === "ADMIN") {
@@ -14,19 +17,30 @@ export default function AdminLoginPage() {
     }
   }, [status, session, router]);
 
-  if (status === "loading") return <div className="p-10 text-center">Loading...</div>;
+  const handleGoogleLogin = async () => {
+    setIsLoggingIn(true);
+    await signIn("google-admin", { callbackUrl: "/admin" });
+  };
+
+  if (status === "loading") return <div className="min-h-screen flex items-center justify-center bg-[#000000] text-white font-bold font-creato-title tracking-widest">LOADING SYSTEM...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm text-center">
-        <h1 className="text-2xl font-bold mb-6">Portal Admin PCE</h1>
-        <button 
-          onClick={() => signIn("google-admin", { callbackUrl: "/admin" })}
-          className="w-full bg-red-600 text-white font-bold py-2 px-4 rounded"
-        >
-          Login dengan Google
-        </button>
+    <div className="min-h-screen flex items-center justify-center relative bg-[#000000] overflow-hidden p-4">
+      
+      {/* BACKGROUND CAHAYA OGL */}
+      <div className="absolute inset-0 z-0">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#00ffff" /* Gua ganti cyan biar cocok sama tema PCE lu */
+          raysSpeed={1.5}
+          lightSpread={0.6}
+          rayLength={3}
+          followMouse={true}
+          mouseInfluence={0.1}
+          className="w-full h-full"
+        />
       </div>
+      <LoginCard onLogin={handleGoogleLogin} isLoading={isLoggingIn} />
     </div>
   );
 }
