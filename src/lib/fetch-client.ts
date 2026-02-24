@@ -1,7 +1,9 @@
 import { signOut } from "next-auth/react";
 
 export const fetchClient = async <T = any>(path: string, options: RequestInit = {}): Promise<T> => {
-    const url = path.startsWith('/api/') ? path : `/api/proxy${path}`;
+    const isServer = typeof window === 'undefined';
+    const baseUrl = isServer ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000') : '';
+    const url = isServer ? `${baseUrl}${path}` : path;
     
     const headers = new Headers(options.headers);
     
