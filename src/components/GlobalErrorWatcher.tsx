@@ -40,7 +40,7 @@ function ErrorWatcher() {
         }
       });
 
-      const newParams = new URLSearchParams(searchParams.toString());
+      const newParams = new URLSearchParams(searchParams?.toString());
       newParams.delete('error');
       const newUrl = `${pathname}${newParams.toString() ? `?${newParams.toString()}` : ''}`;
       router.replace(newUrl, { scroll: false });
