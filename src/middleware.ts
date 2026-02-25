@@ -34,9 +34,6 @@ export async function middleware(req: NextRequest) {
 
   const token = await getToken({ req, secret: NEXTAUTH_SECRET })
 
-  console.log("ISI TOKEN USER TYPE GUE:", token?.userType);
-  console.log("ISI PERMISSIONS GUE:", token?.permissions);
-
   if (pathname.startsWith('/admin')) {
     
     if (pathname === '/admin' || pathname === '/admin/login' || pathname === '/admin/auth/callback') {
