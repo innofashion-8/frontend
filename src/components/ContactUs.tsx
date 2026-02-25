@@ -58,22 +58,22 @@ export default function ContactPage() {
 
         <div className="contact-model animate-fade-in-left">
           <Image
+            src="/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png"
+            alt="model shadow"
+            fill
+            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
+          />
+          <Image
             src="/assets/DUST ABU.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
+            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(-15%)' }}
           />
           <Image
             src="/assets/DUST KUNING.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
-          />
-          <Image
-            src="/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png"
-            alt="model shadow"
-            fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
+            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(35%)' }}
           />
           <Image
             src="/assets/ASET ORANG.png"
@@ -150,6 +150,7 @@ export default function ContactPage() {
 
         /* ─── LEFT: Model ───────────────────────────────────── */
         .contact-model {
+          margin-left: 5%;
           flex: 0 0 40%;
           position: relative;
           height: 100%;
@@ -157,13 +158,12 @@ export default function ContactPage() {
 
         /* ─── RIGHT: Content ────────────────────────────────── */
         .contact-right {
-          flex: 0 0 60%;
+          flex: 0 0 50%;
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           align-items: center;
           padding-top: 8%;
-          padding-right: 40px;
           padding-left: 0;
           gap: 0;
         }
