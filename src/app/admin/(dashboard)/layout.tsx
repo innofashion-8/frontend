@@ -1,5 +1,5 @@
 import { Sidebar } from "@/components/ui/Sidebar";
-
+import "./admin.css";
 export default function AdminDashboardLayout({
   children,
 }: {

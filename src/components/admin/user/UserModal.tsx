@@ -185,7 +185,7 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                       <div className="flex items-start justify-between mb-2">
                         <h4 className="font-black text-[#1C1C1B] text-base">{reg.event?.title || 'Event'}</h4>
                         <span className={`px-3 py-1 text-xs font-black border-2 border-[#1c1c1b] ${
-                          reg.status === 'APPROVED' ? 'bg-green-400 text-[#1c1c1b]' :
+                          reg.status === 'VERIFIED' ? 'bg-green-400 text-[#1c1c1b]' :
                           reg.status === 'REJECTED' ? 'bg-red-400 text-white' :
                           'bg-yellow-300 text-[#1c1c1b]'
                         }`}>
@@ -204,7 +204,7 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                               href={`${process.env.NEXT_PUBLIC_API_URL}/storage/${reg.payment_proof}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[#1c1c1b] font-bold underline hover:text-[#5B4D4B]"
+                              className="px-3 py-1.5 border-[2px] border-[#1c1c1b] bg-white text-xs font-black hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[2px_2px_0px_#1c1c1b] inline-block cursor-pointer"
                             >
                               View Proof
                             </a>
@@ -228,7 +228,7 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                       <div className="flex items-start justify-between mb-2">
                         <h4 className="font-black text-[#1C1C1B] text-base">{reg.competition?.name || 'Competition'}</h4>
                         <span className={`px-3 py-1 text-xs font-black border-2 border-[#1c1c1b] ${
-                          reg.status === 'APPROVED' ? 'bg-green-400 text-[#1c1c1b]' :
+                          reg.status === 'VERIFIED' ? 'bg-green-400 text-[#1c1c1b]' :
                           reg.status === 'REJECTED' ? 'bg-red-400 text-white' :
                           'bg-yellow-300 text-[#1c1c1b]'
                         }`}>
@@ -237,10 +237,6 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                       </div>
                       <div className="grid grid-cols-2 gap-2 text-xs mb-2">
                         <div>
-                          <p className="text-[#6A5D52] font-black uppercase">Team</p>
-                          <p className="font-bold text-[#1c1c1b]">{reg.team_name || '-'}</p>
-                        </div>
-                        <div>
                           <p className="text-[#6A5D52] font-black uppercase">Registered</p>
                           <p className="font-bold text-[#1c1c1b]">{new Date(reg.created_at).toLocaleDateString('id-ID')}</p>
                         </div>
@@ -248,13 +244,13 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                       {reg.payment_proof && (
                         <div className="mt-2">
                           <a
-                            href={`${process.env.NEXT_PUBLIC_API_URL}/storage/${reg.payment_proof}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-3 py-1.5 border-[2px] border-[#1c1c1b] bg-white text-xs font-black hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[2px_2px_0px_#1c1c1b] inline-block cursor-pointer"
-                          >
-                            VIEW PAYMENT
-                          </a>
+                          href={`${process.env.NEXT_PUBLIC_API_URL}/storage/${reg.payment_proof}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 border-[2px] border-[#1c1c1b] bg-white text-xs font-black hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[2px_2px_0px_#1c1c1b] inline-block cursor-pointer"
+                        >
+                          VIEW PAYMENT
+                        </a>
                         </div>
                       )}
                     </div>

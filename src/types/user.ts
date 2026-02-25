@@ -1,5 +1,5 @@
 import { Division } from './division';
-import { CompetitionRegistration, EventRegistration } from './registration';
+import { CompetitionRegistration, CompetitionRegistrationWithCompetition, EventRegistration, EventRegistrationWithEvent } from './registration';
 
 export type UserTypes = 'EXTERNAL' | 'INTERNAL';
 
@@ -23,8 +23,8 @@ export interface User {
 }
 
 export interface UserWithRegistrations extends User {
-  event_registrations?: EventRegistration[];
-  competition_registrations?: CompetitionRegistration[];
+  event_registrations?: EventRegistrationWithEvent[];
+  competition_registrations?: CompetitionRegistrationWithCompetition[];
 }
 
 // Payload untuk POST /profile/submit

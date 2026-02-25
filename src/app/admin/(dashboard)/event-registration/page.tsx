@@ -1,4 +1,4 @@
-import RegistrationClient from "@/components/admin/RegistrationClient";
+import RegistrationClient from "@/components/admin/event-registration/RegistrationClient";
 import { registrationService } from "@/services/registration-service"; // 👈 Import yang SERVER
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

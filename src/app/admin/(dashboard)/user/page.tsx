@@ -1,5 +1,5 @@
 import { profileService } from '@/services/user-service';
-import UserClient from '@/components/admin/UserClient';
+import UserClient from '@/components/admin/user/UserClient';
 
 export default async function ManageUserPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
   const params = await searchParams;

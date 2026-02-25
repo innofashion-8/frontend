@@ -1,5 +1,5 @@
 import { competitionService } from '@/services/competition-service';
-import CompetitionClient from '@/components/admin/CompetitionClient';
+import CompetitionClient from '@/components/admin/competition/CompetitionClient';
 
 export default async function ManageCompetitionPage() {
   const competitions = await competitionService.getCompetitions();
