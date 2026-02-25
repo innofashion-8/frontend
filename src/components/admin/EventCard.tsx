@@ -1,9 +1,9 @@
-import { Event } from '@/types/event';
+import { EventResource } from '@/types/event'; // 👈 Ubah import
 
 interface EventCardProps {
-  event: Event;
-  onViewDetail: (event: Event) => void;
-  onEdit: (event: Event) => void;
+  event: EventResource; // 👈 Ubah tipe
+  onViewDetail: (event: EventResource) => void;
+  onEdit: (event: EventResource) => void;
   onDelete: (id: string) => void;
 }
 
@@ -17,18 +17,19 @@ export default function EventCard({ event, onViewDetail, onEdit, onDelete }: Eve
         </span>
         <p className="text-[#1C1C1B] text-sm font-semibold">Price: Rp {event.price.toLocaleString('id-ID')}</p>
         <p className="text-[#978D82] text-xs mt-1">Quota: {event.quota} seats</p>
-        <p className="text-[#978D82] text-xs mt-1">Start: {event.start_time.replace('T', ' ').slice(0, 16)}</p>
+        {/* 👇 Langsung pakai start_time_input dari Resource */}
+        <p className="text-[#978D82] text-xs mt-1">Start: {event.start_time_input.replace('T', ' ')}</p>
       </div>
       <hr className="my-4 border-[#978D82]/30" />
       <div className="flex flex-col gap-3 mt-auto">
-        <button onClick={() => onViewDetail(event)} className="bg-[#5B4D4B] text-[#EBEBDD] px-4 py-2 rounded-md font-semibold hover:bg-[#1C1C1B] transition-colors w-full">
+        <button onClick={() => onViewDetail(event)} className="bg-[#5B4D4B] cursor-pointer text-[#EBEBDD] px-4 py-2 rounded-md font-semibold hover:bg-[#1C1C1B] transition-colors w-full">
           View Details
         </button>
         <div className="flex gap-3">
-          <button onClick={() => onEdit(event)} className="flex-1 border-2 border-[#978D82] text-[#7B7D7B] px-3 py-2 rounded-md font-semibold hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors">
+          <button onClick={() => onEdit(event)} className="flex-1 border-2 border-[#978D82] cursor-pointer text-[#7B7D7B] px-3 py-2 rounded-md font-semibold hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors">
             Edit
           </button>
-          <button onClick={() => onDelete(event.id)} className="flex-1 bg-[#1A1A1A] text-[#EBEBDD] px-3 py-2 rounded-md font-semibold hover:bg-[#000000] transition-colors">
+          <button onClick={() => onDelete(event.id)} className="flex-1 bg-[#1A1A1A] cursor-pointer text-[#EBEBDD] px-3 py-2 rounded-md font-semibold hover:bg-[#000000] transition-colors">
             Delete
           </button>
         </div>

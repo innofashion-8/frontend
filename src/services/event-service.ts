@@ -35,12 +35,12 @@ export const eventService = {
         }
     },
 
-    getEvents: async (): Promise<Event[]> => {
+    getEvents: async (): Promise<EventResource[]> => {
         try {
-        const res = await fetchClient<ApiResponse<Event[]>>(`/api/events`, {
+        const res = await fetchClient<ApiResponse<EventResource[]>>(`/api/events`, {
             method: 'GET',
         });
-        return res.data as Event[];
+        return res.data as EventResource[];
         } catch (error: any) {
         throw new Error(error.message);
         }

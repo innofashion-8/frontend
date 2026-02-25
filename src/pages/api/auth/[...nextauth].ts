@@ -31,6 +31,17 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
+    async signIn({ account, profile }) {
+      // Nyegat Google Admin
+      if (account?.provider === "google-admin") {
+        const email = profile?.email || "";
+        if (!email.endsWith("@john.petra.ac.id")) {
+          return "/admin/login?error=EmailNotAllowed"; // 👈 NextAuth bakal langsung redirect ke sini!
+        }
+      }
+      return true;
+    },
+
     async jwt({ token, account, user }) {
       if (account?.provider === "credentials-user" && user) {
         const data = user as unknown as BackendAuthResponse;
@@ -49,7 +60,7 @@ export const authOptions: NextAuthOptions = {
             token.permissions = data.permissions;
             token.userType = data.userType;
         } catch(e: any) { 
-            throw new Error(e.message || "Akses ditolak. Anda bukan Admin."); 
+            throw new Error("ADMIN_ERROR:" + (e.message || "Akses ditolak. Anda bukan Admin.")); 
         }
       }
       else if (account?.provider === "google-user" && account.access_token) {
@@ -80,6 +91,7 @@ export const authOptions: NextAuthOptions = {
   
   pages: {
     signIn: '/login',
+    error: '/login',
   },
 
   session: { strategy: "jwt" },

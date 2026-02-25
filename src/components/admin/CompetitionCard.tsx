@@ -19,14 +19,14 @@ export default function CompetitionCard({ competition, onViewDetail, onEdit, onD
       </div>
       <hr className="my-4 border-[#978D82]/30" />
       <div className="flex flex-col gap-3 mt-auto">
-        <button onClick={() => onViewDetail(competition)} className="bg-[#5B4D4B] text-[#EBEBDD] px-4 py-2 rounded-md font-semibold hover:bg-[#1C1C1B] transition-colors w-full">
+        <button onClick={() => onViewDetail(competition)} className="bg-[#5B4D4B] text-[#EBEBDD] px-4 py-2 rounded-md font-semibold hover:bg-[#1C1C1B] transition-colors w-full cursor-pointer">
           View Details
         </button>
         <div className="flex gap-3">
-          <button onClick={() => onEdit(competition)} className="flex-1 border-2 border-[#978D82] text-[#7B7D7B] px-3 py-2 rounded-md font-semibold hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors">
+          <button onClick={() => onEdit(competition)} className="flex-1 border-2 border-[#978D82] text-[#7B7D7B] px-3 py-2 rounded-md font-semibold hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors cursor-pointer">
             Edit
           </button>
-          <button onClick={() => onDelete(competition.id)} className="flex-1 bg-[#1A1A1A] text-[#EBEBDD] px-3 py-2 rounded-md font-semibold hover:bg-[#000000] transition-colors">
+          <button onClick={() => onDelete(competition.id)} className="flex-1 bg-[#1A1A1A] text-[#EBEBDD] px-3 py-2 rounded-md font-semibold hover:bg-[#000000] transition-colors cursor-pointer">
             Delete
           </button>
         </div>

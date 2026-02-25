@@ -1,33 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Event, EventPayload } from '@/types/event';
+import { EventResource, EventPayload } from '@/types/event';
 import { eventService } from '@/services/event-service';
 import { ApiValidationErrors } from '@/types/api';
 import EventCard from './EventCard';
 import EventModal from './EventModal';
 import EventSidebar from './EventSidebar';
+import Swal from 'sweetalert2';
 
 interface EventClientProps {
-  initialEvents: Event[];
+  initialEvents: EventResource[];
 }
 
 export default function EventClient({ initialEvents }: EventClientProps) {
-  const [events, setEvents] = useState<Event[]>(initialEvents);
+  const [events, setEvents] = useState<EventResource[]>(initialEvents);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<EventPayload>({ 
-    title: '', 
-    category: 'TALKSHOW', 
-    description: '', 
-    price: 0,
-    quota: 1,
-    start_time: '',
-    is_active: true 
+    title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, start_time: '', is_active: true 
   });
   const [errors, setErrors] = useState<ApiValidationErrors | null>(null);
   const [editingId, setEditingId] = useState<string>('');
-  const [viewDetail, setViewDetail] = useState<Event | null>(null);
+  const [viewDetail, setViewDetail] = useState<EventResource | null>(null); 
 
   const handleOpenCreate = () => {
     setFormData({ title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, start_time: '', is_active: true });
@@ -36,23 +31,14 @@ export default function EventClient({ initialEvents }: EventClientProps) {
     setIsSidebarOpen(true);
   };
 
-  const handleOpenUpdate = (event: Event) => {
-    // Use start_time directly from API without timezone conversion
-    // Assuming API returns format like "2024-03-15 14:20:00" or ISO string
-    let startTimeLocal = '';
-    if (event.start_time) {
-      // If API returns ISO string, extract date and time without timezone conversion
-      const dateStr = event.start_time.replace(' ', 'T').slice(0, 16);
-      startTimeLocal = dateStr;
-    }
-    
+  const handleOpenUpdate = (event: EventResource) => {
     setFormData({
       title: event.title,
       category: event.category,
       description: event.description,
       price: event.price,
       quota: event.quota,
-      start_time: startTimeLocal,
+      start_time: event.start_time_input, 
       is_active: event.is_active
     });
     setErrors(null);
@@ -62,34 +48,60 @@ export default function EventClient({ initialEvents }: EventClientProps) {
   };
 
   const handleDelete = async (id: string) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this event?');
-    if (confirmDelete) {
-      try {
-        await eventService.deleteEvent(id);
-        setEvents(events.filter((event) => event.id !== id));
-      } catch (error: any) {
-        alert(error.message);
+    const eventToDelete = events.find(e => e.id === id);
+    const eventName = eventToDelete?.title || 'Event ini';
+
+    Swal.fire({
+      title: "HAPUS EVENT?", text: `Data "${eventName}" akan dihapus permanen.`, icon: "warning",
+      showCancelButton: true, confirmButtonColor: "#1c1c1b", cancelButtonColor: "#979086", 
+      confirmButtonText: "YA, HANGUSKAN!", cancelButtonText: "BATAL",
+      customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire({ title: 'MENGHAPUS...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          await eventService.deleteEvent(id);
+          setEvents(events.filter((event) => event.id !== id));
+          Swal.fire({ title: "TERHAPUS!", icon: "success", confirmButtonColor: "#6A5D52" });
+        } catch (error: any) {
+          Swal.fire({ title: "GAGAL!", text: error.message, icon: "error" });
+        }
       }
-    }
+    });
   };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors(null);
+
+    const selectedDate = new Date(formData.start_time);
+    const now = new Date();
+    if (selectedDate <= now) {
+      Swal.fire({ title: "TANGGAL INVALID!", text: "Tanggal dan jam event harus setelah waktu sekarang.", icon: "error", confirmButtonColor: "#1c1c1b" });
+      return;
+    }
+
     try {
       if (isEditing) {
         const result = await eventService.updateEvent(editingId, formData);
-        setEvents(events.map((event) => (event.id === editingId ? { ...event, ...result.data } : event)));
+        const resource = (result.data ? result.data : result) as EventResource;
+        
+        setEvents(events.map((event) => (event.id === editingId ? { ...event, ...resource } : event)));
       } else {
         const result = await eventService.storeEvent(formData);
-        setEvents([...events, result.data as any]);
+        const resource = (result.data ? result.data : result) as EventResource;
+        
+        setEvents([...events, resource]);
       }
+      
       setIsSidebarOpen(false);
+      Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: isEditing ? 'Update Berhasil' : 'Event Disimpan', showConfirmButton: false, timer: 3000, customClass: { popup: 'border-2 border-[#1c1c1b] rounded-none' } });
+
     } catch (error: any) {
       if (error.isValidationError) {
         setErrors(error.errors);
       } else {
-        alert(error.message);
+        Swal.fire({ title: "SYSTEM ERROR", text: error.message || "Terjadi kesalahan saat menyimpan data.", icon: "error", confirmButtonColor: "#1c1c1b", customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' } });
       }
     }
   };
@@ -101,7 +113,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
           <h1 className="text-3xl font-bold tracking-tight">Manage Events</h1>
           <button 
             onClick={handleOpenCreate}
-            className="bg-[#5B4D4B] text-[#EBEBDD] px-6 py-3 rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md w-full sm:w-auto"
+            className="bg-[#5B4D4B] cursor-pointer text-[#EBEBDD] px-6 py-3 rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md w-full sm:w-auto"
           >
             + Add Event
           </button>
@@ -118,7 +130,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
             </div>
             <h3 className="text-2xl font-bold text-[#5B4D4B] mb-3">No event yet</h3>
             <p className="text-[#978D82] mb-6 text-center">Start adding your first event</p>
-            <button onClick={handleOpenCreate} className="bg-[#5B4D4B] text-[#EBEBDD] px-6 py-3 rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md">
+            <button onClick={handleOpenCreate} className="bg-[#5B4D4B] text-[#EBEBDD] px-6 py-3 cursor-pointer rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md">
               + Add Event
             </button>
           </div>

@@ -1,14 +1,42 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation"; // 👈 Import ini buat baca URL
+import Swal from "sweetalert2"; // 👈 Import Swal
 
 export default function LoginCard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const searchParams = useSearchParams(); // 👈 Inisiasi
+
+  // 👇 MUNCULIN ERROR KALAU ADA DI URL
+  useEffect(() => {
+    const error = searchParams?.get("error");
+    if (error) {
+      // Bikin isLoggedIn jadi false lagi biar tombol bisa diklik
+      setIsLoggedIn(false); 
+
+      // Munculin popup error brutalist
+      Swal.fire({
+        title: "AKSES DITOLAK!",
+        text: "Harap gunakan email @john.petra.ac.id untuk masuk ke area admin.",
+        icon: "error",
+        confirmButtonColor: "#1c1c1b",
+        confirmButtonText: "MENGERTI",
+        customClass: {
+          popup: "rounded-none border-4 border-[#1c1c1b]",
+          title: "font-creato-title font-black uppercase text-[#1c1c1b]",
+          confirmButton: "rounded-none font-creato-title font-bold uppercase tracking-widest",
+        },
+      });
+    }
+  }, [searchParams]);
+
   const handleGoogleLogin = async () => {
     setIsLoggedIn(true);
-    await signIn("google-admin", { callbackUrl: "/admin" });
+    await signIn("google-admin", { callbackUrl: "/admin/dashboard" });
   };
+
   return (
     <div className="w-11/12 max-w-[45rem] card-bubble-glass shadow-[0_0_30px_rgba(0,0,0,0.5)] p-6 md:p-10 flex flex-col items-center space-y-10 z-10 relative">
       
@@ -23,7 +51,7 @@ export default function LoginCard() {
       <button
         onClick={handleGoogleLogin}
         disabled={isLoggedIn}
-        className="w-full font-creato-body font-bold text-white btn-login border-2 border-cyan-400 font-semibold drop-shadow-2xl text-lg md:text-2xl rounded-full py-3 md:py-4 text-center disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+        className="w-full font-creato-body font-bold text-white btn-login border-2 border-cyan-400 drop-shadow-2xl text-lg md:text-2xl rounded-full py-3 md:py-4 text-center disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
         {isLoggedIn ? (
           "Memproses..."
