@@ -67,13 +67,13 @@ export default function ContactPage() {
             src="/assets/DUST ABU.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(-15%)' }}
+            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(-10%)' }}
           />
           <Image
             src="/assets/DUST KUNING.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(35%)' }}
+            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(15%)' }}
           />
           <Image
             src="/assets/ASET ORANG.png"
@@ -89,7 +89,7 @@ export default function ContactPage() {
               src="/assets/CONTACT US.png"
               alt="CONTACT US"
               fill
-              style={{ objectFit: 'contain', objectPosition: 'center' }}
+              style={{ objectFit: 'contain', objectPosition: 'center', top: '10%' }}
             />
           </div>
 
@@ -163,7 +163,7 @@ export default function ContactPage() {
           flex-direction: column;
           justify-content: flex-start;
           align-items: center;
-          padding-top: 8%;
+          padding-top: 2%;
           padding-left: 0;
           gap: 0;
         }
@@ -172,8 +172,8 @@ export default function ContactPage() {
         .contact-title-wrap {
           position: relative;
           width: 100%;
-          height: clamp(90px, 18vh, 170px);
-          margin-bottom: 3vh;
+          height: clamp(120px, 26vh, 240px);
+          margin-bottom: 0vh;
           align-self: flex-end;
         }
 
@@ -193,8 +193,8 @@ export default function ContactPage() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 5px;
-          padding: clamp(8px, 1.4vh, 16px) 24px;
+          gap: 3px;
+          padding: clamp(5px, 0.8vh, 10px) 16px;
           background: rgba(50, 50, 50, 0.62);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
@@ -217,8 +217,8 @@ export default function ContactPage() {
         }
 
         .card-icon {
-          width: clamp(28px, 4vw, 40px);
-          height: clamp(28px, 4vw, 40px);
+          width: clamp(40px, 6vw, 60px);
+          height: clamp(40px, 6vw, 60px);
           position: relative;
           flex-shrink: 0;
           display: flex;
