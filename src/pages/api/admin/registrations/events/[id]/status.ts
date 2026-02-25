@@ -21,7 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const response = await backendRes.json();
         return res.status(backendRes.status).json(response);
-    } catch (error) {
-        return sendProxyError(res, 500, 'Internal Server Error');
+    } catch (error: any) {
+        console.error('Proxy error:', error);
+        return sendProxyError(res, 500, error.message || 'Internal Server Error');
     }
 }
