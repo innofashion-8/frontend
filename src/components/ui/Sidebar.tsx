@@ -153,7 +153,10 @@ export function Sidebar() {
         <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
           <ul className="flex flex-col gap-1 w-full p-0 m-0">
             {allowedMenus.map((item, index) => {
-              const isCurrent = pathname?.startsWith(item.path);
+              const isCurrent = 
+                item.path === "/admin/dashboard" 
+                  ? pathname === "/admin/dashboard"
+                  : pathname === item.path || pathname?.startsWith(`${item.path}/`);
 
               return (
                 <li key={index} className="w-full h-[50px] leading-[50px]">
