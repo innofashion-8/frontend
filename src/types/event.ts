@@ -20,6 +20,7 @@ export interface EventResource {
   id: string;
   title: string;
   slug: string;
+  category: EventCategory;
   description: string;
   price: number;
   quota: number;

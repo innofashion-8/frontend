@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -11,8 +11,30 @@ export function Sidebar() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [isActive, setIsActive] = useState(false);
+  
+  const sidebarRef = useRef<HTMLElement>(null);
+  const mobileBtnRef = useRef<HTMLDivElement>(null);
 
   const toggleSidebar = () => setIsActive(!isActive);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isActive && 
+        sidebarRef.current && 
+        !sidebarRef.current.contains(event.target as Node) &&
+        mobileBtnRef.current &&
+        !mobileBtnRef.current.contains(event.target as Node)
+      ) {
+        setIsActive(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isActive]);
 
   const handleLogout = async () => {
     try {
@@ -50,7 +72,7 @@ export function Sidebar() {
     { 
       path: "/admin/user", 
       name: "Manage User", 
-      permission: "manage_user", 
+      permission: "manage_users", 
       icon: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></> 
     },
     { 
@@ -69,9 +91,7 @@ export function Sidebar() {
 
   const allowedMenus = adminMenus.filter((item) => {
     if (!item.permission) return true;
-    
     if (userPermissions.includes("*")) return true;
-    
     return userPermissions.includes(item.permission);
   });
 
@@ -92,15 +112,16 @@ export function Sidebar() {
       {/* MOBILE OVERLAY */}
       <div
         onClick={() => setIsActive(false)}
-        className={`fixed inset-0 bg-black/40 z-[9990] transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 bg-black/40 z-[30] transition-opacity duration-300 lg:hidden ${
           isActive ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       />
 
       {/* MOBILE HAMBURGER BUTTON */}
       <div
+        ref={mobileBtnRef}
         onClick={toggleSidebar}
-        className={`fixed top-5 left-5 w-[50px] h-[50px] rounded-xl z-[10000] shadow-md flex items-center justify-center cursor-pointer transition-all duration-300 lg:hidden
+        className={`fixed top-5 left-5 w-[50px] h-[50px] rounded-xl z-[50] shadow-md flex items-center justify-center cursor-pointer transition-all duration-300 lg:hidden
         ${isActive ? "left-[230px] bg-transparent shadow-none" : "bg-[#dcdad9]/80 backdrop-blur-md"}`}
       >
         <svg className={`ham ham6 ${isActive ? "active" : ""}`} viewBox="0 0 100 100" width="40">
@@ -110,11 +131,12 @@ export function Sidebar() {
         </svg>
       </div>
 
-      {/* SIDEBAR MAIN CONTAINER (Ditambah flex flex-col) */}
+      {/* SIDEBAR MAIN CONTAINER */}
       <nav
-        className={`fixed top-0 left-0 h-[100dvh] z-[9998] py-2 px-3 transition-all duration-500 overflow-hidden whitespace-nowrap 
+        ref={sidebarRef}
+        className={`fixed top-0 -left-[10%] lg:left-0 h-[100dvh] z-[40] py-2 px-3 transition-all duration-500 overflow-hidden whitespace-nowrap 
         border-r border-[#b7ac9b]/30 backdrop-blur-xl flex flex-col
-        ${isActive ? "w-[280px] bg-[#e9e4e2]/95 shadow-[10px_0_30px_rgba(0,0,0,0.1)]" : "w-0 lg:w-[80px] bg-[#e2e2de]/60 lg:shadow-none"}`}
+        ${isActive ? "w-[280px] left-0 bg-[#e9e4e2]/95 shadow-[10px_0_30px_rgba(0,0,0,0.1)]" : "w-0 lg:w-[80px] bg-[#e2e2de]/60 lg:shadow-none"}`}
       >
         {/* LOGO & DESKTOP TOGGLE */}
         <div className="flex items-center w-full min-h-[60px] mb-5 relative text-[#1C1C1B]">
@@ -127,10 +149,9 @@ export function Sidebar() {
           </div>
         </div>
 
-        {/* LIST MENU TENGAH (Fleksibel memanjang) */}
+        {/* LIST MENU TENGAH */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
           <ul className="flex flex-col gap-1 w-full p-0 m-0">
-            {/* 4. Ganti map dari adminMenus jadi allowedMenus */}
             {allowedMenus.map((item, index) => {
               const isCurrent = pathname?.startsWith(item.path);
 
@@ -159,7 +180,7 @@ export function Sidebar() {
           </ul>
         </div>
 
-        {/* LOGOUT BUTTON BAWAH (Didorong ke bawah sama mt-auto) */}
+        {/* LOGOUT BUTTON BAWAH */}
         <div className="mt-auto pb-4 w-full">
           <div className="my-2 border-b border-[#b7ac9b]/30"></div>
           <button 
