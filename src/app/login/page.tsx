@@ -1,80 +1,62 @@
-"use client";
+'use client';
 
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useState, useEffect, FormEvent } from "react";
-import toast from "react-hot-toast";
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { themeColors } from '@/lib/theme';
 
-export default function UserLoginPage() {
-  const { data: session, status } = useSession();
+export default function LoginPage() {
+  const { status } = useSession();
   const router = useRouter();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (status === "authenticated" && session?.user?.userType !== "ADMIN") {
-      router.push("/");
-    }
-  }, [status, session, router]);
+    if (status === 'authenticated') router.push('/dashboard');
+  }, [status, router]);
 
-  const handleCredentialsLogin = async (e: FormEvent) => {
-    e.preventDefault();
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
-
-    const result = await signIn("credentials-user", {
-      redirect: false,
-      email,
-      password,
-    });
-
-    if (result?.error) {
-      toast.error(result.error);
-      setIsLoading(false);
-    } else {
-      toast.success("Berhasil login!");
-      router.push("/");
-    }
+    await signIn('google-user', { callbackUrl: '/dashboard' });
   };
 
-  if (status === "loading") return <div className="p-10 text-center">Loading...</div>;
+  if (status === 'loading') return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-black p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-6">Login Peserta</h1>
-
-        <form onSubmit={handleCredentialsLogin} className="space-y-4">
-          <input 
-            type="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
-            placeholder="Email"
-            required
-          />
-          <input 
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 p-2 rounded"
-            placeholder="Password"
-            required
-          />
-          <button type="submit" disabled={isLoading} className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded disabled:opacity-50">
-            {isLoading ? "Memproses..." : "Masuk"}
-          </button>
-        </form>
-
-        <div className="my-6 border-t border-gray-300"></div>
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center p-6 font-sans"
+      style={{ backgroundColor: themeColors.bg }}
+    >
+      <div 
+        className="w-full max-w-md p-8 md:p-12 rounded-[2rem] shadow-2xl border text-center"
+        style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
+      >
+        <div className="mb-10">
+          <h1 
+            className="text-4xl font-black mb-3 tracking-tight"
+            style={{ color: themeColors.textDark }}
+          >
+            Innofashion 8
+          </h1>
+          <p className="text-lg" style={{ color: themeColors.textMuted }}>
+            Masuk untuk memulai perjalananmu.
+          </p>
+        </div>
 
         <button 
-          onClick={() => signIn("google-user", { callbackUrl: "/" })}
-          className="w-full border border-gray-300 text-gray-700 font-bold py-2 px-4 rounded"
+          onClick={handleGoogleLogin}
+          disabled={isLoading}
+          className="w-full flex items-center justify-center gap-4 py-4 px-6 rounded-xl font-bold hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-xl"
+          style={{ backgroundColor: themeColors.primary, color: themeColors.cardBg }}
         >
-          Masuk dengan Google
+          <div className="bg-white p-1 rounded-full">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+          </div>
+          <span>{isLoading ? 'Menghubungkan...' : 'Lanjutkan dengan Google'}</span>
         </button>
+
+        <p className="mt-8 text-sm p-4 rounded-xl border" style={{ backgroundColor: themeColors.bg, color: themeColors.textMuted, borderColor: themeColors.border }}>
+          Mahasiswa UK Petra wajib menggunakan email <strong>@john.petra.ac.id</strong>
+        </p>
       </div>
     </div>
   );

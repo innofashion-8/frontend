@@ -34,6 +34,9 @@ export interface ProfileData {
   batch?: string;
   ktm_path?: File;       // Tipe File untuk form upload
   id_card_path?: File;   // Tipe File untuk form upload
+  whatsapp?: string;
+  line_id?: string;
+  asal_sekolah?: string;
 }
 
 export interface ProfileStatusResponse {

@@ -1,38 +1,67 @@
-"use client";
+'use client';
 
-import { useSession, signOut } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { themeColors } from '@/lib/theme';
 
 export default function DashboardPage() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return <div className="p-10 text-center">Tunggu bentar bro...</div>;
-  }
-
-  if (status === "unauthenticated" || !session) {
-    return <div className="p-10 text-center text-red-500">Lu belum login!</div>;
-  }
+  const router = useRouter();
+  const { data: session } = useSession();
 
   return (
-    <div className="p-10">
-      <h1 className="text-3xl font-bold mb-4">Selamat Datang di Dashboard PCE 2026!</h1>
-      
-      <div className="bg-gray-100 p-6 rounded-lg shadow max-w-2xl">
-        <p><strong>Nama:</strong> {session.user.name}</p>
-        <p><strong>Email:</strong> {session.user.email}</p>
-        <p><strong>Tipe User:</strong> {session.user.userType}</p>
-        <p><strong>Role Admin:</strong> {session.user.role || 'Bukan Admin'}</p>
-        
-        <p className="mt-4 text-xs text-gray-500 break-all">
-          <strong>Token Laravel:</strong> {session.accessToken}
+    <div className="py-4">
+      <div 
+        className="mb-12 p-8 md:p-12 rounded-[2.5rem] border shadow-sm" 
+        style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
+      >
+        <h1 className="text-3xl md:text-5xl font-black mb-4" style={{ color: themeColors.textDark }}>
+          Hi, <span style={{ color: themeColors.primary }}>{session?.user?.name?.split(' ')[0]}!</span> 👋
+        </h1>
+        <p className="text-xl font-medium" style={{ color: themeColors.textMuted }}>
+          Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti.
         </p>
+      </div>
 
-        <button 
-          onClick={() => signOut({ callbackUrl: '/login' })}
-          className="mt-6 bg-red-600 text-white px-4 py-2 rounded"
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        {/* KARTU EVENT */}
+        <div 
+          onClick={() => router.push('/dashboard/events')}
+          className="group relative overflow-hidden border-2 p-10 md:p-12 rounded-[3rem] cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
         >
-          Logout
-        </button>
+          <div className="text-6xl mb-8">🎟️</div>
+          <h2 className="text-4xl font-black mb-4 transition-colors" style={{ color: themeColors.textDark }}>Event</h2>
+          <p className="text-xl font-medium mb-10 leading-relaxed" style={{ color: themeColors.textMuted }}>
+            Ikuti berbagai rangkaian acara seru, workshop inspiratif, dan pameran karya spektakuler.
+          </p>
+          <span 
+            className="inline-flex items-center px-8 py-4 rounded-xl font-bold transition-transform group-hover:scale-105 shadow-md text-lg"
+            style={{ backgroundColor: themeColors.primary, color: themeColors.cardBg }}
+          >
+            Daftar Event ➔
+          </span>
+        </div>
+
+        {/* KARTU LOMBA */}
+        <div 
+          onClick={() => router.push('/dashboard/competitions')}
+          className="group relative overflow-hidden border-2 p-10 md:p-12 rounded-[3rem] cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
+        >
+          <div className="text-6xl mb-8">🏆</div>
+          <h2 className="text-4xl font-black mb-4 transition-colors" style={{ color: themeColors.textDark }}>Competition</h2>
+          <p className="text-xl font-medium mb-10 leading-relaxed" style={{ color: themeColors.textMuted }}>
+            Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8.
+          </p>
+          <span 
+            className="inline-flex items-center px-8 py-4 rounded-xl font-bold transition-transform group-hover:scale-105 shadow-md text-lg"
+            style={{ backgroundColor: themeColors.textDark, color: themeColors.cardBg }}
+          >
+            Lihat Lomba ➔
+          </span>
+        </div>
+
       </div>
     </div>
   );

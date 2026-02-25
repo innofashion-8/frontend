@@ -60,9 +60,12 @@ export const profileService = {
     submitProfile: async (payload: ProfileData): Promise<string> => {
         try {
         const formData = new FormData();
-        formData.append('major', payload.major);
+        if (payload.major) formData.append('major', payload.major);
         if (payload.nrp) formData.append('nrp', payload.nrp);
         if (payload.batch) formData.append('batch', payload.batch);
+        if (payload.whatsapp) formData.append('whatsapp', payload.whatsapp);
+        if (payload.line_id) formData.append('line_id', payload.line_id);
+        if (payload.asal_sekolah) formData.append('asal_sekolah', payload.asal_sekolah);
         
         if (payload.ktm_path) formData.append('ktm', payload.ktm_path);
         if (payload.id_card_path) formData.append('id_card', payload.id_card_path);
