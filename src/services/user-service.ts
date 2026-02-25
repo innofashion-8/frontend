@@ -1,7 +1,11 @@
+import { fetchBackend } from '@/lib/fetch-backend';
 import { fetchClient } from '@/lib/fetch-client';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { PaginatedResponse } from '@/types';
 import { ApiResponse, ApiValidationErrors } from '@/types/api';
 import { UserRegistrations } from '@/types/registration';
 import { DraftProfilePayload, ProfileData, ProfileStatusResponse, UserWithRegistrations } from '@/types/user';
+import { getServerSession } from 'next-auth';
 
 export const profileService = {
     getUser: async(id: string): Promise<UserWithRegistrations> => {
@@ -15,14 +19,30 @@ export const profileService = {
         }
     },
 
-    getUsers: async(): Promise<UserWithRegistrations[]> => {
+    getUsers: async(page: number = 1): Promise<PaginatedResponse<UserWithRegistrations>> => {
         try {
-        const res = await fetchClient<ApiResponse<UserWithRegistrations[]>>('/api/admin/users', {
-            method: 'GET',
-        });
-        return res.data as UserWithRegistrations[];
+            const session = await getServerSession(authOptions);
+            const token = session?.accessToken;
+            
+            if (!token) {
+                throw new Error("Unauthorized: Tidak ada token session.");
+            }
+
+            const res = await fetchBackend(`/admin/users?page=${page}`, {
+                method: 'GET',
+                token: token as string,
+            });
+            
+            const response = await res.json();
+        
+            if (response.success && response.data) {
+                return response.data;
+            }
+            
+            throw new Error(response.message || 'Failed to fetch users');
         } catch (error: any) {
-        throw new Error(error.message);
+            console.error('Error fetching users:', error);
+            throw error;
         }
     },
 

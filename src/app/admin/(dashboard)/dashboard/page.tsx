@@ -18,40 +18,38 @@ export default async function DashboardPage() {
       
       {/* ... BAGIAN HEADER BANNER TETAP SAMA ... */}
       <div className="w-full mb-8">
-        <div className="flex flex-col md:flex-row items-center justify-between bg-[#fdfdfd] px-8 py-6 rounded-2xl shadow-sm border border-[#b7ac9b]/30">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-[#E2E2DE] px-8 py-6 border-[3px] border-[#1c1c1b] shadow-[6px_6px_0px_#1c1c1b]">
           <div>
-            <h1 className="text-2xl font-bold text-[#1c1c1b] font-title flex items-center gap-2">
+            <h1 className="text-3xl font-black text-[#1c1c1b] font-creato-title uppercase tracking-tight">
               Dashboard
             </h1>
-            <p className="mt-1 text-[#979086] text-sm">
-              Selamat datang kembali, <span className="font-bold text-[#6a5d52]">{session?.user?.name || "Admin"}</span>
+            <p className="mt-2 text-[#6a5d52] text-sm font-bold">
+              Selamat datang kembali, <span className="font-black text-[#1c1c1b]">{session?.user?.name || "Admin"}</span>
             </p>
           </div>
           
-          <div className="mt-4 md:mt-0 flex items-center gap-3 bg-[#e9e4e2] px-4 py-2 rounded-xl border border-[#b7ac9b]/30">
-            <div className="p-2 bg-[#fdfdfd] rounded-lg shadow-sm text-[#1c1c1b]">
+          <div className="mt-4 md:mt-0 flex items-center gap-3 bg-white px-4 py-3 border-[3px] border-[#1c1c1b] shadow-[3px_3px_0px_#1c1c1b]">
+            <div className="p-2 bg-[#1c1c1b] text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
               </svg>
             </div>
             <div>
-              <p className="text-xs text-[#979086] font-semibold uppercase tracking-wider">Divisi</p>
-              <p className="text-sm font-bold text-[#1c1c1b] font-title">{ session?.user?.division || 'Administrator'}</p>
+              <p className="text-xs text-[#6a5d52] font-black uppercase tracking-wider">Divisi</p>
+              <p className="text-sm font-black text-[#1c1c1b] font-creato-title">{ session?.user?.division || 'Administrator'}</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* STAT CARDS - COMPETITION */}
-      <h2 className="text-xl font-title font-bold text-[#1c1c1b] mb-4">Statistik Competition</h2>
+      <h2 className="text-2xl font-creato-title font-black text-[#1c1c1b] mb-6 uppercase tracking-tight border-b-4 border-[#1c1c1b] pb-2">Statistik Competition</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard title="Total Peserta" value={dashboardData.compStats.total} type="hero" icon={iconUsers} />
         <StatCard title="Sudah Validasi" value={dashboardData.compStats.validated} type="secondary" icon={iconCheck} />
         <StatCard title="Belum Validasi" value={dashboardData.compStats.pending} type="primary" icon={iconClock} />
       </div>
 
-      {/* STAT CARDS - EVENT */}
-      <h2 className="text-xl font-title font-bold text-[#1c1c1b] mb-4">Statistik Event</h2>
+      <h2 className="text-2xl font-creato-title font-black text-[#1c1c1b] mb-6 mt-8 uppercase tracking-tight border-b-4 border-[#1c1c1b] pb-2">Statistik Event</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard title="Total Peserta" value={dashboardData.eventStats.total} type="hero" icon={iconUsers} />
         <StatCard title="Sudah Validasi" value={dashboardData.eventStats.validated} type="secondary" icon={iconCheck} />

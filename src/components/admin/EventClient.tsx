@@ -110,27 +110,27 @@ export default function EventClient({ initialEvents }: EventClientProps) {
     <div className="relative min-h-screen text-[#1C1C1B]">
       <div className="w-full mx-auto mb-8">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <h1 className="text-3xl font-bold tracking-tight">Manage Events</h1>
+          <h1 className="text-3xl font-black font-creato-title uppercase tracking-tight border-b-4 border-[#1c1c1b] pb-2">Manage Events</h1>
           <button 
             onClick={handleOpenCreate}
-            className="bg-[#5B4D4B] cursor-pointer text-[#EBEBDD] px-6 py-3 rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md w-full sm:w-auto"
+            className="bg-[#6A5D52] cursor-pointer text-white px-6 py-3 font-black uppercase text-sm hover:bg-[#1C1C1B] transition-colors w-full sm:w-auto border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] tracking-wider"
           >
             + Add Event
           </button>
         </div>
       </div>
 
-      <div className="w-full mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-2xl border border-gray-400 shadow-[0_0_15px_rgba(0,0,0,0.1)]">
+      <div className="w-full mx-auto bg-[#E2E2DE] p-6 sm:p-8 md:p-10 border-[3px] border-[#1c1c1b] shadow-[6px_6px_0px_#1c1c1b]">
         {events.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-4">
-            <div className="mb-6 text-[#5B4D4B]">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="mb-6 text-[#1c1c1b]">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-[#5B4D4B] mb-3">No event yet</h3>
-            <p className="text-[#978D82] mb-6 text-center">Start adding your first event</p>
-            <button onClick={handleOpenCreate} className="bg-[#5B4D4B] text-[#EBEBDD] px-6 py-3 cursor-pointer rounded-lg font-semibold hover:bg-[#4B4D4B] transition-colors shadow-md">
+            <h3 className="text-2xl font-black font-creato-title uppercase text-[#1c1c1b] mb-3">No event yet</h3>
+            <p className="text-[#6A5D52] mb-6 text-center font-bold">Start adding your first event</p>
+            <button onClick={handleOpenCreate} className="bg-[#6A5D52] text-white px-6 py-3 cursor-pointer font-black uppercase text-sm hover:bg-[#1C1C1B] transition-colors border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] tracking-wider">
               + Add Event
             </button>
           </div>

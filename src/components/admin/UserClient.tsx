@@ -2,110 +2,117 @@
 
 import React, { useState, useEffect } from 'react';
 import { UserWithRegistrations } from '@/types/user';
-import { profileService } from '@/services/user-service';
 import UserModal from '@/components/admin/UserModal';
+import { UniversalTable, Column } from '@/components/admin/UniversalTable';
+import { UniversalPagination } from '@/components/admin/UniversalPagination';
+import { PaginatedResponse } from '@/types';
+import { useRouter } from 'next/navigation';
 
-export default function UserClient() {
-  const [users, setUsers] = useState<UserWithRegistrations[]>([]);
-  const [loading, setLoading] = useState(true);
+interface UserClientProps {
+  data: PaginatedResponse<UserWithRegistrations>;
+}
+
+export default function UserClient({ data }: UserClientProps) {
+  const router = useRouter();
   const [viewDetail, setViewDetail] = useState<UserWithRegistrations | null>(null);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setViewDetail(null);
+      setIsClosing(false);
+    }, 200);
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const data = await profileService.getUsers();
-        setUsers(data);
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
-      } finally {
-        setLoading(false);
-      }
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && viewDetail) handleCloseModal();
     };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [viewDetail]);
 
-    fetchUsers();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="relative min-h-screen text-[#1C1C1B]">
-        <div className="w-full mx-auto mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Manage Users</h1>
-        </div>
-        <div className="flex items-center justify-center py-20">
-          <div className="text-[#5B4D4B] text-lg">Loading...</div>
-        </div>
-      </div>
-    );
-  }
+  const columns: Column<UserWithRegistrations>[] = [
+    {
+      header: "NO",
+      key: "id",
+      render: (_, index) => <span className="font-black text-lg">{(data.current_page - 1) * data.per_page + (index + 1)}</span>
+    },
+    {
+      header: "NAMA",
+      key: "name",
+      render: (item) => <span className="font-bold uppercase text-base">{item.name}</span>
+    },
+    {
+      header: "EMAIL",
+      key: "email",
+      render: (item) => <span className="text-sm md:text-base font-medium text-[#484847]">{item.email}</span>
+    },
+    {
+      header: "TYPE",
+      key: "type",
+      render: (item) => (
+        <span className={`px-3 py-1.5 border-[3px] border-[#1c1c1b] font-bold text-xs uppercase shadow-[3px_3px_0px_#1c1c1b] tracking-wider
+          ${item.type === 'INTERNAL' ? 'bg-[#1c1c1b] text-white' : 'bg-white text-[#1c1c1b]'}`}>
+          {item.type}
+        </span>
+      )
+    },
+    {
+      header: "INSTITUSI",
+      key: "institution",
+      render: (item) => <span className="text-sm font-bold">{item.institution || '-'}</span>
+    },
+    {
+      header: "PHONE",
+      key: "phone",
+      render: (item) => <span className="text-sm font-medium">{item.phone || '-'}</span>
+    },
+    {
+      header: "AKSI",
+      key: "action",
+      render: (item) => (
+        <button
+          onClick={() => setViewDetail(item)}
+          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white text-xs font-black hover:bg-[#1c1c1b] transition-all shadow-[3px_3px_0px_#1c1c1b] cursor-pointer tracking-wider"
+        >
+          DETAIL
+        </button>
+      )
+    }
+  ];
 
   return (
-    <div className="relative min-h-screen text-[#1C1C1B]">
-      <div className="w-full mx-auto mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Manage Users</h1>
+    <div className="p-4 md:p-8 relative">
+      <div className="mb-8">
+        <h1 className="text-3xl font-black font-creato-title uppercase tracking-tight border-b-4 border-[#1c1c1b] pb-2 text-[#1C1C1B]">
+          Manage Users
+        </h1>
       </div>
 
-      <div className="w-full mx-auto bg-white rounded-2xl border border-gray-400 shadow-[0_0_15px_rgba(0,0,0,0.1)] overflow-hidden">
-        {users.length === 0 ? (
+      <div className="bg-[#E2E2DE] p-6 border-[3px] border-[#1c1c1b] shadow-[6px_6px_0px_#1c1c1b] mb-6">
+        {data.data.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-4">
-            <div className="mb-6 text-[#5B4D4B]">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="mb-6 text-[#1c1c1b]">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-24 h-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
-            <h3 className="text-2xl font-bold text-[#5B4D4B] mb-3">No users yet</h3>
-            <p className="text-[#978D82] mb-6 text-center">No registered users found</p>
+            <h3 className="text-2xl font-black font-creato-title uppercase text-[#1c1c1b] mb-3">No users yet</h3>
+            <p className="text-[#6A5D52] font-bold text-center">No registered users found</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-[#5B4D4B] text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Name</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Email</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Type</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Institution</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Phone</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold">Line ID</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200">
-                {users.map((user, index) => (
-                  <tr 
-                    key={user.id} 
-                    className={`${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-[#EBEBDD]/30 transition-colors`}
-                  >
-                    <td className="px-6 py-4 text-sm font-medium text-[#1C1C1B]">{user.name}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{user.email}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${
-                        user.type === 'INTERNAL' 
-                          ? 'bg-[#5B4D4B]/20 text-[#5B4D4B]' 
-                          : 'bg-[#B1A79B]/20 text-[#978D82]'
-                      }`}>
-                        {user.type}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{user.institution || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{user.phone || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{user.line || '-'}</td>
-                    <td className="px-6 py-4 text-center">
-                      <button 
-                        onClick={() => setViewDetail(user)}
-                        className="bg-[#5B4D4B] text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-[#4B3D3B] transition-colors"
-                      >
-                        View Details
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <UniversalTable columns={columns} data={data.data} />
         )}
       </div>
 
-      <UserModal user={viewDetail} onClose={() => setViewDetail(null)} />
+      <UniversalPagination 
+        meta={data} 
+        onPageChange={(page) => router.push(`?page=${page}`)} 
+      />
+
+      <UserModal user={viewDetail} onClose={handleCloseModal} />
     </div>
   );
 }
