@@ -1,9 +1,9 @@
-import ContactUs from '@/components/ContactUs';
+import Timeline from '@/components/Timeline';
 
 export default function Home() {
   return (
     <main>
-      <ContactUs />
+      <Timeline />
     </main>
   );
 }

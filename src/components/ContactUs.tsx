@@ -136,7 +136,7 @@ export default function ContactPage() {
           position: relative;
           overflow: hidden;
           background-color: #1a1a1a;
-          font-family: 'Helvetica Neue', Arial, sans-serif;
+          font-family: 'Creato Display', sans-serif;
         }
 
         /* ─── Main layout ───────────────────────────────────── */
