@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
+import GlobalErrorWatcher from "@/components/GlobalErrorWatcher";
 
 const creatoTitle = localFont({
   src: "../../public/assets/fonts/CreatoDisplay-Black.otf",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${creatoTitle.variable} ${creatoBody.variable} antialiased`}
       >
+        <GlobalErrorWatcher />
         <Providers>
           {children}
           <Toaster
