@@ -179,7 +179,6 @@ export const userService = {
         }
     },
   
-    // ✅ FIX: Langsung menerima FormData dari page.tsx dan dilempar utuh
     submitProfile: async (payload: FormData): Promise<string> => {
         try {
         const res = await fetchClient<ApiResponse>('/api/complete-registration/submit', {
@@ -193,7 +192,6 @@ export const userService = {
         }
     },
 
-    // ✅ FIX: Langsung menerima FormData juga
     saveDraft: async (payload: FormData): Promise<string> => {
         try {
         const res = await fetchClient<ApiResponse>('/api/complete-registration/draft', {

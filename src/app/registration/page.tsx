@@ -54,7 +54,7 @@ export default function CompleteRegistrationPage() {
     try {
       const formData = new FormData();
       formData.append('phone', phone);
-      if (lineId) formData.append('line_id', lineId);
+      if (lineId) formData.append('line', lineId);
       formData.append('major', major);
 
       if (userType === 'INTERNAL') {
@@ -121,7 +121,7 @@ export default function CompleteRegistrationPage() {
 
           <InputPill placeholder="Major / Jurusan *" value={major} onChange={setMajor} error={formErrors?.major} />
           <InputPill placeholder="Active WhatsApp Number *" value={phone} onChange={setPhone} error={formErrors?.phone} />
-          <InputPill placeholder="Line ID (Optional)" value={lineId} onChange={setLineId} required={false} error={formErrors?.line_id} />
+          <InputPill placeholder="Line ID (Optional)" value={lineId} onChange={setLineId} required={false} error={formErrors?.line} />
 
           <div className="w-full">
             <label className="block text-sm font-bold mb-3 uppercase tracking-widest pl-4" style={{ color: themeColors.textMain }}>

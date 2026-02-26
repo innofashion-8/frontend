@@ -71,13 +71,12 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
 
-    // ✅ FIX: Lempar data is_profile_complete yang UDAH TER-UPDATE ke session
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.user.role = (token.role as string) || null;
       session.user.permissions = (token.permissions as string[]) || [];
       session.user.division = token.division as string;
-      session.user.is_profile_complete = (token.is_profile_complete as boolean) || false; // Pakai false jika null/undefined
+      session.user.is_profile_complete = (token.is_profile_complete as boolean) || false;
       session.user.userType = token.userType as (UserTypes | 'ADMIN');
       
       return session;
