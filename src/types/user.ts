@@ -1,5 +1,5 @@
 import { Division } from './division';
-import { CompetitionRegistration, CompetitionRegistrationWithCompetition, EventRegistration, EventRegistrationWithEvent } from './registration';
+import { CompetitionRegistrationWithCompetition, EventRegistrationWithEvent } from './registration';
 
 export type UserTypes = 'EXTERNAL' | 'INTERNAL';
 
@@ -18,6 +18,7 @@ export interface User {
   phone?: string;
   line?: string;
   draft_data?: Record<string, any>;
+  is_profile_complete?: boolean;
   created_at?: string;
   updated_at?: string;
 }
@@ -29,6 +30,10 @@ export interface UserWithRegistrations extends User {
 
 // Payload untuk POST /profile/submit
 export interface ProfileData {
+  type: UserTypes;
+  institution: string;
+  phone: string;
+  line?: string;
   major: string;
   nrp?: string;
   batch?: string;
@@ -46,8 +51,11 @@ export interface ProfileStatusResponse {
 }
 
 // Payload untuk POST /profile/draft
-export interface DraftProfilePayload {
+export interface DraftRegisterPayload {
   draft_data: {
+    institution?: string;
+    phone?: string;
+    line?: string;
     major?: string;
     nrp?: string;
     batch?: string;

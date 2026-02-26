@@ -14,9 +14,9 @@ const ADMIN_ROUTE_PERMISSIONS: Record<string, string> = {
 
 const USER_PROTECTED_ROUTES = [
   '/dashboard', 
-  '/profile', 
-  '/my-events',
-  '/checkout'
+  '/dashboard/events', 
+  '/dashboard/competitions',
+  '/dashboard/registrations',
 ];
 
 export async function middleware(req: NextRequest) {
@@ -35,7 +35,6 @@ export async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: NEXTAUTH_SECRET })
 
   if (pathname.startsWith('/admin')) {
-    
     if (pathname === '/admin' || pathname === '/admin/login' || pathname === '/admin/auth/callback') {
       if (token && token.userType === 'ADMIN') {
         return NextResponse.redirect(new URL('/admin/dashboard', req.url))
@@ -59,7 +58,6 @@ export async function middleware(req: NextRequest) {
 
     if (pathname !== '/admin/dashboard') {
       const userPermissions = (token.permissions as string[]) || [];
-      
       const requiredPermission = Object.entries(ADMIN_ROUTE_PERMISSIONS)
         .sort((a, b) => b[0].length - a[0].length) 
         .find(([routePath]) => pathname.startsWith(routePath))?.[1];
@@ -73,13 +71,29 @@ export async function middleware(req: NextRequest) {
         }
       }
     }
-
     return NextResponse.next()
   }
 
   if (pathname === '/login' || pathname === '/auth/callback') {
     if (token && token.userType !== 'ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard', req.url)) 
+      if (token.is_profile_complete === true) {
+        return NextResponse.redirect(new URL('/dashboard', req.url)) 
+      } else {
+        return NextResponse.redirect(new URL('/registration', req.url)) 
+      }
+    }
+    return NextResponse.next()
+  }
+
+  if (pathname === '/registration') {
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', req.url))
+    }
+    if (token.userType === 'ADMIN') {
+      return NextResponse.redirect(new URL('/admin/dashboard', req.url))
+    }
+    if (token.is_profile_complete === true) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
     }
     return NextResponse.next()
   }
@@ -98,6 +112,13 @@ export async function middleware(req: NextRequest) {
     if (token.userType === 'ADMIN') {
       const url = new URL('/admin/dashboard', req.url)
       url.searchParams.set('error', 'unauthorized_user')
+      return NextResponse.redirect(url)
+    }
+
+    if (token.is_profile_complete === false) {
+      const url = req.nextUrl.clone()
+      url.pathname = '/registration'
+      url.searchParams.set('error', 'profile_incomplete')
       return NextResponse.redirect(url)
     }
   }
