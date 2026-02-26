@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!token) return sendProxyError(res, 401, 'Unauthorized');
 
     try {
-        const backendRes = await fetchBackend(`/profile/draft`, { 
+        const backendRes = await fetchBackend(`/complete-registration/draft`, { 
             method: 'POST',
             token,
             headers: {

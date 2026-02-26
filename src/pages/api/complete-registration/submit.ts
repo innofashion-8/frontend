@@ -3,17 +3,24 @@ import { fetchBackend } from "@/lib/fetch-backend";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 
+export const config = { api: { bodyParser: false } };
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== 'GET') return sendProxyError(res, 405, 'Method Not Allowed');
+    if (req.method !== 'POST') return sendProxyError(res, 405, 'Method Not Allowed');
 
     const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     const token = session?.accessToken;
     if (!token) return sendProxyError(res, 401, 'Unauthorized');
 
     try {
-        const backendRes = await fetchBackend(`/profile/status`, { 
-            method: 'GET',
+        const backendRes = await fetchBackend(`/complete-registration/submit`, { 
+            method: 'POST',
             token,
+            headers: {
+                'Content-Type': req.headers['content-type'] || '',
+            },
+            body: req as unknown as BodyInit,
+            duplex: 'half',
         });
 
         const response = await backendRes.json().catch(() => ({}));
