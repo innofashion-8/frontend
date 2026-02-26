@@ -26,7 +26,7 @@ export default function DashboardPage() {
         
         {/* KARTU EVENT */}
         <div 
-          onClick={() => router.push('/dashboard/events')}
+          onClick={() => router.push('/dashboard/event')}
           className="group relative overflow-hidden border-2 p-10 md:p-12 rounded-[3rem] cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
           style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
         >
@@ -45,7 +45,7 @@ export default function DashboardPage() {
 
         {/* KARTU LOMBA */}
         <div 
-          onClick={() => router.push('/dashboard/competitions')}
+          onClick={() => router.push('/dashboard/competition')}
           className="group relative overflow-hidden border-2 p-10 md:p-12 rounded-[3rem] cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
           style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}
         >

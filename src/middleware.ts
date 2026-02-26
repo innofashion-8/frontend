@@ -115,12 +115,8 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(url)
     }
 
-    if (token.is_profile_complete === false) {
-      const url = req.nextUrl.clone()
-      url.pathname = '/registration'
-      url.searchParams.set('error', 'profile_incomplete')
-      return NextResponse.redirect(url)
-    }
+    // ✅ FIX: KITA HAPUS PENGECEKAN KTP DI SINI!
+    // Biarkan Dashboard yang langsung nanya ke Laravel, biar nggak ada misskomunikasi.
   }
 
   return NextResponse.next()
