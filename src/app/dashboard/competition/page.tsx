@@ -1,146 +1,272 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { themeColors } from '@/lib/theme';
+import { useQuery } from '@tanstack/react-query';
+import { competitionService } from '@/services/competition-service';
+import Swal from 'sweetalert2';
+import { Competition } from '@/types/competition';
+import Beams from '@/components/ui/Beams'; 
+
+// INJEKSI COLOR PALETTE DYSTOPIAN
+const palette = {
+  onyx: '#1C1C1B',
+  obsidian: '#1a1a1a',
+  walnut: '#6A5D52',
+  greige: '#B7AC9B',
+  ash: '#979086',
+  stucco: '#E2E2DE',
+  graphite: '#494947',
+  gravel: '#7b787a'
+};
 
 export default function CompetitionCatalogPage() {
   const router = useRouter();
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  
-  // State untuk nyimpen pilihan kategori (contoh: selectedCategory['comp-sketch'] = 'advanced')
   const [selectedCategory, setSelectedCategory] = useState<Record<string, string>>({});
 
-  // DATA DUMMY SESUAI REQUEST:
-  const competitions = [
-    { 
-      id: 'comp-sketch', 
-      name: 'FASHION SKETCH', 
-      price: 150000, 
-      hasAdvanced: true, // Punya 2 kategori
-      desc: 'Tuangkan imajinasimu ke atas kertas! Rancang sketsa busana bertema masa depan dengan teknik manual maupun digital. Penilaian mencakup orisinalitas, proporsi, dan kesesuaian tema.'
-    },
-    { 
-      id: 'comp-styling', 
-      name: 'FASHION STYLING', 
-      price: 100000, 
-      hasAdvanced: false, // Cuma Intermediate aja
-      desc: 'Tantang kemampuan mix-and-match kamu! Padukan berbagai elemen busana untuk menciptakan satu look yang utuh dan ikonik di atas panggung.'
-    },
-  ];
+  const { data: competitions, isLoading } = useQuery({
+    queryKey: ['competitions'],
+    queryFn: competitionService.getCompetitions,
+  });
 
-  const handleSelectCategory = (compId: string, category: string) => {
-    setSelectedCategory(prev => ({ ...prev, [compId]: category }));
+  const groupedCompetitions = useMemo(() => {
+    if (!competitions) return [];
+
+    const grouped: Record<string, any> = {};
+
+    competitions.forEach((comp: Competition) => {
+      const isSketch = comp.name.toLowerCase().includes('sketch');
+      const groupKey = isSketch ? 'sketch' : 'styling';
+
+      if (!grouped[groupKey]) {
+        grouped[groupKey] = {
+          id: groupKey, 
+          name: isSketch ? 'FASHION SKETCH' : 'FASHION STYLING',
+          description: comp.description,
+          price: Number(comp.registration_fee || 0),
+          hasAdvanced: isSketch, 
+          slugs: {
+            INTERMEDIATE: comp.slug,
+            ADVANCED: comp.slug 
+          },
+          originalSlug: comp.slug
+        };
+      }
+
+      const cat = comp.category?.toUpperCase();
+      if (cat === 'ADVANCED') {
+        grouped[groupKey].slugs.ADVANCED = comp.slug;
+      } else if (cat === 'INTERMEDIATE') {
+        grouped[groupKey].slugs.INTERMEDIATE = comp.slug;
+      }
+    });
+
+    return Object.values(grouped);
+  }, [competitions]);
+
+  const handleSelectCategory = (groupId: string, category: string) => {
+    setSelectedCategory(prev => ({ ...prev, [groupId]: category }));
   };
 
-  const handleRegisterClick = (compId: string, hasAdvanced: boolean) => {
-    // Kalau dia ada pilihan Advanced tapi user belum milih, cegah!
-    if (hasAdvanced && !selectedCategory[compId]) {
-      alert("Pilih kategori (Intermediate/Advanced) terlebih dahulu!");
+  const handleRegisterClick = (group: any) => {
+    if (group.hasAdvanced && !selectedCategory[group.id]) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'ACCESS DENIED',
+        text: 'Please select your Tier (Intermediate / Advanced) to proceed.',
+        background: palette.onyx,
+        color: palette.stucco,
+        confirmButtonColor: palette.walnut,
+        confirmButtonText: 'ACKNOWLEDGE',
+        customClass: {
+          popup: 'border rounded-none',
+          title: 'font-black tracking-[0.2em] uppercase text-xl',
+          confirmButton: 'font-bold tracking-widest uppercase rounded-none px-8 py-3'
+        }
+      });
+      document.querySelector('.swal2-popup')?.setAttribute('style', `border-color: ${palette.gravel} !important`);
       return;
     }
+    
+    const cat = group.hasAdvanced ? selectedCategory[group.id] : 'INTERMEDIATE';
+    const slugToUse = group.slugs[cat] || group.originalSlug;
 
-    const category = selectedCategory[compId] || 'intermediate'; // Default intermediate
-    router.push(`/dashboard/competition/${compId}?category=${category}`);
+    router.push(`/dashboard/competition/${slugToUse}?category=${cat}`);
   };
 
-  return (
-    <div className="py-8">
-      <button onClick={() => router.push('/dashboard')} className="mb-8 font-bold text-sm tracking-widest uppercase hover:text-white transition-colors" style={{ color: themeColors.textMuted }}>
-        ← BACK TO TERMINAL
-      </button>
+  if (isLoading) {
+    return <div className="min-h-[60vh] flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>ESTABLISHING CONNECTION...</div>;
+  }
 
-      <div className="mb-12">
-        <h1 className="text-4xl md:text-6xl font-black mb-4 uppercase tracking-widest" style={{ color: themeColors.textMain, textShadow: '0 0 20px rgba(255,255,255,0.3)' }}>
-          COMPETITIONS
-        </h1>
-        <p className="text-lg font-medium uppercase tracking-widest" style={{ color: themeColors.textMuted }}>
-          Choose your battlefield.
-        </p>
+  return (
+    <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
+      
+      {/* 🔥 REACTBITS BEAMS BACKGROUND 🔥 */}
+      <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+        <Beams
+          beamWidth={3}
+          beamHeight={30}
+          beamNumber={20}
+          lightColor={palette.greige}
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={30}
+        />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {competitions.map((comp) => (
-          <div key={comp.id} className="border-2 p-8 rounded-3xl transition-all duration-300 flex flex-col" style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border }}>
-            
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-3xl font-black uppercase tracking-widest text-white">{comp.name}</h2>
-              <div className="text-4xl">🏆</div>
-            </div>
-            
-            {/* HARGA DAN INFO KATEGORI (DI LUAR EXPAND) */}
-            <div className="flex justify-between items-center mb-8 pb-6 border-b border-white/10">
-                <div className="font-black text-2xl text-white tracking-widest">
-                  Rp {comp.price.toLocaleString('id-ID')}
-                </div>
-                <div className="text-xs font-bold uppercase tracking-widest" style={{ color: themeColors.textMuted }}>
-                    {comp.hasAdvanced ? 'INTERMEDIATE & ADVANCED' : 'INTERMEDIATE ONLY'}
-                </div>
-            </div>
+      <div className="relative z-10 max-w-5xl mx-auto px-4">
+        <button onClick={() => router.push('/dashboard')} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
+          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> RETURN TO TERMINAL
+        </button>
 
-            {/* COUNTDOWN TIMER DYSTOPIAN */}
-            <div className="mb-8 p-4 rounded-xl border flex gap-4 text-center justify-center bg-black/50" style={{ borderColor: themeColors.border }}>
-              <div><span className="block text-2xl font-black text-white">14</span><span className="text-[10px] tracking-widest uppercase" style={{color: themeColors.textMuted}}>DAYS</span></div>
-              <div className="text-2xl font-black text-white/50 animate-pulse">:</div>
-              <div><span className="block text-2xl font-black text-white">08</span><span className="text-[10px] tracking-widest uppercase" style={{color: themeColors.textMuted}}>HRS</span></div>
-              <div className="text-2xl font-black text-white/50 animate-pulse">:</div>
-              <div><span className="block text-2xl font-black text-white">45</span><span className="text-[10px] tracking-widest uppercase" style={{color: themeColors.textMuted}}>MINS</span></div>
-            </div>
+        <div className="mb-16">
+          <p className="text-xs font-bold tracking-[0.3em] mb-4" style={{ color: palette.greige }}>[ PENDAFTARAN LOMBA ]</p>
+          <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
+            COMPETITIONS
+          </h1>
+          <p className="text-lg font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
+            Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8.
+          </p>
+        </div>
 
-            {/* EXPANDABLE AREA (DESKRIPSI, PILIH KATEGORI, DAN TOMBOL) */}
-            <div className="flex-grow">
-              {expandedId === comp.id ? (
-                <div className="animate-in fade-in zoom-in-95 duration-200">
-                  <p className="text-sm leading-relaxed mb-6" style={{ color: themeColors.textMuted }}>
-                    {comp.desc}
-                  </p>
+        {groupedCompetitions.length === 0 ? (
+          <div className="p-12 border text-center" style={{ backgroundColor: palette.onyx, borderColor: palette.graphite }}>
+            <p className="font-bold tracking-[0.3em] uppercase" style={{ color: palette.ash }}>SYSTEM NOTICE: NO PROTOCOLS FOUND.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            {groupedCompetitions.map((group: any, idx: number) => {
+              const isOthersExpanded = expandedId !== null && expandedId !== group.id;
+
+              return (
+                <div 
+                  key={group.id} 
+                  className={`group relative border p-8 md:p-10 flex flex-col transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] 
+                    ${isOthersExpanded ? 'opacity-30 scale-[0.97] blur-[2px] grayscale pointer-events-none' : 'hover:-translate-y-2'}`} 
+                  style={{ 
+                    backgroundColor: palette.onyx, 
+                    borderColor: palette.graphite,
+                    boxShadow: isOthersExpanded ? 'none' : '0 10px 30px -10px rgba(0,0,0,0.5)'
+                  }}
+                  onMouseEnter={(e) => { if(!isOthersExpanded) e.currentTarget.style.boxShadow = `0 20px 40px -15px ${palette.walnut}60` }}
+                  onMouseLeave={(e) => { if(!isOthersExpanded) e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.5)' }}
+                >
                   
-                  {/* SELECTION KATEGORI */}
-                  <div className="mb-6">
-                      <label className="block text-xs font-bold uppercase tracking-widest mb-3" style={{ color: themeColors.textMain }}>
-                          SELECT CATEGORY:
-                      </label>
-                      <div className="flex gap-3">
-                          <button 
-                              onClick={() => handleSelectCategory(comp.id, 'intermediate')}
-                              className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest border-2 rounded-xl transition-all ${(!comp.hasAdvanced || selectedCategory[comp.id] === 'intermediate') ? 'bg-white text-black border-white' : 'text-gray-500 border-gray-600 hover:border-gray-400'}`}
-                          >
-                              Intermediate
-                          </button>
-                          
-                          {comp.hasAdvanced && (
-                              <button 
-                                  onClick={() => handleSelectCategory(comp.id, 'advanced')}
-                                  className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest border-2 rounded-xl transition-all ${selectedCategory[comp.id] === 'advanced' ? 'bg-white text-black border-white' : 'text-gray-500 border-gray-600 hover:border-gray-400'}`}
-                              >
-                                  Advanced
-                              </button>
-                          )}
+                  <div className="absolute top-0 right-0 p-6 opacity-[0.03] pointer-events-none transition-opacity duration-700 group-hover:opacity-10">
+                    <span className="text-8xl font-black italic" style={{ color: palette.stucco }}>0{idx + 1}</span>
+                  </div>
+
+                  <div className="mb-10">
+                    <h2 className="text-3xl font-black uppercase tracking-widest mb-2" style={{ color: palette.stucco }}>{group.name}</h2>
+                    <div className="text-xs font-bold tracking-[0.2em]" style={{ color: palette.ash }}>
+                      STATUS: <span style={{ color: palette.greige }}>ACTIVE_</span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-between items-end mb-10 pb-6 border-b" style={{ borderColor: palette.graphite }}>
+                      <div>
+                        <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>REGISTRATION FEE</p>
+                        <div className="font-black text-2xl tracking-widest" style={{ color: palette.stucco }}>
+                          Rp {group.price.toLocaleString('id-ID')}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>TIER ACCESS</p>
+                        <div className="text-xs font-bold uppercase tracking-widest" style={{ color: palette.greige }}>
+                            {group.hasAdvanced ? 'INT / ADV' : 'INTERMEDIATE'}
+                        </div>
                       </div>
                   </div>
 
-                  {/* TOMBOL DAFTAR (HANYA MUNCUL DI DALAM SINI) */}
-                  <button 
-                    onClick={() => handleRegisterClick(comp.id, comp.hasAdvanced)}
-                    className="w-full py-4 rounded-xl font-bold uppercase tracking-widest transition-all hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                    style={{ backgroundColor: themeColors.primary, color: '#000' }}
-                  >
-                    DAFTAR BATTLE ➔
-                  </button>
+                  <div className="mb-10 grid grid-cols-3 gap-4 border p-4" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
+                    <div className="text-center">
+                      <span className="block text-2xl font-black" style={{ color: palette.stucco }}>14</span>
+                      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: palette.ash }}>DAYS</span>
+                    </div>
+                    <div className="text-center border-x" style={{ borderColor: palette.graphite }}>
+                      <span className="block text-2xl font-black" style={{ color: palette.stucco }}>08</span>
+                      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: palette.ash }}>HRS</span>
+                    </div>
+                    <div className="text-center">
+                      <span className="block text-2xl font-black" style={{ color: palette.stucco }}>45</span>
+                      <span className="text-[9px] tracking-[0.2em] uppercase" style={{ color: palette.ash }}>MIN</span>
+                    </div>
+                  </div>
 
-                  <button onClick={() => setExpandedId(null)} className="block w-full text-center mt-4 font-bold uppercase tracking-widest text-xs hover:text-white transition-colors" style={{color: themeColors.textMuted}}>
-                    ↑ CLOSE DETAILS
-                  </button>
+                  <div className="flex-grow flex flex-col justify-end">
+                    {expandedId === group.id ? (
+                      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                        <p className="text-sm leading-relaxed mb-8" style={{ color: palette.ash }}>
+                          {group.description || 'Prepare your futuristic concept. Originality and innovation are paramount.'}
+                        </p>
+                        
+                        {group.hasAdvanced && (
+                            <div className="mb-8">
+                                <label className="block text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: palette.greige }}>
+                                    SELECT TIER:
+                                </label>
+                                <div className="flex gap-4 mb-6">
+                                    <button 
+                                        onClick={() => handleSelectCategory(group.id, 'INTERMEDIATE')}
+                                        className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest border transition-all duration-300`}
+                                        style={{
+                                          backgroundColor: selectedCategory[group.id] === 'INTERMEDIATE' ? palette.greige : 'transparent',
+                                          color: selectedCategory[group.id] === 'INTERMEDIATE' ? palette.onyx : palette.ash,
+                                          borderColor: selectedCategory[group.id] === 'INTERMEDIATE' ? palette.greige : palette.graphite
+                                        }}
+                                    >
+                                        INT
+                                    </button>
+                                    <button 
+                                        onClick={() => handleSelectCategory(group.id, 'ADVANCED')}
+                                        className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest border transition-all duration-300`}
+                                        style={{
+                                          backgroundColor: selectedCategory[group.id] === 'ADVANCED' ? palette.greige : 'transparent',
+                                          color: selectedCategory[group.id] === 'ADVANCED' ? palette.onyx : palette.ash,
+                                          borderColor: selectedCategory[group.id] === 'ADVANCED' ? palette.greige : palette.graphite
+                                        }}
+                                    >
+                                        ADV
+                                    </button>
+                                </div>
+                                
+                                <div className="p-4 border-l-2" style={{ borderColor: palette.walnut, backgroundColor: palette.obsidian }}>
+                                    <p className="text-[11px] font-medium mb-2 leading-relaxed" style={{ color: palette.ash }}>
+                                        <span className="font-bold tracking-widest uppercase" style={{ color: palette.stucco }}>INT:</span> High School level (Grade 10-12).
+                                    </p>
+                                    <p className="text-[11px] font-medium leading-relaxed" style={{ color: palette.ash }}>
+                                        <span className="font-bold tracking-widest uppercase" style={{ color: palette.stucco }}>ADV:</span> University level or equivalent.
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        <button 
+                          onClick={() => handleRegisterClick(group)}
+                          className="w-full py-5 font-black uppercase tracking-[0.2em] transition-all duration-300 text-sm hover:scale-[1.03]"
+                          style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
+                        >
+                          INITIATE REGISTRATION
+                        </button>
+
+                        <button onClick={() => setExpandedId(null)} className="block w-full text-center mt-6 font-bold uppercase tracking-widest text-[10px] transition-colors" style={{ color: palette.gravel }}>
+                          [ ABORT DETAIL VIEW ]
+                        </button>
+                      </div>
+                    ) : (
+                      <button onClick={() => setExpandedId(group.id)} className="w-full py-5 font-bold uppercase tracking-[0.2em] text-xs border transition-all duration-300" style={{ color: palette.greige, borderColor: palette.graphite, backgroundColor: 'transparent' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = palette.greige; e.currentTarget.style.color = palette.onyx; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.greige; }}>
+                        EXPAND PROTOCOL
+                      </button>
+                    )}
+                  </div>
+
                 </div>
-              ) : (
-                <button onClick={() => setExpandedId(comp.id)} className="w-full py-4 font-bold uppercase tracking-widest text-sm border-2 rounded-xl hover:bg-white hover:text-black transition-all" style={{color: themeColors.primary, borderColor: themeColors.primary}}>
-                  SEE MORE TO REGISTER
-                </button>
-              )}
-            </div>
-
+              );
+            })}
           </div>
-        ))}
+        )}
       </div>
     </div>
   );

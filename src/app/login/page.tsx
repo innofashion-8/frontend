@@ -45,7 +45,8 @@ export default function LoginPage() {
             className="text-4xl md:text-5xl font-black mb-2 tracking-widest uppercase"
             style={{ 
               color: themeColors.textMain, 
-              textShadow: '0 0 20px rgba(255,255,255,0.6)' 
+              textShadow: '0 0 20px rgba(255,255,255,0.6)',
+              marginLeft: '-1.0rem' // shift slightly left
             }}
           >
             INNOFASHION
