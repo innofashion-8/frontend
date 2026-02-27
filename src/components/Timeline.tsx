@@ -1,7 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA
@@ -87,8 +91,87 @@ function Dot({ size = DOT_SIZE }: { size?: number }) {
 // PAGE
 // ─────────────────────────────────────────────────────────────────────────────
 export default function TimelinePage() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const nodesRef = useRef<(HTMLDivElement | null)[]>([])
+  const pillarRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Title — fade in + scale from center
+      gsap.from(titleRef.current, {
+        scale: 0.7,
+        opacity: 0,
+        y: 40,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: 'top 85%',
+          end: 'top 40%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+
+      // Timeline nodes — staggered entrance, left slides from left, right slides from right
+      nodesRef.current.forEach((node, idx) => {
+        if (!node) return
+        const isLeft = nodes[idx].side === 'left'
+        gsap.from(node, {
+          x: isLeft ? -100 : 100,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: node,
+            start: 'top 90%',
+            end: 'top 60%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+
+        // Dot glow pulse on enter
+        const dot = node.querySelector('.tl-dot')
+        if (dot) {
+          gsap.fromTo(dot, {
+            boxShadow: '0 0 8px rgba(255,255,255,0.3)',
+          }, {
+            boxShadow: '0 0 24px rgba(255,255,255,0.9), 0 0 48px rgba(255,255,255,0.4)',
+            duration: 0.6,
+            ease: 'power2.inOut',
+            yoyo: true,
+            repeat: 1,
+            scrollTrigger: {
+              trigger: node,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          })
+        }
+      })
+
+      // Vertical pillar grows as you scroll
+      if (pillarRef.current) {
+        gsap.from(pillarRef.current, {
+          scaleY: 0,
+          transformOrigin: 'top center',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: pillarRef.current,
+            start: 'top 85%',
+            end: 'bottom 40%',
+            scrub: 0.8,
+          },
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <div
+      ref={sectionRef}
       style={{
         position: 'relative',
         width: '100%',
@@ -120,7 +203,7 @@ export default function TimelinePage() {
       {/* ── Content ── */}
       <div className="tl-content">
         {/* ── "TIME LINE" title with dust decorations ── */}
-        <div className="tl-title-area">
+        <div className="tl-title-area" ref={titleRef}>
           {/* Title image + dust decorations anchored to the image */}
           <div style={{ position: 'relative', zIndex: 1, width: 580, maxWidth: '75%' }}>
             {/* Dust behind "T" — absolute to image, stays on T */}
@@ -171,6 +254,7 @@ export default function TimelinePage() {
         {/* ── Bracket container — scales down on small screens ── */}
         <div className="tl-bracket-wrapper">
           <div
+            ref={pillarRef}
             style={{
               position: 'relative',
               display: 'flex',
@@ -183,7 +267,10 @@ export default function TimelinePage() {
               const isLast = idx === nodes.length - 1
 
               return (
-                <div key={idx}>
+                <div
+                  key={idx}
+                  ref={(el) => { nodesRef.current[idx] = el }}
+                >
                   {/* Row: left-side | pillar | right-side */}
                   <div
                     style={{
@@ -208,7 +295,22 @@ export default function TimelinePage() {
                           <p style={nameStyle}>{node.label.name}</p>
                         </div>
                       )}
-                      {isLeft && <Dot />}
+                      {isLeft && (
+                        <div
+                          className="tl-dot"
+                          style={{
+                            width: DOT_SIZE,
+                            height: DOT_SIZE,
+                            minWidth: DOT_SIZE,
+                            minHeight: DOT_SIZE,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle at 38% 35%, #d8d8d8, #5a5a5a)',
+                            border: '1.5px solid rgba(255,255,255,0.5)',
+                            boxShadow: '0 0 8px rgba(255,255,255,0.3)',
+                            flexShrink: 0,
+                          }}
+                        />
+                      )}
                       <div
                         style={{
                           width: isLeft ? ARM_LEN : 0,
@@ -253,7 +355,22 @@ export default function TimelinePage() {
                           background: isLeft ? 'transparent' : LINE_COLOR,
                         }}
                       />
-                      {!isLeft && <Dot />}
+                      {!isLeft && (
+                        <div
+                          className="tl-dot"
+                          style={{
+                            width: DOT_SIZE,
+                            height: DOT_SIZE,
+                            minWidth: DOT_SIZE,
+                            minHeight: DOT_SIZE,
+                            borderRadius: '50%',
+                            background: 'radial-gradient(circle at 38% 35%, #d8d8d8, #5a5a5a)',
+                            border: '1.5px solid rgba(255,255,255,0.5)',
+                            boxShadow: '0 0 8px rgba(255,255,255,0.3)',
+                            flexShrink: 0,
+                          }}
+                        />
+                      )}
                       {!isLeft && node.label && (
                         <div style={{ textAlign: 'left', marginLeft: 14 }}>
                           <p style={dateStyle}>{node.label.date}</p>

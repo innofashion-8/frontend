@@ -1,6 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const contacts = [
   {
@@ -45,8 +50,65 @@ const EmailIcon = ({ size = 32 }: { size?: number }) => (
 )
 
 export default function ContactPage() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const modelRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<(HTMLAnchorElement | null)[]>([])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Model — slide in from left
+      gsap.from(modelRef.current, {
+        x: -150,
+        opacity: 0,
+        duration: 1.3,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 60%',
+          end: 'top 20%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+
+      // Title — slide in from right
+      gsap.from(titleRef.current, {
+        x: 120,
+        opacity: 0,
+        duration: 1.1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 55%',
+          end: 'top 20%',
+          toggleActions: 'play none none reverse',
+        },
+      })
+
+      // Contact cards — staggered fade in from bottom
+      cardsRef.current.forEach((card, i) => {
+        if (!card) return
+        gsap.from(card, {
+          y: 50,
+          opacity: 0,
+          duration: 0.7,
+          delay: i * 0.12,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 50%',
+            end: 'top 15%',
+            toggleActions: 'play none none reverse',
+          },
+        })
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div className="contact-root">
+    <div className="contact-root" ref={sectionRef}>
 
       <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
         <Image src="/assets/Layer 31.png" alt="background" fill style={{ objectFit: 'cover', objectPosition: 'center' }} priority />
@@ -56,7 +118,7 @@ export default function ContactPage() {
 
       <div className="contact-content">
 
-        <div className="contact-model animate-fade-in-left">
+        <div className="contact-model" ref={modelRef}>
           <Image
             src="/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png"
             alt="model shadow"
@@ -84,7 +146,7 @@ export default function ContactPage() {
         </div>
 
         <div className="contact-right">
-          <div className="contact-title-wrap animate-fade-in-right">
+          <div className="contact-title-wrap" ref={titleRef}>
             <Image
               src="/assets/CONTACT US.png"
               alt="CONTACT US"
@@ -98,8 +160,8 @@ export default function ContactPage() {
               <a
                 key={contact.type}
                 href={contact.href}
-                className="contact-card animate-fade-in-right"
-                style={{ animationDelay: `${0.1 + i * 0.12}s` }}
+                className="contact-card"
+                ref={(el) => { cardsRef.current[i] = el }}
                 onMouseEnter={e => {
                   const el = e.currentTarget as HTMLElement
                   el.style.background = 'rgba(80,80,80,0.75)'
@@ -188,7 +250,6 @@ export default function ContactPage() {
 
         /* ─── Single Card ───────────────────────────────────── */
         .contact-card {
-          opacity: 0;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -234,18 +295,6 @@ export default function ContactPage() {
           text-align: center;
           line-height: 1.2;
         }
-
-        /* ─── Animations ────────────────────────────────────── */
-        @keyframes fadeInLeft {
-          from { opacity: 0; transform: translateX(-50px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeInRight {
-          from { opacity: 0; transform: translateX(50px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        .animate-fade-in-left  { animation: fadeInLeft  0.8s ease forwards; }
-        .animate-fade-in-right { animation: fadeInRight 0.8s ease forwards; }
 
         /* ─── TABLET (≤ 900px): kompres layout ─────────────── */
         @media (max-width: 900px) {

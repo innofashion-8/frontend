@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme {
   --font-creato-title: var(--font-creato-title), sans-serif;
   --font-creato-body: var(--font-creato-body), sans-serif;
