@@ -5,7 +5,19 @@ import { useParams, useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { eventService } from '@/services/event-service';
 import toast from 'react-hot-toast';
-import { themeColors } from '@/lib/theme';
+import Beams from '@/components/ui/Beams';
+
+// INJEKSI COLOR PALETTE DYSTOPIAN
+const palette = {
+  onyx: '#1C1C1B',
+  obsidian: '#1a1a1a',
+  walnut: '#6A5D52',
+  greige: '#B7AC9B',
+  ash: '#979086',
+  stucco: '#E2E2DE',
+  graphite: '#494947',
+  gravel: '#7b787a'
+};
 
 export default function EventRegisterPage() {
   const params = useParams();
@@ -14,7 +26,8 @@ export default function EventRegisterPage() {
   
   const key = params?.key as string;
 
-  const { data: eventData, isLoading } = useQuery({
+  // 🔥 TARIK DATA EVENT DARI DATABASE BERDASARKAN SLUG 🔥
+  const { data: event, isLoading } = useQuery({
     queryKey: ['event', key],
     queryFn: () => eventService.getEvent(key),
     enabled: !!key, 
@@ -24,98 +37,116 @@ export default function EventRegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
 
-  // Deteksi apakah event ini berbayar
-  const isPaid = Number(eventData?.registration_fee || eventData?.price || 0) > 0;
+  // Deteksi Event Berbayar / Gratis dari Database
+  const isPaid = event ? Number(event.price) > 0 : false;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormErrors(null);
 
-    // Validasi: Kalau bayar, wajib ada file
     if (isPaid && !paymentFile) {
-      return toast.error('PAYMENT PROOF IS REQUIRED FOR PAID EVENTS.');
+      return toast.error('PAYMENT PROOF IS REQUIRED.', {
+        style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
+      });
     }
 
-    if (!window.confirm('Are you sure you want to register for this event?')) return;
+    if (!window.confirm('WARNING: Are you sure you want to secure this pass? Data cannot be altered later.')) return;
 
     setIsSubmitting(true);
     try {
       await eventService.submitFinal(key, paymentFile);
-      toast.success('Successfully registered for the event!');
+      toast.success('Pass secured successfully!', {
+        style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
+      });
       
       queryClient.invalidateQueries({ queryKey: ['event', key] });
       router.push('/dashboard'); 
     } catch (error: any) {
       if (error.isValidationError) {
         setFormErrors(error.errors);
-        toast.error('Please check your input.');
+        toast.error('ACCESS DENIED: Please check your input.', {
+          style: { background: palette.onyx, color: '#ef4444', border: `1px solid ${palette.graphite}` }
+        });
       } else {
-        toast.error(error.message || 'Registration failed.');
+        toast.error(error.message || 'Registration failed.', {
+          style: { background: palette.onyx, color: '#ef4444', border: `1px solid ${palette.graphite}` }
+        });
       }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isLoading) return <div className="p-10 text-center font-bold tracking-widest uppercase" style={{ color: themeColors.textMain }}>SCANNING EVENT...</div>;
-  if (!eventData) return <div className="p-10 text-center font-bold tracking-widest text-red-500 uppercase">EVENT NOT FOUND.</div>;
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse bg-[#0a0a0a]" style={{ color: palette.ash }}>DECRYPTING PROTOCOL...</div>;
+  if (!event) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>SYSTEM NOTICE: EVENT PROTOCOL NOT FOUND.</div>;
 
   return (
-    <div className="max-w-3xl mx-auto py-8">
-      <button onClick={() => router.back()} className="mb-8 font-bold text-sm tracking-widest uppercase hover:text-white transition-colors" style={{ color: themeColors.textMuted }}>
-        ← RETURN
-      </button>
+    <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
+      {/* Background Beams di Layout Utama, jadi gak perlu dirender lagi di sini kalau lu udah pasang di layout */}
+      
+      <div className="relative z-10 max-w-3xl mx-auto px-4">
+        <button onClick={() => router.back()} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
+          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> ABORT ENTRY
+        </button>
 
-      <div 
-        className="p-10 md:p-12 border backdrop-blur-sm relative overflow-hidden"
-        style={{ backgroundColor: themeColors.cardBg, borderColor: themeColors.border, borderRadius: '2rem' }}
-      >
-        <div className="absolute top-0 right-0 p-8 opacity-10 text-8xl pointer-events-none">🎟️</div>
-        
-        <h1 className="text-4xl md:text-5xl font-black mb-4 uppercase tracking-widest relative z-10" style={{ color: themeColors.textMain }}>
-          {eventData.name || 'Unknown Event'}
-        </h1>
-        <p className="mb-10 text-sm font-medium uppercase tracking-widest relative z-10" style={{ color: themeColors.textMuted }}>
-          {eventData.description || 'Join our spectacular event.'}
-        </p>
-
-        <div className="border p-6 rounded-2xl mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10" style={{ backgroundColor: themeColors.bg, borderColor: themeColors.border }}>
-          <span className="font-bold uppercase tracking-widest text-sm" style={{ color: themeColors.textMuted }}>TICKET PRICE</span>
-          <span className="text-3xl font-black" style={{ color: isPaid ? themeColors.primary : '#4ade80' }}>
-            {isPaid ? `Rp ${Number(eventData.registration_fee || eventData.price).toLocaleString('id-ID')}` : 'FREE'}
-          </span>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
+        <div className="p-10 md:p-14 border backdrop-blur-md relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
+          <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none">
+            <span className="text-9xl font-black italic" style={{ color: palette.stucco }}>E</span>
+          </div>
           
-          {/* Cuma tampilin Upload File kalau event-nya BAYAR */}
-          {isPaid && (
-            <div>
-              <label className="block text-sm font-bold mb-4 uppercase tracking-widest" style={{ color: themeColors.textMain }}>
-                PAYMENT PROOF (JPG/PNG/PDF) *
-              </label>
-              <input 
-                type="file" accept=".jpg,.jpeg,.png,.pdf"
-                onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
-                className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest file:bg-white file:text-black hover:file:bg-gray-200 transition-all rounded-2xl"
-                style={{ backgroundColor: themeColors.bg, borderColor: themeColors.border, color: themeColors.textMuted }}
-              />
-              {formErrors?.payment_proof && <p className="text-red-500 text-xs mt-3 font-bold uppercase tracking-widest">⚠️ {formErrors.payment_proof[0]}</p>}
-            </div>
-          )}
+          <div className="flex items-center gap-3 mb-6 relative z-10">
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
+              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>PASS GENERATION PROTOCOL</p>
+          </div>
 
-          <button 
-            type="submit" disabled={isSubmitting}
-            className="w-full p-6 font-black text-xl uppercase tracking-widest hover:-translate-y-1 transition-all disabled:opacity-50 rounded-2xl"
-            style={{ 
-              backgroundColor: isPaid ? themeColors.primary : themeColors.textMain, 
-              color: isPaid ? '#000' : themeColors.bg, 
-              boxShadow: isPaid ? '0 0 20px rgba(190,190,191,0.2)' : '0 0 20px rgba(255,255,255,0.2)' 
-            }}
-          >
-            {isSubmitting ? 'PROCESSING...' : (isPaid ? 'SUBMIT PAYMENT' : 'REGISTER NOW')}
-          </button>
-        </form>
+          <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest relative z-10" style={{ color: palette.stucco }}>
+            {event.title || 'UNKNOWN EVENT'}
+          </h1>
+          <p className="mb-10 text-sm font-medium tracking-wide leading-relaxed relative z-10" style={{ color: palette.ash }}>
+            {event.description || 'Secure your pass for this exclusive gathering.'}
+          </p>
+
+          <div className="border p-8 mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 relative z-10" style={{ backgroundColor: palette.obsidian, borderColor: palette.graphite }}>
+            <div>
+              <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>CLEARANCE FEE</p>
+              <span className="text-3xl font-black tracking-widest" style={{ color: isPaid ? palette.stucco : palette.greige }}>
+                {isPaid ? `Rp ${Number(event.price).toLocaleString('id-ID')}` : 'NO CHARGE'}
+              </span>
+            </div>
+            <div className="text-right hidden md:block">
+                <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>SYSTEM STATUS</p>
+                <div className="text-xs font-bold uppercase tracking-widest" style={{ color: palette.greige }}>
+                    {isPaid ? 'AWAITING PAYMENT' : 'READY TO SECURE'}
+                </div>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
+            {isPaid && (
+              <div>
+                <label className="block text-[10px] font-bold mb-4 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
+                  PAYMENT PROOF (JPG/PNG/PDF) *
+                </label>
+                {/* INI UDAH DIJAMIN BENER PAKAI setPaymentFile */}
+                <input 
+                  type="file" accept=".jpg,.jpeg,.png,.pdf"
+                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
+                  className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest transition-all focus:outline-none focus:border-white/50"
+                  style={{ backgroundColor: palette.obsidian, borderColor: formErrors?.payment_proof ? '#ef4444' : palette.graphite, color: palette.ash }}
+                />
+                {formErrors?.payment_proof && <p className="text-red-500 text-[10px] mt-3 font-bold uppercase tracking-[0.2em]">⚠️ {formErrors.payment_proof[0]}</p>}
+              </div>
+            )}
+
+            <button 
+              type="submit" disabled={isSubmitting}
+              className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
+              style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
+            >
+              {isSubmitting ? 'GENERATING PASS...' : 'OBTAIN PASS NOW'}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

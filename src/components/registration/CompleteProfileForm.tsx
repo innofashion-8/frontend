@@ -1,14 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { userService } from '@/services/user-service'; 
 import { useSession } from 'next-auth/react';
-import Swal from 'sweetalert2'; // 👈 Pengganti Toast
+import Swal from 'sweetalert2'; 
 import { themeColors } from '@/lib/theme';
 
 export function CompleteProfileForm() {
-  const { data: session } = useSession();
+  const router = useRouter(); 
+  const { data: session, update } = useSession();
   const userType = session?.user?.userType; 
   const queryClient = useQueryClient();
 
@@ -17,7 +19,6 @@ export function CompleteProfileForm() {
       queryFn: userService.checkStatus,
   });
 
-  // State: lineId gua ganti jadi line biar konsisten dari ujung ke ujung
   const [phone, setPhone] = useState('');
   const [line, setLine] = useState(''); 
   const [major, setMajor] = useState('');
@@ -28,28 +29,40 @@ export function CompleteProfileForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
 
-  // 1. Ambil data draft saat pertama kali load
+  // 1. 🔥 JURUS AUTO-HEAL SINKRONISASI 🔥
   useEffect(() => {
-    if (statusData?.is_completed) window.location.href = '/dashboard';
+    // Kalau Laravel bilang udah komplit...
+    if (statusData?.is_completed) {
+      // Tapi NextAuth masih nganggap belum...
+      if (session?.user?.is_profile_complete !== true) {
+        console.log("[SYSTEM] Sinkronisasi Token...");
+        update({ is_profile_complete: true }).then(() => {
+          window.location.href = '/dashboard';
+        });
+      } else {
+        // Kalau udah sinkron dua-duanya
+        router.push('/dashboard');
+      }
+      return; 
+    }
     
+    // Tarik Draft
     const data = statusData as any;
     if (data?.draft_data) {
       setPhone(data.draft_data.phone || '');
-      setLine(data.draft_data.line || ''); // 👈 Fix line
+      setLine(data.draft_data.line || ''); 
       setMajor(data.draft_data.major || '');
       setNrp(data.draft_data.nrp || '');
       setBatch(data.draft_data.batch || '');
       setInstitution(data.draft_data.institution || '');
     }
-  }, [statusData]);
+  }, [statusData, session, router, update]);
 
-  // 2. 🔥 AUTO-SAVE DRAFT (Debounce 2 Detik) 🔥
-  // Setiap user ngetik dan diam 2 detik, langsung save otomatis ke database!
+  // 2. AUTO-SAVE DRAFT 
   useEffect(() => {
     if (isLoadingStatus || statusData?.is_completed) return;
 
     const timer = setTimeout(() => {
-      // Cuma save kalau ada minimal 1 data yang diisi biar server nggak spam
       if (phone || line || major || nrp || batch || institution) {
         const draftForm = new FormData();
         if (phone) draftForm.append('draft_data[phone]', phone);
@@ -59,15 +72,14 @@ export function CompleteProfileForm() {
         if (batch) draftForm.append('draft_data[batch]', batch);
         if (institution) draftForm.append('draft_data[institution]', institution);
 
-        // Save diam-diam (Silent background update)
         userService.saveDraft(draftForm).catch(() => {});
       }
-    }, 2000); // Nunggu 2 detik setelah user ngetik
+    }, 2000); 
 
     return () => clearTimeout(timer);
   }, [phone, line, major, nrp, batch, institution, isLoadingStatus, statusData]);
 
-  // 3. Handle Submit dengan SweetAlert
+  // 3. Handle Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormErrors(null);
@@ -100,12 +112,16 @@ export function CompleteProfileForm() {
         formData.append('id_card_path', documentFile); 
       }
 
+      // Submit ke API
       await userService.submitProfile(formData as any); 
 
-      // Hapus memori cache react-query
+      // Reset memori cache API
       await queryClient.invalidateQueries({ queryKey: ['profileStatus'] });
       
-      // Kasih SweetAlert Sukses bentar, terus pindah
+      // 🔥 UPDATE TOKEN SEKARANG JUGA! 🔥
+      await update({ is_profile_complete: true });
+      
+      // Kasih delay pake Swal buat memastikan cookie nyangkut
       await Swal.fire({
         icon: 'success',
         title: 'ACCESS GRANTED',
@@ -116,8 +132,9 @@ export function CompleteProfileForm() {
         showConfirmButton: false
       });
 
-      // Hard Reload biar super bersih!
+      // Banting pintu masuk dashboard!
       window.location.href = '/dashboard';
+      
     } catch (error: any) {
       if (error.isValidationError) {
         setFormErrors(error.errors);

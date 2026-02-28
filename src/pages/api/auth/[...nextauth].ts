@@ -30,10 +30,10 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
 
-    // ✅ FIX: Tambahkan parameter 'trigger' dan 'session' (untuk nangkep update dari page.tsx)
+    // 🔥 FIX INFINITE LOOP: NANGKEP TRIGGER "update" DARI HALAMAN REGISTRASI 🔥
     async jwt({ token, account, trigger, session }) {
       
-      // 1. TANGKAP SINYAL UPDATE DARI page.tsx
+      // 1. TANGKAP SINYAL UPDATE DARI CLIENT
       if (trigger === "update" && session?.is_profile_complete !== undefined) {
         token.is_profile_complete = session.is_profile_complete;
       }

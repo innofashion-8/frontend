@@ -34,6 +34,7 @@ export async function middleware(req: NextRequest) {
 
   const token = await getToken({ req, secret: NEXTAUTH_SECRET })
 
+  // --- BLOK ADMIN ---
   if (pathname.startsWith('/admin')) {
     if (pathname === '/admin' || pathname === '/admin/login' || pathname === '/admin/auth/callback') {
       if (token && token.userType === 'ADMIN') {
@@ -74,6 +75,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  // --- BLOK LOGIN & CALLBACK ---
   if (pathname === '/login' || pathname === '/auth/callback') {
     if (token && token.userType !== 'ADMIN') {
       if (token.is_profile_complete === true) {
@@ -85,6 +87,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  // --- BLOK REGISTRASI (Form Kelengkapan Profil) ---
   if (pathname === '/registration') {
     if (!token) {
       return NextResponse.redirect(new URL('/login', req.url))
@@ -98,6 +101,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
+  // --- BLOK USER BIASA (Dashboard dkk) ---
   const isUserProtectedRoute = USER_PROTECTED_ROUTES.some(route => pathname.startsWith(route));
 
   if (isUserProtectedRoute) {
@@ -115,8 +119,10 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(url)
     }
 
-    // ✅ FIX: KITA HAPUS PENGECEKAN KTP DI SINI!
-    // Biarkan Dashboard yang langsung nanya ke Laravel, biar nggak ada misskomunikasi.
+    // 🔥 INI PENJAGA UTAMANYA! 🔥
+    if (token.is_profile_complete !== true) {
+      return NextResponse.redirect(new URL('/registration', req.url));
+    }
   }
 
   return NextResponse.next()

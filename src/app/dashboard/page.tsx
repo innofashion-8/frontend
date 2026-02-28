@@ -1,10 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import Beams from '@/components/ui/Beams'; // 👈 Import Beams yang baru dibikin
+import { useSession, signOut } from 'next-auth/react'; 
+import Beams from '@/components/ui/Beams'; 
 
-// INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
   onyx: '#1C1C1B',
   obsidian: '#1a1a1a',
@@ -18,18 +17,35 @@ const palette = {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { data: session } = useSession();
+  
+  // 🔥 FIX: Tarik "status" dari useSession buat ngecek dia lagi loading atau udah kelar!
+  const { data: session, status } = useSession();
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/login' });
+  };
+
+  // 🔥 TAMBAHIN INI: Layar Loading Super Singkat ala Dystopian 🔥
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="text-xs font-bold tracking-[0.4em] uppercase animate-pulse" style={{ color: palette.ash }}>
+          DECRYPTING IDENTITY...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative py-12 min-h-screen flex flex-col justify-center">
       
-      {/* 🔥 REACTBITS BEAMS BACKGROUND (FIXED BIAR GAK KEPOTONG) 🔥 */}
+      {/* REACTBITS BEAMS BACKGROUND */}
       <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
         <Beams
           beamWidth={3}
           beamHeight={30}
           beamNumber={20}
-          lightColor={palette.greige} // 👈 Cahayanya warna emas dystopian!
+          lightColor={palette.greige} 
           speed={2}
           noiseIntensity={1.75}
           scale={0.2}
@@ -44,16 +60,37 @@ export default function DashboardPage() {
           className="mb-12 p-10 md:p-16 border bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:shadow-[0_20px_40px_-15px_rgba(106,93,82,0.3)]" 
           style={{ borderColor: palette.graphite }}
         >
-          {/* Aksen Garis Kiri */}
           <div className="absolute top-0 left-0 w-2 h-full" style={{ backgroundColor: palette.greige }}></div>
           
-          <div className="flex items-center gap-3 mb-6">
-              <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>DASHBOARD UTAMA</p>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+            <div className="flex items-center gap-3">
+                <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
+                <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>DASHBOARD UTAMA</p>
+            </div>
+            
+            <button 
+              onClick={handleLogout}
+              className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm"
+              style={{ borderColor: palette.graphite, backgroundColor: 'rgba(28,28,27,0.5)' }} 
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#ef4444'; 
+                e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = palette.graphite;
+                e.currentTarget.style.backgroundColor = 'rgba(28,28,27,0.5)';
+              }}
+            >
+              <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
+              <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">
+                DISCONNECT
+              </span>
+            </button>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
-            WELCOME, <span style={{ color: palette.greige }}>{session?.user?.name?.split(' ')[0]}</span>
+            {/* Karena loadingnya udah kita tahan, pas render ini 100% datanya udah ada! */}
+            WELCOME, <span style={{ color: palette.greige }}>{session?.user?.name?.split(' ')[0] || 'UNKNOWN'}</span>
           </h1>
           <p className="text-lg md:text-xl font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
             Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti.
