@@ -178,11 +178,11 @@ export default function TimelinePage() {
         minHeight: '100vh',
         overflow: 'clip',
         overflowY: 'visible',
-        background: '#0a0a0a',
+        background: 'transparent',
       }}
     >
       {/* ── Background fabric ── */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image
           src="/assets/Layer 32.png"
           alt="background"
@@ -194,10 +194,10 @@ export default function TimelinePage() {
       </div>
 
       {/* ── Dust overlays ── */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.28, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.28, pointerEvents: 'none', maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image src="/assets/DUST.png" alt="" fill style={{ objectFit: 'cover' }} unoptimized />
       </div>
-      <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0.15, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0.15, pointerEvents: 'none', maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image src="/assets/DUST-1.png" alt="" fill style={{ objectFit: 'cover' }} unoptimized />
       </div>
 
