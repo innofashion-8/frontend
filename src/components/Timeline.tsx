@@ -95,34 +95,37 @@ export default function TimelinePage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title — fade in + scale from center
+      // Title — fade in + scale from center (triggers when title enters viewport)
       gsap.from(titleRef.current, {
-        scale: 0.7,
+        scale: 0.8,
         opacity: 0,
-        y: 40,
-        duration: 1.2,
+        y: 50,
+        duration: 1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: titleRef.current,
-          start: 'top 85%',
-          end: 'top 40%',
+          start: 'top 95%',
           toggleActions: 'play none none reverse',
         },
       })
 
-      // Timeline nodes — staggered entrance, left slides from left, right slides from right
+      // Timeline nodes — each node animates individually when it scrolls into view
       nodesRef.current.forEach((node, idx) => {
         if (!node) return
         const isLeft = nodes[idx].side === 'left'
-        gsap.from(node, {
-          x: isLeft ? -100 : 100,
-          opacity: 0,
-          duration: 0.8,
+
+        // Set initial state hidden
+        gsap.set(node, { opacity: 0, x: isLeft ? -60 : 60 })
+
+        // Animate in when the node's top reaches 80% of the viewport
+        gsap.to(node, {
+          x: 0,
+          opacity: 1,
+          duration: 0.7,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: node,
-            start: 'top 90%',
-            end: 'top 60%',
+            start: 'top 80%',
             toggleActions: 'play none none reverse',
           },
         })
@@ -140,14 +143,14 @@ export default function TimelinePage() {
             repeat: 1,
             scrollTrigger: {
               trigger: node,
-              start: 'top 85%',
+              start: 'top 75%',
               toggleActions: 'play none none none',
             },
           })
         }
       })
 
-      // Vertical pillar grows as you scroll
+      // Vertical pillar grows as you scroll through the bracket area
       if (pillarRef.current) {
         gsap.from(pillarRef.current, {
           scaleY: 0,
@@ -155,9 +158,9 @@ export default function TimelinePage() {
           ease: 'none',
           scrollTrigger: {
             trigger: pillarRef.current,
-            start: 'top 85%',
-            end: 'bottom 40%',
-            scrub: 0.8,
+            start: 'top 80%',
+            end: 'bottom 50%',
+            scrub: 0.6,
           },
         })
       }
@@ -173,7 +176,8 @@ export default function TimelinePage() {
         position: 'relative',
         width: '100%',
         minHeight: '100vh',
-        overflow: 'hidden',
+        overflow: 'clip',
+        overflowY: 'visible',
         background: '#0a0a0a',
       }}
     >
@@ -381,7 +385,7 @@ export default function TimelinePage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 40px 24px 80px;
+          padding: 80px 24px 100px;
         }
 
         .tl-title-area {
@@ -391,7 +395,7 @@ export default function TimelinePage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 28px;
+          margin-bottom: 56px;
         }
 
         /* ── Bracket wrapper ── */
