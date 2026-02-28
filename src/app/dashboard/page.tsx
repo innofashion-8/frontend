@@ -83,7 +83,7 @@ export default function DashboardPage() {
             >
               <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
               <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">
-                DISCONNECT
+                LOG OUT
               </span>
             </button>
           </div>
