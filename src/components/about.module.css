@@ -1,0 +1,388 @@
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: #0a0a0a;
+}
+
+/* ─── Background ─────────────────────────────────── */
+.bgWrapper {
+  position: absolute;
+  top: -15%;
+  left: 0;
+  right: 0;
+  bottom: -15%;
+  z-index: 0;
+}
+
+.bgImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.bgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* ─── Dust texture (right side) ─────────────────── */
+.dustWrapper {
+  position: absolute;
+  top: -5%;
+  right: -5%;
+  width: 65%;
+  height: 110%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+}
+
+.dustImage {
+  object-fit: cover;
+  object-position: top right;
+}
+
+/* ─── Layer 20 sandy texture — INSIDE the board area */
+/* This sits between the board background and the model images */
+.layer20Wrapper {
+  position: absolute;
+  /* Align exactly with the board — covers the whole right column */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.layer20Image {
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Main container ─────────────────────────────── */
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 60px;
+  display: grid;
+  /* Left text col slightly wider than right board col, matching reference */
+  grid-template-columns: 55fr 45fr;
+  gap: 40px;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* ─── Left column ────────────────────────────────── */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  /* Nudge up to align with the top of the right board */
+  align-self: start;
+  padding-top: 40px;
+}
+
+.titleWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+}
+
+.titleImage {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));
+}
+
+.bodyText {
+  font-family: 'Creato Display', sans-serif;
+  font-size: clamp(0.8rem, 1.3vw, 0.98rem);
+  font-weight: 300;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: justify;
+  max-width: 680px;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Right column ───────────────────────────────── */
+.rightCol {
+  position: relative;
+  width: 130%;
+  height: 70vh;
+  min-height: 480px;
+  /* Bleed to the right viewport edge (cancels container's 60px padding) */
+  /* margin-right: -60px; */
+}
+
+/* Board rounded frame — flush to the right edge */
+.boardWrapper {
+  position: absolute;
+  inset: 0;
+  /* Round only the left side; right side is flush with viewport */
+  border-radius: 20px 0 0 20px;
+  overflow: hidden;
+  background: rgba(160, 140, 110, 0.18);
+  border: 1px solid rgba(200, 185, 155, 0.2);
+  backdrop-filter: blur(2px);
+}
+
+.boardFrame {
+  object-fit: fill;
+  opacity: 0.2;
+}
+
+/* Blurry chromatic aberration — offset slightly right of main model */
+.modelBlurryWrapper {
+  position: absolute;
+  top: -12%;
+  left: 46%;
+  transform: translateX(-44%);
+  width: 95%;
+  height: 115%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.modelBlurry {
+  object-fit: contain;
+  object-position: top center;
+  opacity: 0.5;
+  mix-blend-mode: screen;
+  filter: blur(1.5px) saturate(1.6);
+  transform: translateX(10px);
+}
+
+/* White glow shadow — left side glow matching reference */
+.modelShadowWrapper {
+  position: absolute;
+  top: -8%;
+  left: 50%;
+  transform: translateX(-52%);
+  width: 90%;
+  height: 110%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.modelShadow {
+  object-fit: contain;
+  object-position: top center;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+
+/* Main model — centered, overflows top significantly */
+.modelMainWrapper {
+  position: absolute;
+  top: -14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  height: 120%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.modelMain {
+  object-fit: contain;
+  object-position: top center;
+  filter: drop-shadow(-6px 0 16px rgba(255, 220, 180, 0.18));
+}
+
+/* ─── Animations ────────────────────────────────── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+
+/* ── Tablet landscape (≤ 1100px) ── */
+@media (max-width: 1100px) {
+  .container {
+    padding: 60px 40px;
+    gap: 28px;
+    grid-template-columns: 55fr 45fr;
+  }
+
+  .rightCol {
+    height: 60vh;
+    min-height: 420px;
+    /* Sync bleed to match reduced padding */
+    margin-right: -40px;
+  }
+
+  .bodyText {
+    font-size: 0.92rem;
+  }
+}
+
+/* ── Tablet portrait (≤ 900px) — stacked layout */
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 48px 32px 64px;
+    gap: 0;
+    min-height: unset;
+    align-items: start;
+  }
+
+  /* Model card on top, text below */
+  .leftCol  { order: 2; gap: 20px; padding-top: 28px; padding-bottom: 48px; }
+  .rightCol { order: 1; }
+
+  .rightCol {
+    width: 100%;
+    height: 58vw;
+    max-height: 500px;
+    min-height: 300px;
+    /* Reset bleed — stacked layout, card sits within padding */
+    margin-right: 0;
+  }
+
+  /* Restore full border-radius when not bleeding to edge */
+  .boardWrapper {
+    border-radius: 20px;
+  }
+
+  .modelMainWrapper {
+    top: -8%;
+    right: 0;
+    width: 90%;
+    height: 115%;
+  }
+
+  .modelBlurryWrapper {
+    width: 90%;
+    right: 0;
+    height: 115%;
+  }
+
+  .modelShadowWrapper {
+    width: 92%;
+    right: 0;
+  }
+
+  .dustWrapper   { width: 80%; }
+
+  .bodyText {
+    font-size: 0.93rem;
+    line-height: 1.85;
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .titleWrapper {
+    max-width: 100%;
+  }
+}
+
+/* ── Mobile (≤ 600px) ── */
+@media (max-width: 600px) {
+  .section {
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 40px 20px 56px;
+    gap: 0;
+  }
+
+  .rightCol {
+    height: 66vw;
+    max-height: 360px;
+    min-height: 240px;
+  }
+
+  .modelMainWrapper {
+    top: -5%;
+    right: 0;
+    width: 92%;
+    height: 112%;
+  }
+
+  .modelBlurryWrapper {
+    width: 92%;
+    right: 0;
+    height: 112%;
+    top: -5%;
+  }
+
+  .modelShadowWrapper {
+    width: 95%;
+    right: 0;
+    bottom: -3%;
+  }
+
+  .leftCol {
+    gap: 16px;
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .bodyText {
+    font-size: 0.88rem;
+    line-height: 1.8;
+  }
+
+  .dustWrapper {
+    display: none;
+  }
+}
+
+/* ── Small mobile (≤ 400px) ── */
+@media (max-width: 400px) {
+  .container {
+    padding: 32px 16px 48px;
+  }
+
+  .rightCol {
+    height: 72vw;
+    min-height: 210px;
+  }
+
+  .modelMainWrapper {
+    width: 95%;
+    height: 110%;
+  }
+
+  .bodyText {
+    font-size: 0.82rem;
+    line-height: 1.75;
+  }
+
+  .leftCol {
+    gap: 14px;
+    padding-top: 16px;
+  }
+}

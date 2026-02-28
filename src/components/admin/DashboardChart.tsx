@@ -86,7 +86,7 @@ export default function DashboardCharts({ eventData, compData, eventBreakdown, c
     maintainAspectRatio: false,
     cutout: "75%",
     plugins: {
-      legend: { position: "bottom" as const, labels: { usePointStyle: true, padding: 20, font: { family: "sans-serif" } } },
+      legend: { position: "bottom" as const, labels: { usePointStyle: true, padding: 20, font: { family: "'Creato Display', sans-serif" } } },
     },
   };
 
