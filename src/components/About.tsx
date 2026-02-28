@@ -63,20 +63,7 @@ export default function AboutSection() {
         });
       }
 
-      // Dust overlay parallax — drifts upward + slight horizontal
-      if (dustRef.current) {
-        gsap.to(dustRef.current, {
-          yPercent: -30,
-          xPercent: 5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      }
+
 
       // Model main — subtle vertical parallax (appears to float)
       if (modelMainRef.current) {

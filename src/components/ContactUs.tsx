@@ -110,7 +110,7 @@ export default function ContactPage() {
   return (
     <div className="contact-root" ref={sectionRef}>
 
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, maskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 15%, black 100%)' }}>
         <Image src="/assets/Layer 31.png" alt="background" fill style={{ objectFit: 'cover', objectPosition: 'center' }} priority />
       </div>
 
@@ -197,7 +197,7 @@ export default function ContactPage() {
           min-height: 100vh;
           position: relative;
           overflow: hidden;
-          background-color: #1a1a1a;
+          background-color: transparent;
           font-family: 'Creato Display', sans-serif;
         }
 

@@ -4,7 +4,7 @@ import ContactPage from '@/components/ContactUs';
 
 export default function Home() {
   return (
-    <main>
+    <main className="bg-[#0a0a0a]">
       <AboutSection />
       <Timeline />
       <ContactPage />

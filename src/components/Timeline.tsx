@@ -41,12 +41,10 @@ const ROW_H      = 105
 const ARM_LEN    = 110
 const LINE_W     = 2.5
 const LINE_COLOR = 'rgba(255,255,255,0.55)'
-const SIDE_W     = ARM_LEN + DOT_SIZE + 180 // 306px
 
 const dateStyle: React.CSSProperties = {
   color: '#ffffff',
   fontWeight: 700,
-  fontSize: 20,
   lineHeight: 1.3,
   fontFamily: "'Creato Display', sans-serif",
   textShadow: '0 1px 8px rgba(0,0,0,0.95)',
@@ -58,7 +56,6 @@ const dateStyle: React.CSSProperties = {
 const nameStyle: React.CSSProperties = {
   color: '#c0c0c0',
   fontStyle: 'italic',
-  fontSize: 15,
   lineHeight: 1.4,
   fontFamily: "'Creato Display', sans-serif",
   textShadow: '0 1px 8px rgba(0,0,0,0.95)',
@@ -98,34 +95,37 @@ export default function TimelinePage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title — fade in + scale from center
+      // Title — fade in + scale from center (triggers when title enters viewport)
       gsap.from(titleRef.current, {
-        scale: 0.7,
+        scale: 0.8,
         opacity: 0,
-        y: 40,
-        duration: 1.2,
+        y: 50,
+        duration: 1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: titleRef.current,
-          start: 'top 85%',
-          end: 'top 40%',
+          start: 'top 95%',
           toggleActions: 'play none none reverse',
         },
       })
 
-      // Timeline nodes — staggered entrance, left slides from left, right slides from right
+      // Timeline nodes — each node animates individually when it scrolls into view
       nodesRef.current.forEach((node, idx) => {
         if (!node) return
         const isLeft = nodes[idx].side === 'left'
-        gsap.from(node, {
-          x: isLeft ? -100 : 100,
-          opacity: 0,
-          duration: 0.8,
+
+        // Set initial state hidden
+        gsap.set(node, { opacity: 0, x: isLeft ? -60 : 60 })
+
+        // Animate in when the node's top reaches 80% of the viewport
+        gsap.to(node, {
+          x: 0,
+          opacity: 1,
+          duration: 0.7,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: node,
-            start: 'top 90%',
-            end: 'top 60%',
+            start: 'top 80%',
             toggleActions: 'play none none reverse',
           },
         })
@@ -143,14 +143,14 @@ export default function TimelinePage() {
             repeat: 1,
             scrollTrigger: {
               trigger: node,
-              start: 'top 85%',
+              start: 'top 75%',
               toggleActions: 'play none none none',
             },
           })
         }
       })
 
-      // Vertical pillar grows as you scroll
+      // Vertical pillar grows as you scroll through the bracket area
       if (pillarRef.current) {
         gsap.from(pillarRef.current, {
           scaleY: 0,
@@ -158,9 +158,9 @@ export default function TimelinePage() {
           ease: 'none',
           scrollTrigger: {
             trigger: pillarRef.current,
-            start: 'top 85%',
-            end: 'bottom 40%',
-            scrub: 0.8,
+            start: 'top 80%',
+            end: 'bottom 50%',
+            scrub: 0.6,
           },
         })
       }
@@ -176,12 +176,13 @@ export default function TimelinePage() {
         position: 'relative',
         width: '100%',
         minHeight: '100vh',
-        overflow: 'hidden',
-        background: '#0a0a0a',
+        overflow: 'clip',
+        overflowY: 'visible',
+        background: 'transparent',
       }}
     >
       {/* ── Background fabric ── */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image
           src="/assets/Layer 32.png"
           alt="background"
@@ -193,10 +194,10 @@ export default function TimelinePage() {
       </div>
 
       {/* ── Dust overlays ── */}
-      <div style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.28, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1, opacity: 0.28, pointerEvents: 'none', maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image src="/assets/DUST.png" alt="" fill style={{ objectFit: 'cover' }} unoptimized />
       </div>
-      <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0.15, pointerEvents: 'none' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0.15, pointerEvents: 'none', maskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)' }}>
         <Image src="/assets/DUST-1.png" alt="" fill style={{ objectFit: 'cover' }} unoptimized />
       </div>
 
@@ -259,6 +260,7 @@ export default function TimelinePage() {
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
+              borderStyle: 'none',
             }}
           >
             {nodes.map((node, idx) => {
@@ -281,18 +283,12 @@ export default function TimelinePage() {
                   >
                     {/* ═══ LEFT SIDE ═══ */}
                     <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        width: SIDE_W,
-                        flexShrink: 0,
-                      }}
+                      className="tl-side tl-side-left"
                     >
                       {isLeft && node.label && (
                         <div style={{ textAlign: 'right', marginRight: 14 }}>
-                          <p style={dateStyle}>{node.label.date}</p>
-                          <p style={nameStyle}>{node.label.name}</p>
+                          <p className="tl-date" style={dateStyle}>{node.label.date}</p>
+                          <p className="tl-name" style={nameStyle}>{node.label.name}</p>
                         </div>
                       )}
                       {isLeft && (
@@ -312,6 +308,7 @@ export default function TimelinePage() {
                         />
                       )}
                       <div
+                        className="tl-arm"
                         style={{
                           width: isLeft ? ARM_LEN : 0,
                           height: LINE_W,
@@ -334,21 +331,16 @@ export default function TimelinePage() {
                         <div style={{ position: 'absolute', left: 0, top: '50%', bottom: 0, width: LINE_W, background: LINE_COLOR }} />
                       )}
                       {isLast && (
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: '50%', width: LINE_W, background: LINE_COLOR }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, height: '50%', width: LINE_W, background: LINE_COLOR }} />
                       )}
                     </div>
 
                     {/* ═══ RIGHT SIDE ═══ */}
                     <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        width: SIDE_W,
-                        flexShrink: 0,
-                      }}
+                      className="tl-side tl-side-right"
                     >
                       <div
+                        className="tl-arm"
                         style={{
                           width: isLeft ? 0 : ARM_LEN,
                           height: LINE_W,
@@ -373,8 +365,8 @@ export default function TimelinePage() {
                       )}
                       {!isLeft && node.label && (
                         <div style={{ textAlign: 'left', marginLeft: 14 }}>
-                          <p style={dateStyle}>{node.label.date}</p>
-                          <p style={nameStyle}>{node.label.name}</p>
+                          <p className="tl-date" style={dateStyle}>{node.label.date}</p>
+                          <p className="tl-name" style={nameStyle}>{node.label.name}</p>
                         </div>
                       )}
                     </div>
@@ -394,7 +386,7 @@ export default function TimelinePage() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 40px 24px 80px;
+          padding: 80px 24px 100px;
         }
 
         .tl-title-area {
@@ -404,32 +396,83 @@ export default function TimelinePage() {
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 28px;
+          margin-bottom: 56px;
         }
 
-        /* ── Bracket wrapper: gentle scaling ── */
+        /* Reset Tailwind preflight borders on timeline containers */
+        .tl-bracket-wrapper,
+        .tl-bracket-wrapper > div,
+        .tl-bracket-wrapper > div > div,
+        .tl-bracket-wrapper > div > div > div,
+        .tl-side,
+        .tl-arm {
+          border-style: none;
+        }
+
+        /* ── Bracket wrapper ── */
         .tl-bracket-wrapper {
-          overflow-x: auto;
+          overflow-x: hidden;
           width: 100%;
           display: flex;
           justify-content: center;
-          transform-origin: top center;
         }
 
-        @media (max-width: 900px) {
-          .tl-bracket-wrapper { transform: scale(0.9); }
+        /* ── Side containers ── */
+        .tl-side {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+          border: none;
+        }
+        .tl-side-left {
+          justify-content: flex-end;
+          width: 306px;
+        }
+        .tl-side-right {
+          justify-content: flex-start;
+          width: 306px;
+        }
+
+        .tl-date {
+          font-size: 20px;
+        }
+        .tl-name {
+          font-size: 15px;
+        }
+        .tl-arm {
+          transition: width 0.3s ease;
         }
 
         @media (max-width: 768px) {
-          .tl-bracket-wrapper { transform: scale(0.82); }
-        }
-
-        @media (max-width: 640px) {
-          .tl-bracket-wrapper { transform: scale(0.75); }
+          .tl-side-left,
+          .tl-side-right {
+            width: 220px;
+          }
+          .tl-arm {
+            width: 60px !important;
+          }
+          .tl-date {
+            font-size: 16px;
+          }
+          .tl-name {
+            font-size: 13px;
+          }
         }
 
         @media (max-width: 480px) {
-          .tl-bracket-wrapper { transform: scale(0.7); }
+          .tl-side-left,
+          .tl-side-right {
+            width: 160px;
+          }
+          .tl-arm {
+            width: 36px !important;
+          }
+          .tl-date {
+            font-size: 14px;
+          }
+          .tl-name {
+            font-size: 12px;
+          }
         }
       `}</style>
     </div>
