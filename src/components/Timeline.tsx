@@ -260,6 +260,7 @@ export default function TimelinePage() {
               position: 'relative',
               display: 'flex',
               flexDirection: 'column',
+              borderStyle: 'none',
             }}
           >
             {nodes.map((node, idx) => {
@@ -398,9 +399,19 @@ export default function TimelinePage() {
           margin-bottom: 56px;
         }
 
+        /* Reset Tailwind preflight borders on timeline containers */
+        .tl-bracket-wrapper,
+        .tl-bracket-wrapper > div,
+        .tl-bracket-wrapper > div > div,
+        .tl-bracket-wrapper > div > div > div,
+        .tl-side,
+        .tl-arm {
+          border-style: none;
+        }
+
         /* ── Bracket wrapper ── */
         .tl-bracket-wrapper {
-          overflow-x: auto;
+          overflow-x: hidden;
           width: 100%;
           display: flex;
           justify-content: center;
@@ -411,6 +422,7 @@ export default function TimelinePage() {
           display: flex;
           align-items: center;
           flex-shrink: 0;
+          border: none;
         }
         .tl-side-left {
           justify-content: flex-end;
