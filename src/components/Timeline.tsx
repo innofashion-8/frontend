@@ -41,12 +41,10 @@ const ROW_H      = 105
 const ARM_LEN    = 110
 const LINE_W     = 2.5
 const LINE_COLOR = 'rgba(255,255,255,0.55)'
-const SIDE_W     = ARM_LEN + DOT_SIZE + 180 // 306px
 
 const dateStyle: React.CSSProperties = {
   color: '#ffffff',
   fontWeight: 700,
-  fontSize: 20,
   lineHeight: 1.3,
   fontFamily: "'Creato Display', sans-serif",
   textShadow: '0 1px 8px rgba(0,0,0,0.95)',
@@ -58,7 +56,6 @@ const dateStyle: React.CSSProperties = {
 const nameStyle: React.CSSProperties = {
   color: '#c0c0c0',
   fontStyle: 'italic',
-  fontSize: 15,
   lineHeight: 1.4,
   fontFamily: "'Creato Display', sans-serif",
   textShadow: '0 1px 8px rgba(0,0,0,0.95)',
@@ -281,18 +278,12 @@ export default function TimelinePage() {
                   >
                     {/* ═══ LEFT SIDE ═══ */}
                     <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        width: SIDE_W,
-                        flexShrink: 0,
-                      }}
+                      className="tl-side tl-side-left"
                     >
                       {isLeft && node.label && (
                         <div style={{ textAlign: 'right', marginRight: 14 }}>
-                          <p style={dateStyle}>{node.label.date}</p>
-                          <p style={nameStyle}>{node.label.name}</p>
+                          <p className="tl-date" style={dateStyle}>{node.label.date}</p>
+                          <p className="tl-name" style={nameStyle}>{node.label.name}</p>
                         </div>
                       )}
                       {isLeft && (
@@ -312,6 +303,7 @@ export default function TimelinePage() {
                         />
                       )}
                       <div
+                        className="tl-arm"
                         style={{
                           width: isLeft ? ARM_LEN : 0,
                           height: LINE_W,
@@ -334,21 +326,16 @@ export default function TimelinePage() {
                         <div style={{ position: 'absolute', left: 0, top: '50%', bottom: 0, width: LINE_W, background: LINE_COLOR }} />
                       )}
                       {isLast && (
-                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: '50%', width: LINE_W, background: LINE_COLOR }} />
+                        <div style={{ position: 'absolute', left: 0, top: 0, height: '50%', width: LINE_W, background: LINE_COLOR }} />
                       )}
                     </div>
 
                     {/* ═══ RIGHT SIDE ═══ */}
                     <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-start',
-                        width: SIDE_W,
-                        flexShrink: 0,
-                      }}
+                      className="tl-side tl-side-right"
                     >
                       <div
+                        className="tl-arm"
                         style={{
                           width: isLeft ? 0 : ARM_LEN,
                           height: LINE_W,
@@ -373,8 +360,8 @@ export default function TimelinePage() {
                       )}
                       {!isLeft && node.label && (
                         <div style={{ textAlign: 'left', marginLeft: 14 }}>
-                          <p style={dateStyle}>{node.label.date}</p>
-                          <p style={nameStyle}>{node.label.name}</p>
+                          <p className="tl-date" style={dateStyle}>{node.label.date}</p>
+                          <p className="tl-name" style={nameStyle}>{node.label.name}</p>
                         </div>
                       )}
                     </div>
@@ -407,29 +394,69 @@ export default function TimelinePage() {
           margin-bottom: 28px;
         }
 
-        /* ── Bracket wrapper: gentle scaling ── */
+        /* ── Bracket wrapper ── */
         .tl-bracket-wrapper {
           overflow-x: auto;
           width: 100%;
           display: flex;
           justify-content: center;
-          transform-origin: top center;
         }
 
-        @media (max-width: 900px) {
-          .tl-bracket-wrapper { transform: scale(0.9); }
+        /* ── Side containers ── */
+        .tl-side {
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+        .tl-side-left {
+          justify-content: flex-end;
+          width: 306px;
+        }
+        .tl-side-right {
+          justify-content: flex-start;
+          width: 306px;
+        }
+
+        .tl-date {
+          font-size: 20px;
+        }
+        .tl-name {
+          font-size: 15px;
+        }
+        .tl-arm {
+          transition: width 0.3s ease;
         }
 
         @media (max-width: 768px) {
-          .tl-bracket-wrapper { transform: scale(0.82); }
-        }
-
-        @media (max-width: 640px) {
-          .tl-bracket-wrapper { transform: scale(0.75); }
+          .tl-side-left,
+          .tl-side-right {
+            width: 220px;
+          }
+          .tl-arm {
+            width: 60px !important;
+          }
+          .tl-date {
+            font-size: 16px;
+          }
+          .tl-name {
+            font-size: 13px;
+          }
         }
 
         @media (max-width: 480px) {
-          .tl-bracket-wrapper { transform: scale(0.7); }
+          .tl-side-left,
+          .tl-side-right {
+            width: 160px;
+          }
+          .tl-arm {
+            width: 36px !important;
+          }
+          .tl-date {
+            font-size: 14px;
+          }
+          .tl-name {
+            font-size: 12px;
+          }
         }
       `}</style>
     </div>
