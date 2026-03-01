@@ -59,11 +59,11 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
 
               {/* BUTTONS DESKTOP */}
               <div className="hidden md:flex items-center space-x-2 mr-2">
-                <a href="#registration" className="relative h-10 w-28 lg:h-14 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
+                {/* <a href="#registration" className="relative h-10 w-28 lg:h-14 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
                   <img src="/photo/register-bg.png" className="absolute inset-0 w-full h-full object-contain" alt="bg" />
                   <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[18px]">REGISTER</span>
-                </a>
-                <a href="#login" className="relative h-8 w-28 lg:h-9 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
+                </a> */}
+                <a href="/login" className="relative h-8 w-28 lg:h-9 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
                   <img src="/photo/signin-bg.png" className="absolute inset-0 w-full h-full object-contain" alt="bg" />
                   <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[18px]">SIGN IN</span>
                 </a>
