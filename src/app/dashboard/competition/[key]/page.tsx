@@ -126,7 +126,7 @@ export default function CompetitionRegisterPage() {
             <div>
               <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>CLEARANCE FEE</p>
               <span className="text-3xl font-black tracking-widest" style={{ color: palette.stucco }}>
-                Rp {Number(competition.registration_fee || competition.price || 0).toLocaleString('id-ID')}
+                Rp {Number(competition.registration_fee || 0).toLocaleString('id-ID')}
               </span>
             </div>
             <div className="text-right hidden md:block">
