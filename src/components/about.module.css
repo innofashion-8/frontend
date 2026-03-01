@@ -117,9 +117,9 @@
 }
 
 .bodyText {
-  font-family: 'Creato Display', sans-serif;
+  font-family: var(--font-creato-body);
   font-size: clamp(0.8rem, 1.3vw, 0.98rem);
-  font-weight: 300;
+  font-weight: 700;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.88);
   text-align: justify;
