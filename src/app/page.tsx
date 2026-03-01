@@ -58,7 +58,10 @@ export default function Home() {
         className={`transition-opacity duration-1000 ease-in-out 
         ${showContent ? 'opacity-100' : 'opacity-0'}`}
       >
+        <AboutSection />
         <Competition />
+        <Timeline />
+        <ContactPage />
         <Footer />
       </div>
     </main>
