@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import Link from 'next/link'; // 👈 Tambah ini
-import { useRouter, usePathname } from 'next/navigation'; // 👈 Tambah ini
+import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 
 interface NavbarProps {
   isVisible: boolean;
@@ -18,9 +18,8 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
     { id: 'about', label: 'ABOUT US' },
     { id: 'competitions', label: 'COMPETITIONS' },
     { id: 'timeline', label: 'TIMELINE' },
-    // { id: 'event', label: 'EVENTS' },
+    // { id: 'event', label: 'EVENTS' }, // Buka comment ini kalau section EVENT udah ada di page.tsx
     { id: 'contact', label: 'CONTACT US' },
-    // { id: 'profile', label: 'DFT PROFILE' },
   ];
 
   const handleScroll = (id: string) => {
@@ -69,9 +68,8 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
                 ))}
               </div>
 
-              {/* BUTTONS DESKTOP */}
+              {/* BUTTONS DESKTOP - SUDAH BERSIH DARI BENTROKAN */}
               <div className="hidden md:flex items-center space-x-2 mr-2">
-                {/* Arahkan ke /login */}
                 <Link href="/login" className="relative h-10 w-28 lg:h-14 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
                   <img src="/photo/register-bg.png" className="absolute inset-0 w-full h-full object-contain" alt="bg" />
                   <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[18px]">REGISTER</span>
@@ -83,7 +81,8 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
                 </Link>
               </div>
 
-              <button className="lg:hidden text-white mr-4 z-50" onClick={() => setIsOpen(!isOpen)}>
+              {/* HAMBURGER MENU MOBILE */}
+              <button className="lg:hidden text-white mr-4 z-50 relative" onClick={() => setIsOpen(!isOpen)}>
                 {isOpen ? <X size={28} /> : <Menu size={28} />}
               </button>
             </div>
@@ -100,9 +99,12 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
               {link.label}
             </button>
           ))}
-          {/* Tambahan Mobile Login Button */}
-          <div className="flex flex-col space-y-4 pt-6">
-             <Link href="/login" onClick={() => setIsOpen(false)} className="text-white font-black italic text-xl border border-white/20 px-8 py-2 rounded-full">
+          {/* Tambahan Mobile Login & Register Button */}
+          <div className="flex flex-col space-y-4 pt-6 w-full px-12">
+             <Link href="/login" onClick={() => setIsOpen(false)} className="text-black bg-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full">
+                REGISTER
+             </Link>
+             <Link href="/login" onClick={() => setIsOpen(false)} className="text-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full">
                 SIGN IN
              </Link>
           </div>

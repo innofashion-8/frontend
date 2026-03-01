@@ -198,7 +198,7 @@ export default function ContactPage() {
           position: relative;
           overflow: hidden;
           background-color: transparent;
-          font-family: 'Creato Display', sans-serif;
+          font-family: var(--font-creato-title);
         }
 
         /* ─── Main layout ───────────────────────────────────── */
