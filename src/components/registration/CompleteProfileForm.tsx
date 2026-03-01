@@ -203,7 +203,7 @@ export function CompleteProfileForm() {
 
         <button 
           type="submit" disabled={isLoading}
-          className="w-full py-5 rounded-full font-black text-xl hover:-translate-y-1 transition-all mt-8 disabled:opacity-50 uppercase tracking-widest"
+          className="w-full py-5 rounded-full font-black cursor-pointer text-xl hover:-translate-y-1 transition-all mt-8 disabled:opacity-50 uppercase tracking-widest"
           style={{ backgroundColor: themeColors.textMain, color: themeColors.bg, boxShadow: '0 0 15px rgba(255,255,255,0.3)' }}
         >
           {isLoading ? 'SUBMITTING...' : 'SUBMIT & CONTINUE'}

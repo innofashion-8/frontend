@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { competitionService } from '@/services/competition-service';
 import toast from 'react-hot-toast';
 import Beams from '@/components/ui/Beams';
+import Swal from 'sweetalert2';
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -62,13 +63,57 @@ export default function CompetitionRegisterPage() {
       router.push('/dashboard/competition'); 
     } catch (error: any) {
       if (error.isValidationError) {
-        setFormErrors(error.errors);
-        toast.error('ACCESS DENIED: Please check your input.', {
-          style: { background: palette.onyx, color: '#ef4444', border: `1px solid ${palette.graphite}` }
-        });
+        const validationErrors = error.errors;
+
+        if (validationErrors.status) {
+          Swal.fire({
+            title: 'ACCESS RESTRICTED',
+            text: validationErrors.status[0],
+            icon: 'warning',
+            background: palette.onyx,
+            color: palette.stucco,
+            confirmButtonColor: palette.walnut, 
+            confirmButtonText: 'RETURN TO TERMINAL',
+            customClass: {
+              popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
+              title: 'font-black tracking-[0.2em]',
+            }
+          }).then(() => {
+            router.push('/dashboard');
+          });
+        } 
+        
+        else {
+          setFormErrors(validationErrors); 
+          
+          Swal.fire({
+            title: 'DATA REJECTED',
+            text: 'Data entry protocol rejected. Please verify your clearance fee proof.',
+            icon: 'error',
+            background: palette.onyx,
+            color: palette.stucco,
+            confirmButtonColor: '#ef4444',
+            confirmButtonText: 'RECALIBRATE',
+            customClass: {
+              popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
+              title: 'font-black tracking-[0.2em]',
+            }
+          });
+        }
+
       } else {
-        toast.error(error.message || 'Registration failed.', {
-          style: { background: palette.onyx, color: '#ef4444', border: `1px solid ${palette.graphite}` }
+        Swal.fire({
+          title: 'SYSTEM FAILURE',
+          text: error.message || 'Registration protocol failed to execute.',
+          icon: 'error',
+          background: palette.onyx,
+          color: palette.stucco,
+          confirmButtonColor: '#ef4444',
+          confirmButtonText: 'ACKNOWLEDGE',
+          customClass: {
+            popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
+            title: 'font-black tracking-[0.2em]',
+          }
         });
       }
     } finally {

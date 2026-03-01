@@ -223,7 +223,7 @@ export default function EventCatalogPage() {
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
-        <button onClick={() => router.push('/dashboard')} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
+        <button onClick={() => router.push('/dashboard')} className="cursor-pointer mb-12 font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
           <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> RETURN TO TERMINAL
         </button>
 
@@ -310,18 +310,18 @@ export default function EventCatalogPage() {
                         <button 
                           // 🔥 SEKARANG NEMBAK PAKAI SLUG ASLI DARI LARAVEL 🔥
                           onClick={() => router.push(`/dashboard/event/${evt.slug}`)}
-                          className="w-full py-5 font-black uppercase tracking-[0.2em] transition-all duration-300 text-sm hover:scale-[1.03]"
+                          className="w-full py-5 font-black uppercase tracking-[0.2em] cursor-pointer transition-all duration-300 text-sm hover:scale-[1.03]"
                           style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
                         >
                           OBTAIN PASS
                         </button>
 
-                        <button onClick={() => setExpandedId(null)} className="block w-full text-center mt-6 font-bold uppercase tracking-widest text-[10px] transition-colors" style={{ color: palette.gravel }}>
+                        <button onClick={() => setExpandedId(null)} className="block w- cursor-pointer text-center mt-6 font-bold uppercase tracking-widest text-[10px] transition-colors" style={{ color: palette.gravel }}>
                           [ ABORT DETAIL VIEW ]
                         </button>
                       </div>
                     ) : (
-                      <button onClick={() => setExpandedId(evt.slug)} className="w-full py-5 font-bold uppercase tracking-[0.2em] text-xs border transition-all duration-300" style={{ color: palette.greige, borderColor: palette.graphite, backgroundColor: 'transparent' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = palette.greige; e.currentTarget.style.color = palette.onyx; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.greige; }}>
+                      <button onClick={() => setExpandedId(evt.slug)} className="w-full py-5 cursor-pointer font-bold uppercase tracking-[0.2em] text-xs border transition-all duration-300" style={{ color: palette.greige, borderColor: palette.graphite, backgroundColor: 'transparent' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = palette.greige; e.currentTarget.style.color = palette.onyx; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.greige; }}>
                         EXPAND PROTOCOL
                       </button>
                     )}

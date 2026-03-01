@@ -59,7 +59,7 @@ export default function LoginPage() {
         <button 
           onClick={handleGoogleLogin}
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-4 py-4 px-8 rounded-full font-bold uppercase tracking-widest hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 text-black shadow-[0_0_15px_rgba(190,190,191,0.3)] hover:shadow-[0_0_25px_rgba(190,190,191,0.6)]"
+          className="w-full cursor-pointer flex items-center justify-center gap-4 py-4 px-8 rounded-full font-bold uppercase tracking-widest hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 text-black shadow-[0_0_15px_rgba(190,190,191,0.3)] hover:shadow-[0_0_25px_rgba(190,190,191,0.6)]"
           style={{ backgroundColor: themeColors.primary }}
         >
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 bg-white rounded-full p-0.5" />

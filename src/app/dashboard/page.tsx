@@ -71,7 +71,7 @@ export default function DashboardPage() {
             
             <button 
               onClick={handleLogout}
-              className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm"
+              className="group flex cursor-pointer items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm"
               style={{ borderColor: palette.graphite, backgroundColor: 'rgba(28,28,27,0.5)' }} 
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = '#ef4444'; 
