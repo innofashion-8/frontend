@@ -151,24 +151,40 @@ export default function DashboardPage() {
           ) : (
             <div className="space-y-4">
               {allRegistrations.map((reg, idx) => {
-                // Backend biasanya mengembalikan relasi data, misal reg.competition.name atau reg.event.name
                 const itemName = reg?.competition?.name || reg?.event?.title || 'UNKNOWN PROTOCOL';
                 const itemType = reg?.competition ? 'COMPETITION' : 'EVENT';
-                const statusStr = reg?.status || 'PENDING';
+                const statusStr = (reg?.status || 'PENDING').toUpperCase();
+                
+                // Cek apakah dia kena reject
+                const isRejected = statusStr.includes('REJECT') || statusStr.includes('TOLAK');
                 
                 return (
-                  <div key={idx} className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border transition-colors hover:bg-white/5" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
-                    <div className="mb-4 md:mb-0">
-                      <div className="text-[9px] tracking-[0.2em] mb-1 uppercase" style={{ color: palette.ash }}>{itemType}</div>
-                      <div className="font-bold text-lg tracking-widest uppercase" style={{ color: palette.stucco }}>{itemName}</div>
-                    </div>
+                  <div key={idx} className="flex flex-col p-4 border transition-colors hover:bg-white/5" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
                     
-                    <div className="flex items-center gap-3 px-4 py-2 border" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                      <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: getStatusColor(statusStr), boxShadow: `0 0 10px ${getStatusColor(statusStr)}` }}></span>
-                      <span className="text-xs font-black tracking-widest uppercase" style={{ color: getStatusColor(statusStr) }}>
-                        {statusStr}
-                      </span>
+                    {/* BAGIAN ATAS (Nama Lomba & Status) */}
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full">
+                      <div className="mb-4 md:mb-0">
+                        <div className="text-[9px] tracking-[0.2em] mb-1 uppercase" style={{ color: palette.ash }}>{itemType}</div>
+                        <div className="font-bold text-lg tracking-widest uppercase" style={{ color: palette.stucco }}>{itemName}</div>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 px-4 py-2 border" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                        <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: getStatusColor(statusStr), boxShadow: `0 0 10px ${getStatusColor(statusStr)}` }}></span>
+                        <span className="text-xs font-black tracking-widest uppercase" style={{ color: getStatusColor(statusStr) }}>
+                          {statusStr}
+                        </span>
+                      </div>
                     </div>
+
+                    {/* 🔥 TAMPILIN ALASAN REJECT DI BAWAHNYA 🔥 */}
+                    {isRejected && reg?.reject_reason && (
+                      <div className="mt-4 p-4 border border-red-500/50 bg-red-500/10">
+                        <p className="text-[10px] font-bold tracking-[0.2em] text-red-400 uppercase mb-1">REJECTION REASON:</p>
+                        <p className="text-sm font-medium text-red-200">{reg.reject_reason}</p>
+                        <p className="text-[10px] font-bold tracking-[0.2em] text-white uppercase mt-4">➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW</p>
+                      </div>
+                    )}
+
                   </div>
                 );
               })}

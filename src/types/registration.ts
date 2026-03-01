@@ -20,6 +20,7 @@ export interface StatusResponse {
   is_locked: boolean;
   draft_data: Record<string, any> | null;
   user_profile: UserProfile;
+  rejection_reason?: string;
 }
 
 export interface CompetitionRegistration {
