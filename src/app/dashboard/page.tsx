@@ -54,6 +54,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
+      
         
         {/* WELCOME BANNER */}
         <div 
