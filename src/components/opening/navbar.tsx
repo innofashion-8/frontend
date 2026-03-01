@@ -16,9 +16,9 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
 
   const navLinks = [
     { id: 'about', label: 'ABOUT US' },
-    { id: 'timeline', label: 'TIMELINE' },
     { id: 'competitions', label: 'COMPETITIONS' },
-    { id: 'event', label: 'EVENTS' },
+    { id: 'timeline', label: 'TIMELINE' },
+    // { id: 'event', label: 'EVENTS' },
     { id: 'contact', label: 'CONTACT US' },
     // { id: 'profile', label: 'DFT PROFILE' },
   ];
