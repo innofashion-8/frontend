@@ -39,7 +39,7 @@ export default function Home() {
   }, [showContent]);
 
   return (
-    <main className="relative min-h-screen bg-black">
+    <main className="relative min-h-screen bg-[#0a0a0a]">
       {/* NAVBAR: Muncul otomatis setelah 7 detik. 
           Menerima props isVisible untuk kontrol animasi 
       */}

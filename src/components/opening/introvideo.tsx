@@ -8,7 +8,7 @@ interface IntroVideoProps {
 
 const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
   return (
-    <div id="home" className="relative w-full h-screen overflow-hidden bg-black z-0">
+    <div id="home" className="relative w-full h-screen overflow-hidden bg-black z-0" style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }}>
       <video autoPlay muted loop playsInline className="w-full h-full object-cover">
         <source src="/photo/dummyvideo.mp4" type="video/mp4" />
       </video>
