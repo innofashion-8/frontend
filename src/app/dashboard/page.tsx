@@ -2,7 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react'; 
+import { useQuery } from '@tanstack/react-query';
+import { fetchClient } from '@/lib/fetch-client';
 import Beams from '@/components/ui/Beams'; 
+import Navbar from '@/components/opening/navbar';
 
 const palette = {
   onyx: '#1C1C1B',
@@ -17,15 +20,25 @@ const palette = {
 
 export default function DashboardPage() {
   const router = useRouter();
-  
-  // 🔥 FIX: Tarik "status" dari useSession buat ngecek dia lagi loading atau udah kelar!
   const { data: session, status } = useSession();
+
+  // 🔥 FETCH DATA REGISTRASI DARI LARAVEL 🔥
+  const { data: registrations, isLoading: isRegLoading } = useQuery({
+    queryKey: ['my-registrations'],
+    queryFn: async () => {
+      // Nembak endpoint getRegistrations bawaan temen lu
+      const res = await fetchClient<any>('/api/registrations', { method: 'GET' });
+      return res.data; // Biasanya Laravel ngirim di dalam key "data"
+    },
+    // Fetch hanya kalau user udah kedetek login
+    enabled: status === 'authenticated'
+  });
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/login' });
   };
 
-  // 🔥 TAMBAHIN INI: Layar Loading Super Singkat ala Dystopian 🔥
+  // Layar Loading Super Singkat ala Dystopian
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
@@ -36,9 +49,34 @@ export default function DashboardPage() {
     );
   }
 
+  // Helper buat warna status
+  const getStatusColor = (statusReg: string) => {
+    const s = (statusReg || '').toUpperCase();
+    if (s.includes('REJECT') || s.includes('TOLAK')) return '#ef4444'; // Red
+    if (s.includes('VERIFI') || s.includes('ACCEPT') || s.includes('APPROV')) return '#22c55e'; // Green
+    if (s.includes('PENDING') || s.includes('WAIT')) return palette.greige; // Yellow-ish
+    return palette.ash; // Default Gray
+  };
+
+  // Menggabungkan dan meratakan array kalau backend ngirim object { events: [], competitions: [] }
+  let allRegistrations: any[] = [];
+  if (registrations) {
+    if (Array.isArray(registrations)) {
+      allRegistrations = registrations;
+    } else {
+      allRegistrations = [
+        ...(registrations.competitions || []),
+        ...(registrations.events || [])
+      ];
+    }
+  }
+
   return (
-    <div className="relative py-12 min-h-screen flex flex-col justify-center">
+    <div className="relative py-24 min-h-screen flex flex-col justify-center bg-[#0a0a0a]">
       
+      {/* NAVBAR DITAMBAHKAN DI SINI, isVisible=true biar langsung muncul */}
+      <Navbar isVisible={true} />
+
       {/* REACTBITS BEAMS BACKGROUND */}
       <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
         <Beams
@@ -52,10 +90,9 @@ export default function DashboardPage() {
           rotation={30}
         />
       </div>
-
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-4">
-      
         
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 mt-10">
+      
         {/* WELCOME BANNER */}
         <div 
           className="mb-12 p-10 md:p-16 border bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] hover:shadow-[0_20px_40px_-15px_rgba(106,93,82,0.3)]" 
@@ -71,7 +108,7 @@ export default function DashboardPage() {
             
             <button 
               onClick={handleLogout}
-              className="group flex cursor-pointer items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm"
+              className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm"
               style={{ borderColor: palette.graphite, backgroundColor: 'rgba(28,28,27,0.5)' }} 
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = '#ef4444'; 
@@ -90,14 +127,56 @@ export default function DashboardPage() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
-            {/* Karena loadingnya udah kita tahan, pas render ini 100% datanya udah ada! */}
             WELCOME, <span style={{ color: palette.greige }}>{session?.user?.name?.split(' ')[0] || 'UNKNOWN'}</span>
           </h1>
           <p className="text-lg md:text-xl font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
-            Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti.
+            Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti atau pantau status kelulusanmu.
           </p>
         </div>
 
+        {/* 🔥 PAPAN STATUS REGISTRASI 🔥 */}
+        <div className="mb-12 border p-8 bg-black/40 backdrop-blur-md" style={{ borderColor: palette.graphite }}>
+          <div className="flex items-center gap-3 mb-8 pb-4 border-b" style={{ borderColor: palette.graphite }}>
+            <p className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: palette.greige }}>[ STATUS PROTOKOL REGISTRASI ]</p>
+          </div>
+
+          {isRegLoading ? (
+            <div className="text-xs font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>
+               SYNCING WITH DATABASE...
+            </div>
+          ) : allRegistrations.length === 0 ? (
+            <div className="text-sm font-medium tracking-widest uppercase" style={{ color: palette.ash }}>
+               NO ACTIVE REGISTRATIONS FOUND.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {allRegistrations.map((reg, idx) => {
+                // Backend biasanya mengembalikan relasi data, misal reg.competition.name atau reg.event.name
+                const itemName = reg?.competition?.name || reg?.event?.title || 'UNKNOWN PROTOCOL';
+                const itemType = reg?.competition ? 'COMPETITION' : 'EVENT';
+                const statusStr = reg?.status || 'PENDING';
+                
+                return (
+                  <div key={idx} className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border transition-colors hover:bg-white/5" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
+                    <div className="mb-4 md:mb-0">
+                      <div className="text-[9px] tracking-[0.2em] mb-1 uppercase" style={{ color: palette.ash }}>{itemType}</div>
+                      <div className="font-bold text-lg tracking-widest uppercase" style={{ color: palette.stucco }}>{itemName}</div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 px-4 py-2 border" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                      <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: getStatusColor(statusStr), boxShadow: `0 0 10px ${getStatusColor(statusStr)}` }}></span>
+                      <span className="text-xs font-black tracking-widest uppercase" style={{ color: getStatusColor(statusStr) }}>
+                        {statusStr}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* MENU CARD */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
           {/* EVENT CARD */}
