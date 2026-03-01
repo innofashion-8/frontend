@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { competitionService } from '@/services/competition-service';
 import toast from 'react-hot-toast';
 import Beams from '@/components/ui/Beams';
+import Swal from 'sweetalert2'
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -41,14 +42,33 @@ export default function CompetitionRegisterPage() {
     e.preventDefault();
     setFormErrors(null);
 
-    // Lomba WAJIB upload bukti bayar
     if (!paymentFile) {
       return toast.error('PAYMENT PROOF IS REQUIRED.', {
         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
       });
     }
 
-    if (!window.confirm('WARNING: Are you sure you want to submit? Data cannot be altered later.')) return;
+    // 🔥 GANTI WINDOW.CONFIRM JADI SWEETALERT DYSTOPIAN 🔥
+    const confirmation = await Swal.fire({
+      icon: 'warning',
+      title: 'INITIATE PROTOCOL?',
+      text: 'Are you sure you want to submit? Data cannot be altered later.',
+      background: palette.onyx,
+      color: palette.stucco,
+      showCancelButton: true,
+      confirmButtonColor: palette.walnut,
+      cancelButtonColor: palette.graphite,
+      confirmButtonText: 'SECURE PASS',
+      cancelButtonText: 'ABORT',
+      customClass: {
+        popup: 'border border-[#7b787a] rounded-none',
+        title: 'font-black tracking-[0.2em] uppercase text-xl',
+        confirmButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2',
+        cancelButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2'
+      }
+    });
+
+    if (!confirmation.isConfirmed) return; // Kalau user klik ABORT, stop di sini
 
     setIsSubmitting(true);
     try {
@@ -57,7 +77,6 @@ export default function CompetitionRegisterPage() {
         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
       });
       
-      // Reset cache biar status pendaftaran di dashboard ke-update
       queryClient.invalidateQueries({ queryKey: ['competition', key] });
       router.push('/dashboard/competition'); 
     } catch (error: any) {
@@ -126,7 +145,7 @@ export default function CompetitionRegisterPage() {
             <div>
               <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>CLEARANCE FEE</p>
               <span className="text-3xl font-black tracking-widest" style={{ color: palette.stucco }}>
-                Rp {Number(competition.registration_fee || competition.price || 0).toLocaleString('id-ID')}
+                Rp {Number(competition.registration_fee || 0).toLocaleString('id-ID')}
               </span>
             </div>
             <div className="text-right hidden md:block">

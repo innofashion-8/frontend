@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { eventService } from '@/services/event-service';
 import toast from 'react-hot-toast';
 import Beams from '@/components/ui/Beams';
+import Swal from 'sweetalert2'
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -44,23 +45,43 @@ export default function EventRegisterPage() {
     e.preventDefault();
     setFormErrors(null);
 
-    if (isPaid && !paymentFile) {
+    if (!paymentFile) {
       return toast.error('PAYMENT PROOF IS REQUIRED.', {
         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
       });
     }
 
-    if (!window.confirm('WARNING: Are you sure you want to secure this pass? Data cannot be altered later.')) return;
+    // 🔥 GANTI WINDOW.CONFIRM JADI SWEETALERT DYSTOPIAN 🔥
+    const confirmation = await Swal.fire({
+      icon: 'warning',
+      title: 'INITIATE PROTOCOL?',
+      text: 'Are you sure you want to submit? Data cannot be altered later.',
+      background: palette.onyx,
+      color: palette.stucco,
+      showCancelButton: true,
+      confirmButtonColor: palette.walnut,
+      cancelButtonColor: palette.graphite,
+      confirmButtonText: 'SECURE PASS',
+      cancelButtonText: 'ABORT',
+      customClass: {
+        popup: 'border border-[#7b787a] rounded-none',
+        title: 'font-black tracking-[0.2em] uppercase text-xl',
+        confirmButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2',
+        cancelButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2'
+      }
+    });
+
+    if (!confirmation.isConfirmed) return; // Kalau user klik ABORT, stop di sini
 
     setIsSubmitting(true);
     try {
       await eventService.submitFinal(key, paymentFile);
-      toast.success('Pass secured successfully!', {
+      toast.success('Registration protocol submitted successfully!', {
         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
       });
       
-      queryClient.invalidateQueries({ queryKey: ['event', key] });
-      router.push('/dashboard'); 
+      queryClient.invalidateQueries({ queryKey: ['competition', key] });
+      router.push('/dashboard/competition'); 
     } catch (error: any) {
       if (error.isValidationError) {
         setFormErrors(error.errors);

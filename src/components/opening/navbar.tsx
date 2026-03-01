@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link'; // 👈 Tambah ini
+import { useRouter, usePathname } from 'next/navigation'; // 👈 Tambah ini
 
 interface NavbarProps {
   isVisible: boolean;
@@ -9,6 +11,8 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const navLinks = [
     { id: 'about', label: 'ABOUT US' },
@@ -16,14 +20,22 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
     { id: 'competitions', label: 'COMPETITIONS' },
     { id: 'event', label: 'EVENTS' },
     { id: 'contact', label: 'CONTACT US' },
-    { id: 'profile', label: 'DFT PROFILE' },
+    // { id: 'profile', label: 'DFT PROFILE' },
   ];
 
   const handleScroll = (id: string) => {
     setIsOpen(false);
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+    
+    // Cek kalau user lagi gak di Home Page
+    if (pathname !== '/') {
+      // Pindah ke home dulu baru kasih anchor
+      router.push(`/#${id}`);
+    } else {
+      // Kalau udah di home, lgsg scroll smooth
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -39,9 +51,9 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
             <div className="relative z-10 w-full h-full flex items-center justify-between">
               {/* LOGO */}
               <div className="flex justify-start items-center ml-2 lg:ml-6">
-                <a href="/">
-                  <img src="/photo/logo.png" alt="LOGO" className="h-7 md:h-12 w-auto object-contain" />
-                </a>
+                <Link href="/">
+                  <img src="/photo/logo.png" alt="LOGO" className="h-7 md:h-12 w-auto object-contain cursor-pointer" />
+                </Link>
               </div>
 
               {/* NAVLINKS DESKTOP */}
@@ -59,14 +71,16 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
 
               {/* BUTTONS DESKTOP */}
               <div className="hidden md:flex items-center space-x-2 mr-2">
-                <a href="#registration" className="relative h-10 w-28 lg:h-14 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
+                {/* Arahkan ke /login */}
+                <Link href="/login" className="relative h-10 w-28 lg:h-14 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
                   <img src="/photo/register-bg.png" className="absolute inset-0 w-full h-full object-contain" alt="bg" />
                   <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[18px]">REGISTER</span>
-                </a>
-                <a href="#login" className="relative h-8 w-28 lg:h-9 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
+                </Link>
+                
+                <Link href="/login" className="relative h-8 w-28 lg:h-9 lg:w-34 flex items-center justify-center group transition-transform hover:scale-105">
                   <img src="/photo/signin-bg.png" className="absolute inset-0 w-full h-full object-contain" alt="bg" />
                   <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[18px]">SIGN IN</span>
-                </a>
+                </Link>
               </div>
 
               <button className="lg:hidden text-white mr-4 z-50" onClick={() => setIsOpen(!isOpen)}>
@@ -86,6 +100,12 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
               {link.label}
             </button>
           ))}
+          {/* Tambahan Mobile Login Button */}
+          <div className="flex flex-col space-y-4 pt-6">
+             <Link href="/login" onClick={() => setIsOpen(false)} className="text-white font-black italic text-xl border border-white/20 px-8 py-2 rounded-full">
+                SIGN IN
+             </Link>
+          </div>
         </div>
       </div>
     </>
