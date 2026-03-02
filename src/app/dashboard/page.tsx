@@ -177,10 +177,11 @@ export default function DashboardPage() {
                     </div>
 
                     {/* 🔥 TAMPILIN ALASAN REJECT DI BAWAHNYA 🔥 */}
-                    {isRejected && reg?.reject_reason && (
+                    {/* Ganti reg.reject_reason jadi reg.rejection_reason! */}
+                    {isRejected && reg?.rejection_reason && (
                       <div className="mt-4 p-4 border border-red-500/50 bg-red-500/10">
                         <p className="text-[10px] font-bold tracking-[0.2em] text-red-400 uppercase mb-1">REJECTION REASON:</p>
-                        <p className="text-sm font-medium text-red-200">{reg.reject_reason}</p>
+                        <p className="text-sm font-medium text-red-200">{reg.rejection_reason}</p>
                         <p className="text-[10px] font-bold tracking-[0.2em] text-white uppercase mt-4">➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW</p>
                       </div>
                     )}
