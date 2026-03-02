@@ -96,11 +96,11 @@ const Competition = () => {
       </div>
 
       <div className="relative z-20 w-full max-w-[1400px] px-6 lg:px-10 flex flex-col lg:flex-row items-center lg:items-start pt-10 lg:pt-25">
-        <div ref={titleGroupRef} className="relative flex flex-col items-center lg:items-start space-y-2 mt-8 lg:mt-12 lg:ml-[-130px] w-full lg:w-auto">        
-          <div className="w-[90%] md:w-[700px]">
+        <div ref={titleGroupRef} className="relative flex flex-col items-center lg:items-start space-y-4 mt-8 lg:mt-12 lg:ml-[-100px] w-full lg:w-auto">        
+          <div className="w-[90%] md:w-[550px]">
             <img src="/photo/compe.png" alt="COMPE" className="w-full h-auto drop-shadow-2xl" />
           </div>
-          <div className="w-[80%] md:w-[600px] lg:ml-45 -mt-6 md:-mt-16">
+          <div className="w-[80%] md:w-[500px] lg:ml-65 -mt-6 md:-mt-16">
             <img src="/photo/tition.png" alt="TITION" className="w-full h-auto drop-shadow-2xl" />
           </div>
         </div>
