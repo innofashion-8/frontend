@@ -108,6 +108,7 @@
   position: relative;
   width: 100%;
   max-width: 680px;
+  right: 15px;
 }
 
 .titleImage {
@@ -118,7 +119,7 @@
 
 .bodyText {
   font-family: var(--font-creato-body);
-  font-size: clamp(0.8rem, 1.3vw, 0.98rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
   font-weight: 700;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.88);
@@ -247,7 +248,7 @@
   }
 
   .bodyText {
-    font-size: 0.92rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -300,7 +301,7 @@
   .dustWrapper   { width: 80%; }
 
   .bodyText {
-    font-size: 0.93rem;
+    font-size: 1.15rem;
     line-height: 1.85;
     text-align: left;
     max-width: 100%;
@@ -355,7 +356,7 @@
   }
 
   .bodyText {
-    font-size: 0.88rem;
+    font-size: 1.05rem;
     line-height: 1.8;
   }
 
@@ -381,7 +382,7 @@
   }
 
   .bodyText {
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     line-height: 1.75;
   }
 
