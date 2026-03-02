@@ -235,6 +235,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { userService } from '@/services/user-service'; 
 import { useSession } from 'next-auth/react';
 import Swal from 'sweetalert2'; 
+import imageCompression from 'browser-image-compression';
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -277,6 +278,31 @@ export function CompleteProfileForm() {
   const [institution, setInstitution] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return setDocumentFile(null);
+
+  // Kalau file PDF, langsung lolosin aja gak usah di-compress
+  if (file.type === 'application/pdf') {
+    return setDocumentFile(file);
+  }
+
+  // Kalau gambar (JPG/PNG), kita gencet ukurannya!
+  try {
+    const options = {
+      maxSizeMB: 0.5, // Maksimal 500 KB (Udah super aman buat server)
+      maxWidthOrHeight: 1280, // Resolusi maksimal HD
+      useWebWorker: true,
+    };
+
+    const compressedFile = await imageCompression(file, options);
+    setDocumentFile(compressedFile);
+  } catch (error) {
+    console.error("Gagal compress:", error);
+    setDocumentFile(file); // Kalau error, tetep pake file asli sebagai cadangan
+  }
+};
 
   // 1. 🔥 JURUS AUTO-HEAL SINKRONISASI 🔥
   useEffect(() => {
@@ -475,7 +501,7 @@ export function CompleteProfileForm() {
             </label>
             <input 
               type="file" accept=".jpg,.jpeg,.png,.pdf"
-              onChange={(e) => setDocumentFile(e.target.files?.[0] || null)}
+              onChange={handleFileUpload}
               className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest transition-all focus:outline-none focus:border-white/50"
               style={{ 
                 backgroundColor: palette.obsidian, 

@@ -226,6 +226,7 @@ import { eventService } from '@/services/event-service';
 import toast from 'react-hot-toast';
 import Beams from '@/components/ui/Beams';
 import Swal from 'sweetalert2';
+import imageCompression from 'browser-image-compression';
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -255,6 +256,20 @@ export default function EventRegisterPage() {
   const [paymentFile, setPaymentFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return setPaymentFile(null); // 👈 Beda di sini doang (setPaymentFile)
+
+  if (file.type === 'application/pdf') return setPaymentFile(file);
+
+  try {
+    const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1280, useWebWorker: true };
+    const compressedFile = await imageCompression(file, options);
+    setPaymentFile(compressedFile);
+  } catch (error) {
+    setPaymentFile(file);
+  }
+};
 
   const isPaid = event ? Number(event.price) > 0 : false;
 
@@ -478,7 +493,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
                 </label>
                 <input 
                   type="file" accept=".jpg,.jpeg,.png,.pdf"
-                  onChange={(e) => setPaymentFile(e.target.files?.[0] || null)}
+                  onChange={handleFileUpload}
                   className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest transition-all focus:outline-none focus:border-white/50"
                   style={{ backgroundColor: palette.obsidian, borderColor: formErrors?.payment_proof ? '#ef4444' : palette.graphite, color: palette.ash }}
                 />
