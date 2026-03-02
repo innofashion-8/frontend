@@ -118,9 +118,9 @@
 }
 
 .bodyText {
-  font-family: var(--font-creato-body);
+  font-family: 'Creato Display', sans-serif;
   font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-  font-weight: 700;
+  font-weight: 300;
   line-height: 1.9;
   color: rgba(255, 255, 255, 0.88);
   text-align: justify;
@@ -301,7 +301,7 @@
   .dustWrapper   { width: 80%; }
 
   .bodyText {
-    font-size: 1.15rem;
+    font-size: rem1.15remx;
     line-height: 1.85;
     text-align: left;
     max-width: 100%;
