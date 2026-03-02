@@ -259,8 +259,8 @@ export default function EventRegisterPage() {
   const isPaid = event ? Number(event.price) > 0 : false;
 
   // 🔥 1. FETCH STATUS REGISTRASI UNTUK CEK DOBEL DAFTAR / REJECT 🔥
-  const { data: regStatus, isLoading: isStatusLoading } = useQuery({
-    queryKey: ['event-status', key],
+const { data: regStatus, isLoading: isStatusLoading } = useQuery({
+    queryKey: ['event-status', key], // (Pastikan ini 'competition-status' kalau di file lomba)
     queryFn: async () => {
       try {
         return await eventService.checkStatusRegistrations(key);
@@ -269,13 +269,25 @@ export default function EventRegisterPage() {
       }
     },
     enabled: !!key,
-    retry: false
+    retry: false,
+    
+    // 🔥 TAMBAHIN DUA BARIS SAKTI INI BRO! 🔥
+    staleTime: 0, 
+    gcTime: 0     
   });
 
-  // Logika Penjaga Gawang
+// Logika Penjaga Gawang
   const statusStr = regStatus?.status?.toUpperCase() || '';
   const isRejected = statusStr.includes('REJECT') || statusStr.includes('TOLAK');
-  const isAlreadyRegistered = regStatus && regStatus.status && !isRejected;
+
+  // 🔥 TAMBAHIN BARIS INI YANG KELUPAAN DI EVENT 🔥
+  const isUnregistered = statusStr === 'UNREGISTERED'; 
+
+  // 🔥 TAMBAHIN INI BIAR DRAFT BISA LEWAT 🔥
+  const isDraft = statusStr === 'DRAFT';
+  
+  // Berarti dia "Sudah Daftar" HANYA JIKA statusnya bukan REJECT, bukan UNREGISTERED, dan bukan DRAFT
+  const isAlreadyRegistered = regStatus && regStatus.status && !isRejected && !isUnregistered && !isDraft;
 
   // 🔥 2. EFEK USIR USER KALAU UDAH DAFTAR 🔥
   React.useEffect(() => {
@@ -451,8 +463,8 @@ export default function EventRegisterPage() {
             <div className="border p-6 mb-8 relative z-10" style={{ borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
               <h3 className="text-red-500 font-bold tracking-[0.2em] uppercase mb-2 text-sm">⚠️ PREVIOUS SUBMISSION REJECTED</h3>
               <p className="text-red-200 text-sm mb-1">Your previous registration was rejected by the Administrator.</p>
-              {regStatus?.reject_reason && (
-                <p className="text-red-200 text-sm font-bold mb-3">Reason: {regStatus.reject_reason}</p>
+              {regStatus?.rejection_reason && (
+                <p className="text-red-200 text-sm font-bold mb-3">Reason: {regStatus.rejection_reason}</p>
               )}
               <p className="text-white text-[10px] tracking-[0.2em] uppercase font-bold">Please upload a valid payment proof and resubmit below.</p>
             </div>

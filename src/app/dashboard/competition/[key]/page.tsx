@@ -275,22 +275,34 @@ export default function CompetitionRegisterPage() {
 
   // 🔥 1. FETCH STATUS REGISTRASI UNTUK CEK DOBEL DAFTAR / REJECT 🔥
   const { data: regStatus, isLoading: isStatusLoading } = useQuery({
-    queryKey: ['competition-status', key],
+    queryKey: ['competition-status', key], // 👈 Kunci khusus lomba
     queryFn: async () => {
       try {
-        return await competitionService.checkStatusRegistrations(key);
+        return await competitionService.checkStatusRegistrations(key); // 👈 Service khusus lomba
       } catch (error: any) {
-        return null; // Kalau 404/Error berarti belum daftar. Aman!
+        return null;
       }
     },
     enabled: !!key,
-    retry: false
+    retry: false,
+    staleTime: 0, // 👈 Cache killer
+    gcTime: 0     // 👈 Cache killer
   });
 
   // Logika Penjaga Gawang
+// Logika Penjaga Gawang
   const statusStr = regStatus?.status?.toUpperCase() || '';
   const isRejected = statusStr.includes('REJECT') || statusStr.includes('TOLAK');
-  const isAlreadyRegistered = regStatus && regStatus.status && !isRejected;
+  
+  // 🔥 TAMBAHIN PENGECEKAN 'UNREGISTERED' DI SINI 🔥
+  const isUnregistered = statusStr === 'UNREGISTERED'; 
+
+  // 🔥 TAMBAHIN INI BIAR DRAFT BISA LEWAT 🔥
+  const isDraft = statusStr === 'DRAFT';
+  
+// Berarti dia "Sudah Daftar" HANYA JIKA statusnya bukan REJECT, bukan UNREGISTERED, dan bukan DRAFT
+  // (Alias cuma ngusir yang statusnya PENDING / VERIFIED / ACCEPTED)
+  const isAlreadyRegistered = regStatus && regStatus.status && !isRejected && !isUnregistered && !isDraft;
 
   // 🔥 2. EFEK USIR USER KALAU UDAH DAFTAR 🔥
   React.useEffect(() => {
