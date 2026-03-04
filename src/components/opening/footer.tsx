@@ -32,13 +32,8 @@ const Footer = () => {
             </a>
 
             {/* LINE */}
-            <a href="https://line.me/ti/p/@id_kamu" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+            <a href="https://line.me/ti/p/@182dplyt" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
                <img src="/photo/logo-line.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="Line" />
-            </a>
-
-            {/* EMAIL */}
-            <a href="mailto:email@kamu.com" className="hover:scale-110 transition-transform duration-300">
-               <img src="/photo/logo-gmail.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="Gmail" />
             </a>
           </div>
 

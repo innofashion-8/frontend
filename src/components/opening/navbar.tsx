@@ -76,7 +76,7 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
                     className="absolute inset-0 w-full h-full object-contain z-0" 
                     alt="" 
                   />
-                  <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[16px] tracking-tighter">
+                  <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
                     REGISTER
                   </span>
                 </Link>
@@ -90,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
                     className="absolute inset-0 w-full h-full object-contain z-0" 
                     alt="" 
                   />
-                  <span className="relative z-10 text-white font-black italic text-[14px] lg:text-[16px] tracking-tighter">
+                  <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
                     SIGN IN
                   </span>
                 </Link>

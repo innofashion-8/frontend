@@ -26,12 +26,6 @@ const contacts = [
     href: 'https://tiktok.com/@innofashionshow',
     type: 'tiktok',
   },
-  {
-    platformIcon: '/assets/Layer 13.png',
-    username: 'innofashionshow@gmail.com',
-    href: 'mailto:innofashionshow@gmail.com',
-    type: 'email',
-  },
 ]
 
 const InstagramIcon = ({ size = 32 }: { size?: number }) => (
@@ -42,12 +36,6 @@ const InstagramIcon = ({ size = 32 }: { size?: number }) => (
   </svg>
 )
 
-const EmailIcon = ({ size = 32 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="4" width="20" height="16" rx="2"/>
-    <polyline points="2,4 12,13 22,4"/>
-  </svg>
-)
 
 export default function ContactPage() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -177,9 +165,8 @@ export default function ContactPage() {
                 <div className="card-icon">
                   {contact.type === 'instagram' ? (
                     <InstagramIcon />
-                  ) : contact.type === 'email' ? (
-                    <EmailIcon />
-                  ) : (
+                  )
+                  : (
                     <Image src={contact.platformIcon!} alt={contact.type} fill style={{ objectFit: 'contain' }} />
                   )}
                 </div>
@@ -235,7 +222,7 @@ export default function ContactPage() {
           position: relative;
           width: 100%;
           height: clamp(120px, 26vh, 240px);
-          margin-bottom: 0vh;
+          margin-bottom: 6vh;
           align-self: flex-end;
         }
 
@@ -243,9 +230,10 @@ export default function ContactPage() {
         .contact-cards {
           display: flex;
           flex-direction: column;
-          gap: clamp(8px, 1.5vh, 14px);
+          gap: 30px !important;
           width: 75%;
           max-width: 380px;
+          marin-top: 5vh !important;
         }
 
         /* ─── Single Card ───────────────────────────────────── */
@@ -296,18 +284,40 @@ export default function ContactPage() {
           line-height: 1.2;
         }
 
-        /* ─── TABLET (≤ 900px): kompres layout ─────────────── */
-        @media (max-width: 900px) {
-          .contact-model { flex: 0 0 38%; }
-          .contact-right {
-            flex: 0 0 62%;
-            padding-right: 24px;
-            padding-top: 6%;
-          }
-          .contact-title-wrap { height: clamp(70px, 14vh, 120px); }
-          .contact-cards { width: 85%; max-width: 320px; }
-          .card-username { font-size: clamp(10px, 1.6vw, 13px); }
-        }
+/* --- TABLET (≤ 900px) --- */
+@media (max-width: 900px) {
+  .contact-model { 
+    flex: 0 0 38%; 
+  }
+  
+  .contact-right {
+    flex: 0 0 62%;
+    padding-right: 24px;
+    padding-top: 8% !important; /* Tambah padding atas agar konten turun */
+    gap: 0px; 
+  }
+
+  .contact-title-wrap { 
+    height: 100px !important; 
+    margin-bottom: 20px !important; 
+    position: relative !important;
+  }
+
+  .contact-cards { 
+    width: 85%; 
+    max-width: 320px; 
+    display: flex !important;
+    flex-direction: column !important;
+    /* Jarak antar tombol di tablet */
+    gap: 18px !important; 
+    /* Menurunkan tombol di tablet */
+    margin-top: 30px !important; 
+  }
+
+  .contact-card {
+    margin-bottom: 0px !important; 
+  }
+}
 
         /* ─── MOBILE (≤ 600px): stack vertikal ─────────────── */
         @media (max-width: 600px) {
@@ -335,6 +345,7 @@ export default function ContactPage() {
             padding: 16px 20px 32px;
             justify-content: flex-start;
             align-items: center;
+            gap: 30px;
           }
 
           .contact-title-wrap {
@@ -345,7 +356,8 @@ export default function ContactPage() {
 
           .contact-cards {
             width: 92%;
-            max-width: 340px;
+            max-width: 380px;
+            gap: 25px !important;
           }
 
           .contact-card {
