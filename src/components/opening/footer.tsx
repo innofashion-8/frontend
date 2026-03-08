@@ -1,7 +1,6 @@
 "use client";
 
 import React from 'react';
-import { Instagram, Mail, MessageCircle } from 'lucide-react'; // Ikon cadangan jika diperlukan
 
 const Footer = () => {
   return (
@@ -23,23 +22,18 @@ const Footer = () => {
           {/* DERETAN IKON KLIKBEL */}
           <div className="flex items-center space-x-6">
             {/* TIKTOK */}
-            <a href="https://tiktok.com/@username_kamu" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+            <a href="https://tiktok.com/@innofashionshow" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
                <img src="/photo/logo-tiktok.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="TikTok" />
             </a>
             
             {/* INSTAGRAM */}
-            <a href="https://instagram.com/username_kamu" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+            <a href="https://instagram.com/innofashion.pcu" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
                <img src="/photo/logo-ig.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="Instagram" />
             </a>
 
             {/* LINE */}
-            <a href="https://line.me/ti/p/@id_kamu" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+            <a href="https://line.me/ti/p/@182dplyt" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
                <img src="/photo/logo-line.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="Line" />
-            </a>
-
-            {/* EMAIL */}
-            <a href="mailto:email@kamu.com" className="hover:scale-110 transition-transform duration-300">
-               <img src="/photo/logo-gmail.png" className="h-12 md:h-16 w-auto mt-[-20]" alt="Gmail" />
             </a>
           </div>
 
