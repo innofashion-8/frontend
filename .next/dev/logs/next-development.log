@@ -1,0 +1,1410 @@
+[00:00:04.042] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:04.968] Server  LOG     ✓ Ready in 3.7s
+[00:00:23.888] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:29.980] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:33.640] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:44.858] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:45.447] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:02:40.007] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:40.471] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:02:56.772] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:57.353] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:05:46.831] Server  LOG     ✓ Compiled in 136ms
+[00:05:47.139] Browser ERROR   The final argument passed to %s changed size between renders. The order and size of this array must remain constant.
+
+Previous: %s
+Incoming: %s useEffect [[object Object], [object Object], [object Object], function update(data) {
+                    return (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2() {
+                        var newSession;
+                        return _regenerator.default.wrap(function _callee2$(_context2) {
+                            while(1)switch(_context2.prev = _context2.next){
+                                case 0:
+                                    if (!(loading || !session)) {
+                                        _context2.next = 2;
+                                        break;
+                                    }
+                                    return _context2.abrupt("return");
+                                case 2:
+                                    setLoading(true);
+                                    _context2.t0 = _utils.fetchData;
+                                    _context2.t1 = __NEXTAUTH;
+                                    _context2.t2 = logger;
+                                    _context2.next = 8;
+                                    return getCsrfToken();
+                                case 8:
+                                    _context2.t3 = _context2.sent;
+                                    _context2.t4 = data;
+                                    _context2.t5 = {
+                                        csrfToken: _context2.t3,
+                                        data: _context2.t4
+                                    };
+                                    _context2.t6 = {
+                                        body: _context2.t5
+                                    };
+                                    _context2.t7 = {
+                                        req: _context2.t6
+                                    };
+                                    _context2.next = 15;
+                                    return (0, _context2.t0)("session", _context2.t1, _context2.t2, _context2.t7);
+                                case 15:
+                                    newSession = _context2.sent;
+                                    setLoading(false);
+                                    if (newSession) {
+                                        setSession(newSession);
+                                        broadcast.post({
+                                            event: "session",
+                                            data: {
+                                                trigger: "getSession"
+                                            }
+                                        });
+                                    }
+                                    return _context2.abrupt("return", newSession);
+                                case 19:
+                                case "end":
+                                    return _context2.stop();
+                            }
+                        }, _callee2);
+                    }))();
+                }] [[object Object], [object Object], [object Object], function update(data) {
+                    return (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2() {
+                        var newSession;
+                        return _regenerator.default.wrap(function _callee2$(_context2) {
+                            while(1)switch(_context2.prev = _context2.next){
+                                case 0:
+                                    if (!(loading || !session)) {
+                                        _context2.next = 2;
+                                        break;
+                                    }
+                                    return _context2.abrupt("return");
+                                case 2:
+                                    setLoading(true);
+                                    _context2.t0 = _utils.fetchData;
+                                    _context2.t1 = __NEXTAUTH;
+                                    _context2.t2 = logger;
+                                    _context2.next = 8;
+                                    return getCsrfToken();
+                                case 8:
+                                    _context2.t3 = _context2.sent;
+                                    _context2.t4 = data;
+                                    _context2.t5 = {
+                                        csrfToken: _context2.t3,
+                                        data: _context2.t4
+                                    };
+                                    _context2.t6 = {
+                                        body: _context2.t5
+                                    };
+                                    _context2.t7 = {
+                                        req: _context2.t6
+                                    };
+                                    _context2.next = 15;
+                                    return (0, _context2.t0)("session", _context2.t1, _context2.t2, _context2.t7);
+                                case 15:
+                                    newSession = _context2.sent;
+                                    setLoading(false);
+                                    if (newSession) {
+                                        setSession(newSession);
+                                        broadcast.post({
+                                            event: "session",
+                                            data: {
+                                                trigger: "getSession"
+                                            }
+                                        });
+                                    }
+                                    return _context2.abrupt("return", newSession);
+                                case 19:
+                                case "end":
+                                    return _context2.stop();
+                            }
+                        }, _callee2);
+                    }))();
+                }, INTERNAL]
+[00:06:58.919] Server  LOG     ✓ Compiled in 358ms
+[00:07:11.322] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:11.920] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:07:16.412] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:16.894] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:14:03.649] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:04.267] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:15:36.140] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:36.651] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:16:59.007] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:59.492] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:18:01.429] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:18:02.808] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:18:04.378] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:18:06.625] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:18:06.625] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:18:06.625] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:18:06.801] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:18:13.504] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:18:14.810] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:18:41.965] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:18:43.640] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:20:45.745] Server  LOG     ✓ Compiled in 300ms
+[00:20:46.910] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:20:47.055] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:21:05.842] Server  LOG     ✓ Compiled in 115ms
+[00:21:06.962] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:73:23
+Parsing ecmascript source code failed
+  71 |       const profile = regStatus.user_profile;
+  72 |       setMembers([{
+> 73 |         name: profile.'',
+     |                       ^^
+  74 |         email: '',
+  75 |         phone: profile.phone || '',
+  76 |         institution: profile.institution || '',
+
+Expected ident
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[00:21:13.416] Server  LOG     ✓ Compiled in 169ms
+[00:21:35.515] Server  LOG     ✓ Compiled in 111ms
+[00:21:35.963] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:73:19
+Parsing ecmascript source code failed
+  71 |       const profile = regStatus.user_profile;
+  72 |       setMembers([{
+> 73 |         name: sess'',
+     |                   ^^
+  74 |         email: '',
+  75 |         phone: profile.phone || '',
+  76 |         institution: profile.institution || '',
+
+Expected ',', got 'string literal'
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[00:22:05.306] Server  LOG     ✓ Compiled in 202ms
+[00:22:32.477] Server  LOG     ✓ Compiled in 145ms
+[00:22:41.747] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:22:42.572] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:22:44.950] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:23:29.854] Server  LOG     ✓ Compiled in 773ms
+[00:26:09.510] Server  LOG     ✓ Compiled in 244ms
+[00:26:11.966] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:26:19.068] Server  LOG     ✓ Compiled in 151ms
+[00:26:39.796] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:27:29.024] Server  WARN    Image with src "/assets/background.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+[00:27:29.914] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:27:30.236] Browser WARN    Image with src "/assets/background.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+[00:27:30.443] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:30.777] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:30.777] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:30.777] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:30.777] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "http://localhost:3000/assets/TIME%20LINE.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:27:31.275] Browser WARN    Image with src "/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/DUST ABU.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/DUST KUNING.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/ASET ORANG.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/CONTACT US.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/LOGO LINE.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:31.275] Browser WARN    Image with src "/assets/LOGO TIKTOK.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:27:43.173] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:27:53.741] Server  LOG     ✓ Compiled in 158ms
+[00:28:13.001] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:28:18.664] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:28:18.665] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:29:07.402] Server  LOG     ✓ Compiled in 184ms
+[00:29:15.624] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:29:16.156] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:29:17.869] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:29:26.944] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:29:28.370] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:29:56.961] Server  LOG     ✓ Compiled in 169ms
+[00:33:18.014] Server  LOG     ✓ Compiled in 175ms
+[00:33:46.778] Server  LOG     ✓ Compiled in 223ms
+[00:34:21.243] Server  LOG     ✓ Compiled in 286ms
+[00:34:40.445] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:41.250] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:34:43.876] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:36:54.286] Server  LOG     ✓ Compiled in 262ms
+[00:37:46.969] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:37:47.844] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:37:50.181] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:41:04.377] Server  LOG     ✓ Compiled in 119ms
+[00:42:05.039] Server  LOG     ✓ Compiled in 430ms
+[00:42:06.967] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:42:07.963] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:42:42.686] Server  LOG     ✓ Compiled in 142ms
+[00:42:43.965] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:221:7
+Parsing ecmascript source code failed
+  219 |         region, 
+  220 |         isGroup ? undefined  // Kirim kategori jika individu
+> 221 |       );
+      |       ^
+  222 |       
+  223 |       toast.success('Registration protocol submitted successfully!', {
+  224 |         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
+
+Expected ':', got ')'
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[00:42:43.965] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:221:7
+Parsing ecmascript source code failed
+  219 |         region, 
+  220 |         isGroup ? undefined  // Kirim kategori jika individu
+> 221 |       );
+      |       ^
+  222 |       
+  223 |       toast.success('Registration protocol submitted successfully!', {
+  224 |         style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` }
+
+Expected ':', got ')'
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[00:42:45.242] Server  LOG     ✓ Compiled in 118ms
+[00:43:22.049] Server  LOG     ✓ Compiled in 213ms
+[00:46:09.794] Server  LOG     ✓ Compiled in 152ms
+[00:46:17.064] Server  LOG     ✓ Compiled in 103ms
+[00:46:25.893] Server  LOG     ✓ Compiled in 283ms
+[00:46:31.973] Browser LOG     Draft auto-saved to cloud
+[00:46:32.964] Browser LOG     Draft auto-saved to cloud
+[00:46:49.385] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:46:53.154] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:54.017] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:46:56.420] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:47:00.556] Browser LOG     Draft auto-saved to cloud
+[00:47:21.974] Browser LOG     Draft auto-saved to cloud
+[00:47:33.703] Browser LOG     Draft auto-saved to cloud
+[00:47:59.941] Browser LOG     Draft auto-saved to cloud
+[00:48:04.430] Browser LOG     Draft auto-saved to cloud
+[00:48:12.706] Browser LOG     Draft auto-saved to cloud
+[00:48:50.362] Browser LOG     Draft auto-saved to cloud
+[00:50:05.999] Server  LOG     ✓ Compiled in 147ms
+[00:50:14.961] Browser LOG     Draft auto-saved to cloud
+[00:51:15.247] Browser LOG     Draft auto-saved to cloud
+[00:51:21.234] Browser LOG     Draft auto-saved to cloud
+[00:52:14.533] Browser LOG     Draft auto-saved to cloud
+[00:52:27.802] Browser LOG     Draft auto-saved to cloud
+[00:55:32.070] Server  LOG     ✓ Compiled in 98ms
+[00:55:35.602] Server  LOG     ✓ Compiled in 124ms
+[00:55:41.967] Browser LOG     Draft auto-saved to cloud
+[00:56:24.714] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:56:41.491] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:56:42.344] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:56:44.647] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:56:48.937] Browser LOG     Draft auto-saved to cloud
+[00:56:59.847] Browser LOG     Draft auto-saved to cloud
+[00:57:05.149] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:57:05.713] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:57:05.897] Browser ERROR   Failed to auto-save draft
+[00:57:07.688] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:57:10.955] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:57:11.204] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:57:28.637] Browser LOG     Draft auto-saved to cloud
+[00:57:41.969] Browser LOG     Draft auto-saved to cloud
+[00:58:44.510] Browser LOG     Draft auto-saved to cloud
+[00:58:45.277] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:58:45.903] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:58:47.334] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:00:38.065] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:00:42.252] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:01:42.523] Server  LOG     ✓ Compiled in 287ms
+[01:01:46.960] Server  LOG     ✓ Compiled in 153ms
+[01:01:59.319] Server  LOG     ✓ Compiled in 266ms
+[01:02:08.121] Server  LOG     ✓ Compiled in 111ms
+[01:02:11.392] Server  LOG     ✓ Compiled in 138ms
+[01:02:25.190] Server  LOG     ✓ Compiled in 124ms
+[01:03:06.700] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:03:07.624] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:07.992] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:34.382] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:03:35.109] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:35.109] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:41.057] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:03:41.583] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:03:42.949] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:49.691] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:03:51.391] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:55.650] Browser LOG     Draft auto-saved to cloud
+[01:03:56.670] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:03:56.912] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:04:17.614] Server  LOG     ✓ Compiled in 165ms
+[01:04:18.968] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:117:62
+Parsing ecmascript source code failed
+  115 |       }
+  116 |
+> 117 |       while (initialMembers.length < competition.min_members?) {
+      |                                                              ^
+  118 |          initialMembers.push({ name: '', email: '', phone: '', id_card: null });
+  119 |       }
+  120 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[01:04:18.970] Browser ERROR   ./src/app/dashboard/competition/[key]/page.tsx:117:62
+Parsing ecmascript source code failed
+  115 |       }
+  116 |
+> 117 |       while (initialMembers.length < competition.min_members?) {
+      |                                                              ^
+  118 |          initialMembers.push({ name: '', email: '', phone: '', id_card: null });
+  119 |       }
+  120 |
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component Browser]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/dashboard/competition/[key]/page.tsx [Client Component SSR]
+    ./src/app/dashboard/competition/[key]/page.tsx [Server Component]
+[01:04:19.387] Server  LOG     ✓ Compiled in 122ms
+[01:08:04.142] Server  LOG     ✓ Compiled in 127ms
+[01:08:06.008] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:08:17.092] Server  LOG     ✓ Compiled in 144ms
+[01:08:23.603] Server  LOG     ✓ Compiled in 115ms
+[01:08:30.474] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:08:32.561] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:08:33.121] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:08:34.258] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:08:58.417] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:08:58.945] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:00.708] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:04.861] Browser LOG     Draft auto-saved to cloud
+[01:09:06.000] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:06.000] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:09.395] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:11.096] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:15.186] Browser LOG     Draft auto-saved to cloud
+[01:09:16.001] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:16.001] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:18.944] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:22.770] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:54.041] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:09:54.041] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:09:59.316] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:10:00.879] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:10:07.973] Browser LOG     Draft auto-saved to cloud
+[01:10:49.483] Server  LOG     ✓ Compiled in 107ms
+[01:10:56.964] Browser LOG     Draft auto-saved to cloud
+[01:11:11.289] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:11:11.289] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:11:14.789] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:11:15.249] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:11:32.457] Server  LOG     ✓ Compiled in 124ms
+[01:11:40.924] Server  LOG     ✓ Compiled in 113ms
+[01:12:00.667] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:12:00.770] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:12:25.461] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:12:28.522] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:13:39.548] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:13:48.696] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:14:03.072] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:15:00.925] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:15:01.315] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ScrollAndFocusHandler segmentPath={[...]}>
+      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>
+        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+          <LoadingBoundary name="competitio..." loading={null}>
+            <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>
+                    <SegmentViewNode type="page" pagePath="admin/(das...">
+                      <SegmentTrieNode>
+                      <Page>
+                        <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} title="Competitio...">
+                          <div className="relative">
+                            <div>
+                            <div className="mb-6">
+                              <div className="flex gap-3">
+                                <div className="flex-1 rel...">
+                                  <input
+                                    type="text"
+                                    placeholder="Search by name, email, type, competition, or status..."
+                                    value=""
+                                    onChange={function onChange}
+                                    className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold text-..."
+-                                   fdprocessedid="s47ewd"
+                                  >
+                                <button
+                                  onClick={function onClick}
+                                  className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-blac..."
+-                                 fdprocessedid="sbp90x"
+                                >
+                            ...
+                              <tbody className="font-creat...">
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="d3znm"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="or63j"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="ksgcof"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="7uthbe"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="2ybbc"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="k6v8ln"
+                                    >
++                                     DETAIL
+                            ...
+                    ...
+                  ...
+        ...
+
+[01:16:06.674] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:16:07.047] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ErrorBoundary errorComponent={function AdminError} errorStyles={<SegmentViewNode>} errorScripts={[...]}>
+      <ErrorBoundaryHandler pathname="/admin/com..." errorComponent={function AdminError} errorStyles={<SegmentViewNode>} ...>
+        <LoadingBoundary name="admin/" loading={null}>
+          <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+            <RedirectBoundary>
+              <RedirectErrorBoundary router={{...}}>
+                <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{...}} segmentPath={[...]} ...>
+                  <SegmentViewNode type="layout" pagePath="admin/(das...">
+                    <SegmentTrieNode>
+                    <link>
+                    <script>
+                    <script>
+                    <AdminDashboardLayout>
+                      <div className="min-h-[100...">
+                        <Sidebar>
+                          <style>
+                          <div>
+                          <div>
+                          <nav ref={{current:null}} className={"fixed to..."}>
+                            <div>
+                            <div>
+                            <div className="mt-auto pb...">
+                              <div>
+                              <button
+                                onClick={function handleLogout}
+                                className="flex items-center w-full h-[50px] rounded-xl text-[#d9534f] hover:bg-[#d953..."
+-                               fdprocessedid="qw4nbi"
+                              >
+                        ...
+                          <Page>
+                            <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} ...>
+                              <div className="relative">
+                                <div>
+                                <div className="mb-6">
+                                  <div className="flex gap-3">
+                                    <div className="flex-1 rel...">
+                                      <input
+                                        type="text"
+                                        placeholder="Search by name, email, type, competition, or status..."
+                                        value=""
+                                        onChange={function onChange}
+                                        className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold t..."
+-                                       fdprocessedid="fvyci7"
+                                      >
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-..."
+-                                     fdprocessedid="dlmub4"
+                                    >
+                                ...
+                                  <tbody className="font-creat...">
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="alskep"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="00mmpm"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="kx57ba"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="e187eo"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="mpi9c"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="tnwnnah"
+                                        >
++                                         DETAIL
+                                ...
+                ...
+
+[01:18:36.322] Server  LOG     ✓ Compiled in 338ms
+[01:19:09.305] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:19:09.729] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ErrorBoundary errorComponent={function AdminError} errorStyles={<SegmentViewNode>} errorScripts={[...]}>
+      <ErrorBoundaryHandler pathname="/admin/com..." errorComponent={function AdminError} errorStyles={<SegmentViewNode>} ...>
+        <LoadingBoundary name="admin/" loading={null}>
+          <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+            <RedirectBoundary>
+              <RedirectErrorBoundary router={{...}}>
+                <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{...}} segmentPath={[...]} ...>
+                  <SegmentViewNode type="layout" pagePath="admin/(das...">
+                    <SegmentTrieNode>
+                    <link>
+                    <script>
+                    <script>
+                    <AdminDashboardLayout>
+                      <div className="min-h-[100...">
+                        <Sidebar>
+                          <style>
+                          <div>
+                          <div>
+                          <nav ref={{current:null}} className={"fixed to..."}>
+                            <div>
+                            <div>
+                            <div className="mt-auto pb...">
+                              <div>
+                              <button
+                                onClick={function handleLogout}
+                                className="flex items-center w-full h-[50px] rounded-xl text-[#d9534f] hover:bg-[#d953..."
+-                               fdprocessedid="tcyvb4"
+                              >
+                        ...
+                          <Page>
+                            <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} ...>
+                              <div className="relative">
+                                <div>
+                                <div className="mb-6">
+                                  <div className="flex gap-3">
+                                    <div className="flex-1 rel...">
+                                      <input
+                                        type="text"
+                                        placeholder="Cari nama, email, lomba, grup, status..."
+                                        value=""
+                                        onChange={function onChange}
+                                        className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold t..."
+-                                       fdprocessedid="rjr54"
+                                      >
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-..."
+-                                     fdprocessedid="3qeq6e"
+                                    >
+                                ...
+                                  <tbody className="font-creat...">
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="pf4hv"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="a2vqbk"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="matxfj"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="sekaf"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="5q038"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="m1anu"
+                                        >
++                                         DETAIL
+                                ...
+                ...
+
+[01:19:59.821] Server  LOG     ✓ Compiled in 154ms
+[01:21:06.773] Server  LOG     ✓ Compiled in 128ms
+[01:21:23.149] Server  LOG     ✓ Compiled in 128ms
+[01:21:28.170] Server  LOG     ✓ Compiled in 99ms
+[01:21:35.377] Server  LOG     ✓ Compiled in 124ms
+[01:22:10.209] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:22:10.671] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ScrollAndFocusHandler segmentPath={[...]}>
+      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>
+        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+          <LoadingBoundary name="competitio..." loading={null}>
+            <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>
+                    <SegmentViewNode type="page" pagePath="admin/(das...">
+                      <SegmentTrieNode>
+                      <Page>
+                        <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} title="Competitio...">
+                          <div className="relative">
+                            <div>
+                            <div className="mb-6">
+                              <div className="flex gap-3">
+                                <div className="flex-1 rel...">
+                                  <input
+                                    type="text"
+                                    placeholder="Cari nama, email, lomba, grup, status..."
+                                    value=""
+                                    onChange={function onChange}
+                                    className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold text-..."
+-                                   fdprocessedid="wm1h8"
+                                  >
+                                <button
+                                  onClick={function onClick}
+                                  className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-blac..."
+-                                 fdprocessedid="lhru3q"
+                                >
+                            ...
+                              <tbody className="font-creat...">
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="hdvbgr"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="vygcpd"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="a1ub5b"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="upqzi"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="wdlnwp"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="y2clt"
+                                    >
++                                     DETAIL
+                            ...
+                    ...
+                  ...
+        ...
+
+[01:26:00.439] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:26:00.949] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ScrollAndFocusHandler segmentPath={[...]}>
+      <InnerScrollAndFocusHandler segmentPath={[...]} focusAndScrollRef={{apply:false, ...}}>
+        <ErrorBoundary errorComponent={undefined} errorStyles={undefined} errorScripts={undefined}>
+          <LoadingBoundary name="competitio..." loading={null}>
+            <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} ...>
+                    <SegmentViewNode type="page" pagePath="admin/(das...">
+                      <SegmentTrieNode>
+                      <Page>
+                        <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} title="Competitio...">
+                          <div className="relative">
+                            <div>
+                            <div className="mb-6">
+                              <div className="flex gap-3">
+                                <div className="flex-1 rel...">
+                                  <input
+                                    type="text"
+                                    placeholder="Cari nama, email, lomba, grup, status..."
+                                    value=""
+                                    onChange={function onChange}
+                                    className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold text-..."
+-                                   fdprocessedid="exsjy"
+                                  >
+                                <button
+                                  onClick={function onClick}
+                                  className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-blac..."
+-                                 fdprocessedid="vssds8"
+                                >
+                            ...
+                              <tbody className="font-creat...">
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="eqjlcm"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="e7ghtj"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="2qsmnf"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="0oho6"
+                                    >
++                                     DETAIL
+                                <tr className="border-b-2...">
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td>
+                                  <td className="p-4">
+                                    <select
+                                      value="PENDING"
+                                      onChange={function onChange}
+                                      className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs upperc..."}
+-                                     fdprocessedid="pmgb04"
+                                    >
+                                  <td className="p-4">
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white tex..."
+-                                     fdprocessedid="vhr7yd"
+                                    >
++                                     DETAIL
+                            ...
+                    ...
+                  ...
+        ...
+
+[01:26:55.603] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:26:55.925] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <ErrorBoundary errorComponent={function AdminError} errorStyles={<SegmentViewNode>} errorScripts={[...]}>
+      <ErrorBoundaryHandler pathname="/admin/com..." errorComponent={function AdminError} errorStyles={<SegmentViewNode>} ...>
+        <LoadingBoundary name="admin/" loading={null}>
+          <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+            <RedirectBoundary>
+              <RedirectErrorBoundary router={{...}}>
+                <InnerLayoutRouter url="/admin/com..." tree={[...]} params={{}} cacheNode={{...}} segmentPath={[...]} ...>
+                  <SegmentViewNode type="layout" pagePath="admin/(das...">
+                    <SegmentTrieNode>
+                    <link>
+                    <script>
+                    <script>
+                    <AdminDashboardLayout>
+                      <div className="min-h-[100...">
+                        <Sidebar>
+                          <style>
+                          <div>
+                          <div>
+                          <nav ref={{current:null}} className={"fixed to..."}>
+                            <div>
+                            <div>
+                            <div className="mt-auto pb...">
+                              <div>
+                              <button
+                                onClick={function handleLogout}
+                                className="flex items-center w-full h-[50px] rounded-xl text-[#d9534f] hover:bg-[#d953..."
+-                               fdprocessedid="oushnq"
+                              >
+                        ...
+                          <Page>
+                            <CompetitionRegistrationClient data={[...]} meta={{current_page:1, ...}} ...>
+                              <div className="relative">
+                                <div>
+                                <div className="mb-6">
+                                  <div className="flex gap-3">
+                                    <div className="flex-1 rel...">
+                                      <input
+                                        type="text"
+                                        placeholder="Cari nama, email, lomba, grup, status..."
+                                        value=""
+                                        onChange={function onChange}
+                                        className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold t..."
+-                                       fdprocessedid="l88ta9"
+                                      >
+                                    <button
+                                      onClick={function onClick}
+                                      className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-..."
+-                                     fdprocessedid="ldx1ta"
+                                    >
+                                ...
+                                  <tbody className="font-creat...">
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="ij3yxs"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="bci6xe"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="p3t0i"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="qshcz"
+                                        >
++                                         DETAIL
+                                    <tr className="border-b-2...">
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td>
+                                      <td className="p-4">
+                                        <select
+                                          value="PENDING"
+                                          onChange={function onChange}
+                                          className={"px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs up..."}
+-                                         fdprocessedid="6q5ye"
+                                        >
+                                      <td className="p-4">
+                                        <button
+                                          onClick={function onClick}
+                                          className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white..."
+-                                         fdprocessedid="ysxfku"
+                                        >
++                                         DETAIL
+                                ...
+                ...
+
+[01:32:13.518] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:33:18.570] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:33:30.128] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:33:30.499] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:33:30.499] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:34:47.960] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:34:50.218] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:35:36.315] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:35:43.013] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:35:49.679] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:35:49.836] Browser WARN    Image with src "/assets/background.png" is using quality "90" which is not configured in images.qualities [75]. Please update your config to [75, 90].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+[01:35:50.089] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:35:50.089] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:35:50.090] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:35:50.090] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:35:50.090] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[01:35:57.446] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:36:03.147] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:36:03.615] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:38:22.944] Server  LOG     ✓ Compiled in 99ms
+[01:38:26.964] Browser LOG     Draft profile auto-saved
+[01:38:43.790] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:38:44.194] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:38:48.249] Browser LOG     Draft profile auto-saved
+[01:38:55.607] Browser LOG     Draft profile auto-saved
+[01:39:05.099] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:39:05.911] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:39:09.592] Browser LOG     Draft profile auto-saved
+[01:39:16.180] Browser LOG     Draft profile auto-saved
+[01:39:24.476] Browser LOG     Draft profile auto-saved
+[01:39:30.360] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[01:39:30.862] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:39:31.606] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:39:33.212] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:39:33.212] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:39:33.212] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:39:33.410] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:39:57.445] Server  LOG     ✓ Compiled in 113ms
+[01:41:42.395] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:41:42.762] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:41:47.032] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:41:47.700] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:41:52.023] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:41:52.288] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:41:54.289] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:41:54.744] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:41:56.092] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:41:56.677] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:41:59.952] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:42:00.793] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:42:04.400] Browser LOG     Draft auto-saved to cloud
+[01:42:45.303] Browser LOG     Draft auto-saved to cloud
+[01:42:49.063] Browser LOG     Draft auto-saved to cloud
+[01:42:50.565] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:42:50.715] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:42:57.630] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:42:58.081] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:43:02.602] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:43:02.930] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:43:07.650] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:43:08.314] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:43:13.241] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:43:13.565] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:43:24.318] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:43:24.571] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:43:25.229] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:43:29.151] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:43:35.679] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:43:37.884] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:46:34.530] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:46:38.681] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:46:41.239] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:46:46.997] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:46:53.948] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:46:53.948] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:00.539] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:47:00.878] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:00.878] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:03.386] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:47:03.910] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:04.169] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:07.768] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:09.356] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:20.933] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:47:21.297] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:21.297] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:23.152] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[01:47:23.668] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:23.920] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:26.680] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:27.287] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:51.600] Browser LOG     Draft auto-saved to cloud
+[01:47:54.225] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:54.551] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:57.731] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[01:47:58.161] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[01:47:58.607] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:48:02.540] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:48:09.985] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:48:15.145] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:00:14.747] Server  LOG     ✓ Compiled in 166ms
+[02:00:44.720] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:47.688] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:00:50.381] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:00:50.679] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:00:50.679] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:01:04.830] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:01:05.124] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:01:05.124] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:01:08.719] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:01:09.222] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:01:09.472] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:01:12.627] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:01:13.338] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:01:17.079] Browser LOG     Draft auto-saved to cloud
+[02:01:31.152] Server  LOG     ✓ Compiled in 57ms
+[02:01:36.967] Browser LOG     Draft auto-saved to cloud
+[02:01:37.384] Server  LOG     ✓ Compiled in 54ms
+[02:01:43.173] Server  LOG     ✓ Compiled in 54ms
+[02:13:37.956] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:13:42.573] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:13:47.404] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:13:48.056] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:13:52.906] Browser LOG     Draft auto-saved to cloud
+[02:13:52.906] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:13:53.323] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:13:56.197] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:13:56.819] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:14:00.786] Browser LOG     Draft auto-saved to cloud
+[02:14:09.448] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:14:09.883] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:14:11.994] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:14:12.634] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:14:16.971] Browser LOG     Draft auto-saved to cloud
+[02:16:04.213] Server  LOG     ✓ Compiled in 60ms
+[02:16:06.879] Server  LOG     ✓ Compiled in 55ms
+[02:16:08.993] Server  LOG     ✓ Compiled in 56ms
+[02:16:11.479] Server  LOG     ✓ Compiled in 57ms
+[02:16:17.150] Server  LOG     ✓ Compiled in 52ms
+[02:18:02.312] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:18:03.227] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:18:07.168] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:18:09.009] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:18:11.848] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:18:13.670] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:18:54.843] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:18:55.096] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:18:55.860] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:18:59.711] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:19:00.217] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:19:00.872] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:19:03.418] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:19:03.886] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:19:05.744] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:19:06.372] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:19:10.014] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:19:10.196] Browser LOG     Draft auto-saved to cloud
+[02:19:10.434] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:20:23.851] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:20:25.747] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:20:29.645] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:20:30.588] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:20:33.998] Browser LOG     Draft auto-saved to cloud
+[02:20:39.249] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:20:39.680] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:20:41.786] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:20:43.414] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:20:51.379] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:20:54.654] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:21:01.019] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:21:01.464] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:14.935] Browser LOG     Draft profile auto-saved
+[02:21:18.283] Browser LOG     Draft profile auto-saved
+[02:21:30.493] Browser LOG     Draft profile auto-saved
+[02:21:40.316] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[02:21:40.698] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:21:41.046] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:41.591] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[02:21:41.591] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[02:21:41.894] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:21:42.213] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:42.845] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[02:21:42.845] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[02:21:43.154] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:21:43.899] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:44.409] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:21:44.409] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:44.409] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:44.834] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:21:47.111] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:21:47.389] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:49.565] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:21:50.217] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:53.736] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:21:54.079] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:21:54.232] Browser LOG     Draft auto-saved to cloud
+[02:21:57.672] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:21:58.541] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:22:01.066] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:22:01.367] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:22:03.789] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:22:04.240] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:22:05.773] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[02:22:06.173] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[02:25:26.601] Server  LOG       Reload env: .env
+[02:25:28.312] Server  LOG     ✓ Compiled in 1533ms
+[02:25:28.692] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:25:28.695] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:25:28.919] Server  LOG       Reload env: .env
+[02:25:31.580] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:25:31.600] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:26:54.549] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:27:13.796] Server  LOG       Reload env: .env
+[02:27:14.620] Server  LOG     ✓ Compiled in 0ms
+[02:27:16.590] Server  LOG       Reload env: .env
+[02:27:17.431] Server  LOG     ✓ Compiled in 643ms
+[02:27:26.942] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:27:30.265] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:27:32.325] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:28:11.415] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:28:13.924] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[02:31:28.021] Server  LOG       Reload env: .env
+[02:31:28.869] Server  LOG     ✓ Compiled in 0ms
+[02:31:29.311] Server  WARN    [next-auth][warn][NEXTAUTH_URL] "\nhttps://next-auth.js.org/warnings#nextauth_url"
+[02:31:29.312] Server  WARN    [next-auth][warn][NO_SECRET] "\nhttps://next-auth.js.org/warnings#no_secret"
+[02:31:29.326] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.401] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.473] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.544] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.624] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.684] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.746] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.801] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.847] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:29.885] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:30.016] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:30.250] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[02:31:30.400] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:30.427] Server  ERROR   [next-auth][error][JWT_SESSION_ERROR] "\nhttps://next-auth.js.org/errors#jwt_session_error" "decryption operation failed" {}
+[02:31:31.985] Server  LOG       Reload env: .env
+[02:31:32.904] Server  LOG     ✓ Compiled in 731ms
