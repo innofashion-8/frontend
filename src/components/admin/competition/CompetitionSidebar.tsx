@@ -1,5 +1,6 @@
-import { CompetitionCategory, CompetitionPayload } from '@/types/competition';
+import { ParticipantType, CompetitionPayload } from '@/types/competition';
 import { ApiValidationErrors } from '@/types/api';
+import { useState } from 'react';
 
 interface CompetitionSidebarProps {
   isOpen: boolean;
@@ -20,6 +21,17 @@ export default function CompetitionSidebar({
   onSubmit, 
   onChange 
 }: CompetitionSidebarProps) {
+  const [showMemberFields, setShowMemberFields] = useState(formData.participant_type === 'GROUP');
+
+  const handleParticipantTypeChange = (type: ParticipantType) => {
+    setShowMemberFields(type === 'GROUP');
+    onChange({ 
+      ...formData, 
+      participant_type: type,
+      min_members: type === 'INDIVIDUAL' ? 1 : formData.min_members,
+      max_members: type === 'INDIVIDUAL' ? 1 : formData.max_members
+    });
+  };
   return (
     <>
       {isOpen && (
@@ -46,31 +58,119 @@ export default function CompetitionSidebar({
           </div>
 
           <div>
-            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Category</label>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Tipe Peserta</label>
             <select 
               required 
               className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
-              value={formData.category} 
-              onChange={(e) => onChange({ ...formData, category: e.target.value as CompetitionCategory })}
+              value={formData.participant_type} 
+              onChange={(e) => handleParticipantTypeChange(e.target.value as ParticipantType)}
             >
-              <option value="INTERMEDIATE">INTERMEDIATE</option>
-              <option value="ADVANCED">ADVANCED</option>
+              <option value="INDIVIDUAL">INDIVIDUAL</option>
+              <option value="GROUP">GROUP</option>
             </select>
-            {errors?.category && <p className="text-red-600 text-sm mt-1">{errors.category[0]}</p>}
+            {errors?.participant_type && <p className="text-red-600 text-sm mt-1">{errors.participant_type[0]}</p>}
+          </div>
+
+          {showMemberFields && (
+            <>
+              <div>
+                <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Min Members</label>
+                <input 
+                  type="number" 
+                  required 
+                  min="2"
+                  className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                  value={formData.min_members || 2} 
+                  onChange={(e) => onChange({ ...formData, min_members: parseInt(e.target.value) || 2 })} 
+                />
+                {errors?.min_members && <p className="text-red-600 text-sm mt-1">{errors.min_members[0]}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Max Members</label>
+                <input 
+                  type="number" 
+                  required 
+                  min={formData.min_members || 2}
+                  className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                  value={formData.max_members || 5} 
+                  onChange={(e) => onChange({ ...formData, max_members: parseInt(e.target.value) || 5 })} 
+                />
+                {errors?.max_members && <p className="text-red-600 text-sm mt-1">{errors.max_members[0]}</p>}
+              </div>
+            </>
+          )}
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">WA Link National</label>
+            <input 
+              type="url" 
+              required 
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.wa_link_national} 
+              onChange={(e) => onChange({ ...formData, wa_link_national: e.target.value })} 
+            />
+            {errors?.wa_link_national && <p className="text-red-600 text-sm mt-1">{errors.wa_link_national[0]}</p>}
           </div>
 
           <div>
-            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Registration Fee (Rp)</label>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">WA Link International</label>
             <input 
-              type="number" 
+              type="url" 
               required 
-              min="0"
-              step="1"
               className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
-              value={formData.registration_fee} 
-              onChange={(e) => onChange({ ...formData, registration_fee: parseInt(e.target.value) || 0 })} 
+              value={formData.wa_link_international} 
+              onChange={(e) => onChange({ ...formData, wa_link_international: e.target.value })} 
             />
-            {errors?.registration_fee && <p className="text-red-600 text-sm mt-1">{errors.registration_fee[0]}</p>}
+            {errors?.wa_link_international && <p className="text-red-600 text-sm mt-1">{errors.wa_link_international[0]}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Registration Open At</label>
+            <input 
+              type="datetime-local" 
+              required 
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.registration_open_at} 
+              onChange={(e) => onChange({ ...formData, registration_open_at: e.target.value })} 
+            />
+            {errors?.registration_open_at && <p className="text-red-600 text-sm mt-1">{errors.registration_open_at[0]}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Registration Close At</label>
+            <input 
+              type="datetime-local" 
+              required 
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.registration_close_at} 
+              onChange={(e) => onChange({ ...formData, registration_close_at: e.target.value })} 
+            />
+            {errors?.registration_close_at && <p className="text-red-600 text-sm mt-1">{errors.registration_close_at[0]}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Submission Open At</label>
+            <input 
+              type="datetime-local" 
+              required 
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.submission_open_at} 
+              onChange={(e) => onChange({ ...formData, submission_open_at: e.target.value })} 
+            />
+            {errors?.submission_open_at && <p className="text-red-600 text-sm mt-1">{errors.submission_open_at[0]}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Submission Close At</label>
+            <input 
+              type="datetime-local" 
+              required 
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.submission_close_at} 
+              onChange={(e) => onChange({ ...formData, submission_close_at: e.target.value })} 
+            />
+            {errors?.submission_close_at && <p className="text-red-600 text-sm mt-1">{errors.submission_close_at[0]}</p>}
           </div>
 
           <div>

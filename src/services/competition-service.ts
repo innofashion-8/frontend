@@ -81,10 +81,24 @@ export const competitionService = {
         }
     },
 
-    submitFinal: async (key: string, paymentProof: File): Promise<string> => {
+    submitFinal: async (key: string, members: any[], groupName?: string, region?: string, category?: string): Promise<string> => {
         try {
         const formData = new FormData();
-        formData.append('payment_proof', paymentProof);
+        
+        if (groupName) formData.append('group_name', groupName);
+        if (region) formData.append('region', region);
+        if (category) formData.append('category', category); // Insert category
+        
+        members.forEach((member, index) => {
+            if(member.name) formData.append(`members[${index}][name]`, member.name);
+            if(member.email) formData.append(`members[${index}][email]`, member.email);
+            if(member.phone) formData.append(`members[${index}][phone]`, member.phone);
+            
+            if(member.id_card) {
+                const fileName = member.id_card.name || `id_card_member_${index}.jpg`;
+                formData.append(`members[${index}][id_card]`, member.id_card, fileName);
+            }
+        });
 
         const res = await fetchClient<ApiResponse>(`/api/competitions/${key}/submit`, {
             method: 'POST',
@@ -97,13 +111,8 @@ export const competitionService = {
         }
     },
 
-    saveDraft: async (key: string, paymentProof?: File | null): Promise<string> => {
+    saveDraft: async (key: string, formData: FormData): Promise<string> => {
         try {
-        const formData = new FormData();
-        if (paymentProof) {
-            formData.append('draft_data[payment_proof]', paymentProof);
-        }
-        
         const res = await fetchClient<ApiResponse>(`/api/competitions/${key}/draft`, {
             method: 'POST',
             body: formData,

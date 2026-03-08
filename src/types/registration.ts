@@ -1,10 +1,13 @@
-import { Competition } from './competition';
+import { Competition, CompetitionCategory, RegionType, CompetitionMember } from './competition';
 import { Event } from './event';
-import { User } from './user';
+import { User, UserTypes } from './user';
 
 export type RegistrationStatus = 'DRAFT' | 'PENDING' | 'VERIFIED' | 'REJECTED' | 'UNREGISTERED';
 
 export interface UserProfile {
+  name?: string;
+  email?: string;
+  type?: UserTypes
   nrp?: string;
   major?: string;
   batch?: string;
@@ -18,6 +21,8 @@ export interface StatusResponse {
   registration_id?: string;
   status: RegistrationStatus;
   is_locked: boolean;
+  is_eligible?: boolean;
+  ineligibility_reason?: string;
   draft_data: Record<string, any> | null;
   user_profile: UserProfile;
   rejection_reason?: string;
@@ -27,11 +32,13 @@ export interface CompetitionRegistration {
   id: string;
   user_id: string;
   competition_id: string;
-  verified_by: string;
+  verified_by: string | null;
+  draft_data: any | null;
+  group_name: string | null;
+  region: RegionType | null;
+  category: CompetitionCategory | null;
   status: RegistrationStatus;
-  draft_data?: Record<string, any>;
-  payment_proof?: string;
-  rejection_reason?: string;
+  rejection_reason: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -49,12 +56,20 @@ export interface EventRegistration {
   updated_at: string;
 }
 
+export interface CompetitionSubmission {
+  id: string;
+  file_type: string;
+  file_path: string;
+  submitted_at: string;
+}
+
 export interface EventRegistrationWithEvent extends EventRegistration {
   event: Event;
 }
 
 export interface CompetitionRegistrationWithCompetition extends CompetitionRegistration {
   competition: Competition;
+  members?: CompetitionMember[];
 }
 
 export interface EventRegistrationWithUser extends EventRegistration {
@@ -63,6 +78,7 @@ export interface EventRegistrationWithUser extends EventRegistration {
 
 export interface CompetitionRegistrationWithUser extends CompetitionRegistration {
   user: User;
+  members?: CompetitionMember[];
 }
 
 export interface EventRegistrationWithUserAndEvent extends EventRegistration {
@@ -73,6 +89,8 @@ export interface EventRegistrationWithUserAndEvent extends EventRegistration {
 export interface CompetitionRegistrationWithUserAndCompetition extends CompetitionRegistration {
   user: User;
   competition: Competition;
+  members?: CompetitionMember[];
+  submissions?: CompetitionSubmission[];
 }
 
 // untuk get registrations
