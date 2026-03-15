@@ -503,13 +503,13 @@ export default function CompetitionRegisterPage() {
 
             {!isGroup ? (
               <div className="border p-4" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(255,255,255,0.05)' }}>
-                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: palette.greige }}>📝 NOTE:</p>
+                <p className="text-xs font-bold uppercase tracking-wider" style={{ color: palette.greige }}>NOTE:</p>
                 <p className="text-xs mt-2" style={{ color: palette.ash }}>For individual competition, your profile data will be used automatically.</p>
               </div>
             ) : (
               <>
                 <div className="border p-4" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(255,255,255,0.05)' }}>
-                  <p className="text-xs font-bold uppercase tracking-wider" style={{ color: palette.greige }}>📝 NOTE:</p>
+                  <p className="text-xs font-bold uppercase tracking-wider" style={{ color: palette.greige }}>NOTE:</p>
                   <p className="text-xs mt-2" style={{ color: palette.ash }}>Leader (you) will be registered automatically. Add other team members below.</p>
                   {getFieldError('members')}
                 </div>
