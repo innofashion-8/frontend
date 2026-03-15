@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 
 interface NavbarProps {
   isVisible: boolean;
@@ -13,6 +14,8 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  
+  const { status } = useSession();
 
   const navLinks = [
     { id: 'about', label: 'ABOUT US' },
@@ -31,6 +34,11 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
         target.scrollIntoView({ behavior: 'smooth' });
       }
     }
+  };
+
+  const handleLogout = async () => {
+    setIsOpen(false);
+    await signOut({ callbackUrl: '/' });
   };
 
   return (
@@ -52,7 +60,6 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
                 </Link>
               </div>
 
-              
               <div className="hidden lg:flex items-center space-x-4 xl:space-x-6">
                 {navLinks.map((link) => (
                   <button
@@ -66,34 +73,67 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
               </div>
 
               <div className="hidden md:flex items-center space-x-3 mr-4">
-                {/* REGISTER BUTTON */}
-                <Link 
-                  href="/login" 
-                  className="relative h-12 w-36 lg:h-12 lg:w-36 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden"
-                >
-                  <img 
-                    src="/photo/register-bg.png" 
-                    className="absolute inset-0 w-full h-full object-contain z-0" 
-                    alt="" 
-                  />
-                  <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
-                    REGISTER
-                  </span>
-                </Link>
-                
-                <Link 
-                  href="/login" 
-                  className="relative h-10 w-28 lg:h-10 lg:w-28 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden"
-                >
-                  <img 
-                    src="/photo/signin-bg.png" 
-                    className="absolute inset-0 w-full h-full object-contain z-0" 
-                    alt="" 
-                  />
-                  <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
-                    SIGN IN
-                  </span>
-                </Link>
+                {status === 'authenticated' ? (
+                  <>
+                    <Link 
+                      href="/dashboard" 
+                      className="relative h-12 w-36 lg:h-12 lg:w-36 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden"
+                    >
+                      <img 
+                        src="/photo/register-bg.png" 
+                        className="absolute inset-0 w-full h-full object-contain z-0" 
+                        alt="" 
+                      />
+                      <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
+                        DASHBOARD
+                      </span>
+                    </Link>
+                    
+                    <button 
+                      onClick={handleLogout} 
+                      className="relative h-10 w-28 lg:h-10 lg:w-28 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden cursor-pointer"
+                    >
+                      <img 
+                        src="/photo/signin-bg.png" 
+                        className="absolute inset-0 w-full h-full object-contain z-0" 
+                        alt="" 
+                      />
+                      <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
+                        LOGOUT
+                      </span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link 
+                      href="/login" 
+                      className="relative h-12 w-36 lg:h-12 lg:w-36 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden"
+                    >
+                      <img 
+                        src="/photo/register-bg.png" 
+                        className="absolute inset-0 w-full h-full object-contain z-0" 
+                        alt="" 
+                      />
+                      <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
+                        REGISTER
+                      </span>
+                    </Link>
+                    
+                    <Link 
+                      href="/login" 
+                      className="relative h-10 w-28 lg:h-10 lg:w-28 flex items-center justify-center group transition-transform hover:scale-105 overflow-hidden"
+                    >
+                      <img 
+                        src="/photo/signin-bg.png" 
+                        className="absolute inset-0 w-full h-full object-contain z-0" 
+                        alt="" 
+                      />
+                      <span className="relative z-10 text-white font-black italic text-[16px] lg:text-[18px] tracking-tighter">
+                        SIGN IN
+                      </span>
+                    </Link>
+                  </>
+                )}
               </div>
 
               <button 
@@ -122,20 +162,40 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
           ))}
 
           <div className="flex flex-col space-y-4 pt-6 w-full px-12">
-            <Link 
-              href="/login" 
-              onClick={() => setIsOpen(false)} 
-              className="text-black bg-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
-            >
-              REGISTER
-            </Link>
-            <Link 
-              href="/login" 
-              onClick={() => setIsOpen(false)} 
-              className="text-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
-            >
-              SIGN IN
-            </Link>
+            {status === 'authenticated' ? (
+              <>
+                <Link 
+                  href="/dashboard" 
+                  onClick={() => setIsOpen(false)} 
+                  className="text-black bg-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
+                >
+                  DASHBOARD
+                </Link>
+                <button 
+                  onClick={handleLogout} 
+                  className="text-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
+                >
+                  LOGOUT
+                </button>
+              </>
+            ) : (
+              <>
+                <Link 
+                  href="/login" 
+                  onClick={() => setIsOpen(false)} 
+                  className="text-black bg-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
+                >
+                  REGISTER
+                </Link>
+                <Link 
+                  href="/login" 
+                  onClick={() => setIsOpen(false)} 
+                  className="text-white text-center font-black italic text-xl border border-white/20 px-8 py-3 rounded-full"
+                >
+                  SIGN IN
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
