@@ -1,0 +1,13 @@
+{
+  "/admin/(dashboard)/competition-registration/page": "app/admin/(dashboard)/competition-registration/page.js",
+  "/admin/(dashboard)/dashboard/page": "app/admin/(dashboard)/dashboard/page.js",
+  "/admin/(dashboard)/event-registration/page": "app/admin/(dashboard)/event-registration/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/dashboard/competition/[key]/page": "app/dashboard/competition/[key]/page.js",
+  "/dashboard/competition/page": "app/dashboard/competition/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/registration/page": "app/registration/page.js"
+}

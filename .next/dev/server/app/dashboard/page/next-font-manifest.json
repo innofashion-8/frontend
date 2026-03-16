@@ -1,0 +1,11 @@
+{
+  "pages": {},
+  "app": {
+    "[project]/frontend/src/app/dashboard/page": [
+      "static/media/CreatoDisplay_Black-s.p.7875fd72.otf",
+      "static/media/CreatoDisplay_Regular-s.p.4ba06877.otf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pagesUsingSizeAdjust": false
+}

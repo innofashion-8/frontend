@@ -1,0 +1,25 @@
+/* [project]/frontend/src/app/creatobody_ac850717.module.css [app-client] (css) */
+@font-face {
+  font-family: creatoBody;
+  src: url("../media/CreatoDisplay_Regular-s.p.4ba06877.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: creatoBody Fallback;
+  src: local(Arial);
+  ascent-override: 95.82%;
+  descent-override: 24.0%;
+  line-gap-override: 0.0%;
+  size-adjust: 99.15%;
+}
+
+.creatobody_ac850717-module__vcc-Nq__className {
+  font-family: creatoBody, creatoBody Fallback;
+}
+
+.creatobody_ac850717-module__vcc-Nq__variable {
+  --font-creato-body: "creatoBody", "creatoBody Fallback";
+}
+
+/*# sourceMappingURL=frontend_src_app_creatobody_ac850717_module_css_bad6b30c._.single.css.map*/

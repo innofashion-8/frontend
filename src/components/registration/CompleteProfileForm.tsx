@@ -73,33 +73,53 @@ export function CompleteProfileForm() {
   };
 
   useEffect(() => {
-    if (statusData?.is_completed) {
-      if (session?.user?.is_profile_complete !== true) {
-        console.log("[SYSTEM] Sinkronisasi Token...");
-        update({ is_profile_complete: true }).then(() => {
-          window.location.href = '/dashboard';
-        });
-      } else {
-        router.push('/dashboard');
-      }
-      return; 
-    }
-    
-    const data = statusData as any;
-    if (data?.draft_data) {
-      setPhone(data.draft_data.phone || '');
-      setLine(data.draft_data.line || ''); 
-      setMajor(data.draft_data.major || '');
-      setNrp(data.draft_data.nrp || '');
-      setBatch(data.draft_data.batch || '');
-      setInstitution(data.draft_data.institution || '');
-    }
+    if (statusData?.is_completed) {
+      if (session?.user?.is_profile_complete !== true) {
+        console.log("[SYSTEM] Sinkronisasi Token...");
+        update({ is_profile_complete: true }).then(() => {
+          window.location.href = '/dashboard';
+        });
+      } else {
+        router.push('/dashboard');
+      }
+      return; 
+    }
+    
+    const data = statusData as any;
+    if (data?.draft_data) {
+      setPhone(data.draft_data.phone || '');
+      setLine(data.draft_data.line || ''); 
+      setMajor(data.draft_data.major || '');
+      setInstitution(data.draft_data.institution || '');
+    }
 
-    if (userType === 'INTERNAL' && data?.profile_data) {
-      if (data.profile_data.nrp && !nrp) setNrp(data.profile_data.nrp);
-      if (data.profile_data.batch && !batch) setBatch(data.profile_data.batch);
-    }
-  }, [statusData, session, router, update, userType]);
+    // 🔥 LOGIC AUTO-FILL NRP & BATCH DARI EMAIL
+    if (userType === 'INTERNAL') {
+      let defaultNrp = data?.draft_data?.nrp || data?.profile_data?.nrp || '';
+      let defaultBatch = data?.draft_data?.batch || data?.profile_data?.batch || '';
+
+      // Jika NRP masih kosong tapi email di session tersedia, ekstrak otomatis
+      if (!defaultNrp && session?.user?.email) {
+        const email = session.user.email;
+        const extractedNrp = email.split('@')[0]; // Ambil string sebelum "@"
+        defaultNrp = extractedNrp;
+
+        // Pastikan format panjangnya sesuai NRP Petra sebelum mengekstrak angkatan
+        if (extractedNrp.length >= 5) {
+          // Ambil huruf ke 4 dan 5 (index 3 dan 4) lalu tambahkan '20'
+          defaultBatch = '20' + extractedNrp.substring(3, 5); 
+        }
+      }
+
+      // Gunakan fungsi updater (prev) agar kita tidak mereplace apa yang sudah diketik user
+      setNrp(prev => prev || defaultNrp);
+      setBatch(prev => prev || defaultBatch);
+    } else {
+      // Untuk user EXTERNAL, tetap ambil dari draft jika ada
+      setNrp(data?.draft_data?.nrp || '');
+      setBatch(data?.draft_data?.batch || '');
+    }
+  }, [statusData, session, router, update, userType]);
 
 
   // 🔥 2. AUTO-SAVE DRAFT (DEBOUNCE 2 DETIK) 🔥
