@@ -1,3 +1,0 @@
-{
-  "/api/events/[key]/submit": "pages/api/events/[key]/submit.js"
-}
