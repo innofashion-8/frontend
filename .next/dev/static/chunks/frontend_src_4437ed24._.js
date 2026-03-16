@@ -727,283 +727,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$lib$2f$fe
 var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$components$2f$opening$2f$navbar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/frontend/src/components/opening/navbar.tsx [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
-// // 'use client';
-// // import { useRouter } from 'next/navigation';
-// // import { useSession, signOut } from 'next-auth/react'; 
-// // import { useQuery } from '@tanstack/react-query';
-// // import { fetchClient } from '@/lib/fetch-client';
-// // import Navbar from '@/components/opening/navbar';
-// // const palette = {
-// //   onyx: '#1C1C1B', obsidian: '#1a1a1a', walnut: '#6A5D52', greige: '#B7AC9B',
-// //   ash: '#979086', stucco: '#E2E2DE', graphite: '#494947', gravel: '#7b787a'
-// // };
-// // export default function DashboardClient() {
-// //   const router = useRouter();
-// //   const { data: session, status } = useSession();
-// //   const { data: registrations, isLoading: isRegLoading } = useQuery({
-// //     queryKey: ['my-registrations'],
-// //     queryFn: async () => {
-// //       const res = await fetchClient<any>('/api/registrations', { method: 'GET' });
-// //       return res.data; 
-// //     },
-// //     enabled: status === 'authenticated'
-// //   });
-// //   const handleLogout = async () => await signOut({ callbackUrl: '/login' });
-// //   if (status === 'loading') return <div className="min-h-screen flex items-center justify-center bg-transparent"><div className="text-xs font-bold tracking-[0.4em] uppercase animate-pulse" style={{ color: palette.ash }}>DECRYPTING IDENTITY...</div></div>;
-// //   const getStatusColor = (statusReg: string) => {
-// //     const s = (statusReg || '').toUpperCase();
-// //     if (s.includes('REJECT') || s.includes('TOLAK')) return '#ef4444'; 
-// //     if (s.includes('VERIFI') || s.includes('ACCEPT') || s.includes('APPROV')) return '#22c55e'; 
-// //     if (s.includes('PENDING') || s.includes('WAIT')) return palette.greige; 
-// //     return palette.ash; 
-// //   };
-// //   let allRegistrations: any[] = [];
-// //   if (registrations) {
-// //     allRegistrations = Array.isArray(registrations) ? registrations : [...(registrations.competitions || []), ...(registrations.events || [])];
-// //   }
-// //   return (
-// //     <>
-// //       <Navbar isVisible={true} />
-// //       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 mt-10">
-// //         {/* WELCOME BANNER */}
-// //         <div className="mb-12 p-10 md:p-16 border bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-700 hover:shadow-[0_20px_40px_-15px_rgba(106,93,82,0.3)]" style={{ borderColor: palette.graphite }}>
-// //           <div className="absolute top-0 left-0 w-2 h-full" style={{ backgroundColor: palette.greige }}></div>
-// //           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-// //             <div className="flex items-center gap-3">
-// //                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-// //                 <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>DASHBOARD UTAMA</p>
-// //             </div>
-// //             <button onClick={handleLogout} className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(28,28,27,0.5)' }}>
-// //               <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
-// //               <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">LOG OUT</span>
-// //             </button>
-// //           </div>
-// //           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
-// //             WELCOME, <span style={{ color: palette.greige }}>{session?.user?.name?.split(' ')[0] || 'UNKNOWN'}</span>
-// //           </h1>
-// //           <p className="text-lg md:text-xl font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
-// //             Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti atau pantau status kelulusanmu.
-// //           </p>
-// //         </div>
-// //         {/* STATUS REGISTRASI */}
-// //         <div className="mb-12 border p-8 bg-black/40 backdrop-blur-md" style={{ borderColor: palette.graphite }}>
-// //           <div className="flex items-center gap-3 mb-8 pb-4 border-b" style={{ borderColor: palette.graphite }}>
-// //             <p className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: palette.greige }}>[ STATUS PROTOKOL REGISTRASI ]</p>
-// //           </div>
-// //           {isRegLoading ? (
-// //             <div className="text-xs font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>SYNCING WITH DATABASE...</div>
-// //           ) : allRegistrations.length === 0 ? (
-// //             <div className="text-sm font-medium tracking-widest uppercase" style={{ color: palette.ash }}>NO ACTIVE REGISTRATIONS FOUND.</div>
-// //           ) : (
-// //             <div className="space-y-4">
-// //               {allRegistrations.map((reg, idx) => {
-// //                 const itemName = reg?.competition?.name || reg?.event?.title || 'UNKNOWN PROTOCOL';
-// //                 const itemType = reg?.competition ? 'COMPETITION' : 'EVENT';
-// //                 const statusStr = (reg?.status || 'PENDING').toUpperCase();
-// //                 const isRejected = statusStr.includes('REJECT') || statusStr.includes('TOLAK');
-// //                 return (
-// //                   <div key={idx} className="flex flex-col p-4 border transition-colors hover:bg-white/5" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
-// //                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full">
-// //                       <div className="mb-4 md:mb-0">
-// //                         <div className="text-[9px] tracking-[0.2em] mb-1 uppercase" style={{ color: palette.ash }}>{itemType}</div>
-// //                         <div className="font-bold text-lg tracking-widest uppercase" style={{ color: palette.stucco }}>{itemName}</div>
-// //                       </div>
-// //                       <div className="flex items-center gap-3 px-4 py-2 border" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-// //                         <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: getStatusColor(statusStr), boxShadow: `0 0 10px ${getStatusColor(statusStr)}` }}></span>
-// //                         <span className="text-xs font-black tracking-widest uppercase" style={{ color: getStatusColor(statusStr) }}>{statusStr}</span>
-// //                       </div>
-// //                     </div>
-// //                     {isRejected && reg?.rejection_reason && (
-// //                       <div className="mt-4 p-4 border border-red-500/50 bg-red-500/10">
-// //                         <p className="text-[10px] font-bold tracking-[0.2em] text-red-400 uppercase mb-1">REJECTION REASON:</p>
-// //                         <p className="text-sm font-medium text-red-200">{reg.rejection_reason}</p>
-// //                         <p className="text-[10px] font-bold tracking-[0.2em] text-white uppercase mt-4">➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW</p>
-// //                       </div>
-// //                     )}
-// //                   </div>
-// //                 );
-// //               })}
-// //             </div>
-// //           )}
-// //         </div>
-// //         {/* MENU CARD */}
-// //         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-// //           <div onClick={() => router.push('/dashboard/event')} className="group relative overflow-hidden border bg-black/40 backdrop-blur-md p-10 md:p-14 cursor-pointer transition-all duration-700 hover:-translate-y-2 flex flex-col justify-between" style={{ borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
-// //             <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"><span className="text-9xl font-black italic" style={{ color: palette.stucco }}>E</span></div>
-// //             <div>
-// //                 <p className="text-[10px] font-bold tracking-[0.3em] mb-8 uppercase" style={{ color: palette.greige }}>[ KATALOG EVENT ]</p>
-// //                 <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>EVENTS</h2>
-// //                 <p className="text-sm md:text-base mb-12 leading-relaxed font-medium tracking-wide" style={{ color: palette.ash }}>Ikuti berbagai rangkaian acara seru, workshop inspiratif, dan pameran karya spektakuler.</p>
-// //             </div>
-// //             <div className="flex items-center gap-4 mt-auto">
-// //                 <span className="h-[1px] w-12 group-hover:w-24 transition-all duration-700" style={{ backgroundColor: palette.ash }}></span>
-// //                 <span className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white" style={{ color: palette.stucco }}>DAFTAR EVENT ➔</span>
-// //             </div>
-// //           </div>
-// //           <div onClick={() => router.push('/dashboard/competition')} className="group relative overflow-hidden border bg-black/40 backdrop-blur-md p-10 md:p-14 cursor-pointer transition-all duration-700 hover:-translate-y-2 flex flex-col justify-between" style={{ borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
-// //             <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"><span className="text-9xl font-black italic" style={{ color: palette.stucco }}>C</span></div>
-// //             <div>
-// //                 <p className="text-[10px] font-bold tracking-[0.3em] mb-8 uppercase" style={{ color: palette.greige }}>[ PENDAFTARAN LOMBA ]</p>
-// //                 <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>COMPETITIONS</h2>
-// //                 <p className="text-sm md:text-base mb-12 leading-relaxed font-medium tracking-wide" style={{ color: palette.ash }}>Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8.</p>
-// //             </div>
-// //             <div className="flex items-center gap-4 mt-auto">
-// //                 <span className="h-[1px] w-12 group-hover:w-24 transition-all duration-700" style={{ backgroundColor: palette.ash }}></span>
-// //                 <span className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white" style={{ color: palette.stucco }}>LIHAT LOMBA ➔</span>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       </div>
-// //     </>
-// //   );
-// // }
-// 'use client';
-// import { useRouter } from 'next/navigation';
-// import { useSession, signOut } from 'next-auth/react'; 
-// import { useQuery } from '@tanstack/react-query';
-// import { fetchClient } from '@/lib/fetch-client';
-// import Navbar from '@/components/opening/navbar';
-// const palette = {
-//   onyx: '#1C1C1B', obsidian: '#1a1a1a', walnut: '#6A5D52', greige: '#B7AC9B',
-//   ash: '#979086', stucco: '#E2E2DE', graphite: '#494947', gravel: '#7b787a'
-// };
-// export default function DashboardClient() {
-//   const router = useRouter();
-//   const { data: session, status } = useSession();
-//   const { data: registrations, isLoading: isRegLoading } = useQuery({
-//     queryKey: ['my-registrations'],
-//     queryFn: async () => {
-//       const res = await fetchClient<any>('/api/registrations', { method: 'GET' });
-//       return res.data; 
-//     },
-//     enabled: status === 'authenticated'
-//   });
-//   const handleLogout = async () => await signOut({ callbackUrl: '/login' });
-//   if (status === 'loading') return <div className="min-h-screen flex items-center justify-center bg-transparent"><div className="text-xs font-bold tracking-[0.4em] uppercase animate-pulse" style={{ color: palette.ash }}>DECRYPTING IDENTITY...</div></div>;
-//   const getStatusColor = (statusReg: string) => {
-//     const s = (statusReg || '').toUpperCase();
-//     if (s.includes('REJECT') || s.includes('TOLAK')) return '#ef4444'; 
-//     if (s.includes('VERIFI') || s.includes('ACCEPT') || s.includes('APPROV')) return '#22c55e'; 
-//     if (s.includes('PENDING') || s.includes('WAIT')) return palette.greige; 
-//     return palette.ash; 
-//   };
-//   let allRegistrations: any[] = [];
-//   if (registrations) {
-//     allRegistrations = Array.isArray(registrations) ? registrations : [...(registrations.competitions || []), ...(registrations.events || [])];
-//   }
-//   return (
-//     <>
-//       <Navbar isVisible={true} />
-//       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 mt-10">
-//         {/* WELCOME BANNER */}
-//         <div className="mb-12 p-10 md:p-16 border bg-black/40 backdrop-blur-md relative overflow-hidden transition-all duration-700 hover:shadow-[0_20px_40px_-15px_rgba(106,93,82,0.3)]" style={{ borderColor: palette.graphite }}>
-//           <div className="absolute top-0 left-0 w-2 h-full" style={{ backgroundColor: palette.greige }}></div>
-//           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-//             <div className="flex items-center gap-3">
-//                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-//                 <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>DASHBOARD UTAMA</p>
-//             </div>
-//             <button onClick={handleLogout} className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(28,28,27,0.5)' }}>
-//               <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
-//               <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">LOG OUT</span>
-//             </button>
-//           </div>
-//           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
-//             WELCOME, <span style={{ color: palette.greige }}>{session?.user?.name?.split(' ')[0] || 'UNKNOWN'}</span>
-//           </h1>
-//           <p className="text-lg md:text-xl font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
-//             Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti atau pantau status kelulusanmu.
-//           </p>
-//         </div>
-//         {/* STATUS REGISTRASI */}
-//         <div className="mb-12 border p-8 bg-black/40 backdrop-blur-md" style={{ borderColor: palette.graphite }}>
-//           <div className="flex items-center gap-3 mb-8 pb-4 border-b" style={{ borderColor: palette.graphite }}>
-//             <p className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: palette.greige }}>[ STATUS PROTOKOL REGISTRASI ]</p>
-//           </div>
-//           {isRegLoading ? (
-//             <div className="text-xs font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>SYNCING WITH DATABASE...</div>
-//           ) : allRegistrations.length === 0 ? (
-//             <div className="text-sm font-medium tracking-widest uppercase" style={{ color: palette.ash }}>NO ACTIVE REGISTRATIONS FOUND.</div>
-//           ) : (
-//             <div className="space-y-4">
-//               {allRegistrations.map((reg, idx) => {
-//                 const itemName = reg?.competition?.name || reg?.event?.title || 'UNKNOWN PROTOCOL';
-//                 const itemType = reg?.competition ? 'COMPETITION' : 'EVENT';
-//                 const statusStr = (reg?.status || 'PENDING').toUpperCase();
-//                 const isRejected = statusStr.includes('REJECT') || statusStr.includes('TOLAK');
-//                 // 🔥 LOGIKA MUNCULIN TOMBOL WA 🔥
-//                 const isAccepted = statusStr.includes('VERIFI') || statusStr.includes('ACCEPT') || statusStr.includes('APPROV');
-//                 const whatsappLink = reg?.competition?.whatsapp_link || reg?.event?.whatsapp_link; 
-//                 return (
-//                   <div key={idx} className="flex flex-col p-4 border transition-colors hover:bg-white/5" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
-//                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full">
-//                       <div className="mb-4 md:mb-0">
-//                         <div className="text-[9px] tracking-[0.2em] mb-1 uppercase" style={{ color: palette.ash }}>{itemType}</div>
-//                         <div className="font-bold text-lg tracking-widest uppercase" style={{ color: palette.stucco }}>{itemName}</div>
-//                       </div>
-//                       <div className="flex items-center gap-4">
-//                         {/* 🔥 TOMBOL WHATSAPP (MUNCUL KALAU DIA DI-ACC & BACKEND UDAH SEDIAIN LINKNYA) 🔥 */}
-//                         {isAccepted && whatsappLink && (
-//                           <a 
-//                             href={whatsappLink} 
-//                             target="_blank" 
-//                             rel="noopener noreferrer"
-//                             className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all"
-//                             style={{ borderColor: '#25D366' }}
-//                           >
-//                             JOIN WA GROUP
-//                           </a>
-//                         )}
-//                         <div className="flex items-center gap-3 px-4 py-2 border" style={{ borderColor: palette.graphite, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-//                           <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: getStatusColor(statusStr), boxShadow: `0 0 10px ${getStatusColor(statusStr)}` }}></span>
-//                           <span className="text-xs font-black tracking-widest uppercase" style={{ color: getStatusColor(statusStr) }}>{statusStr}</span>
-//                         </div>
-//                       </div>
-//                     </div>
-//                     {isRejected && reg?.rejection_reason && (
-//                       <div className="mt-4 p-4 border border-red-500/50 bg-red-500/10">
-//                         <p className="text-[10px] font-bold tracking-[0.2em] text-red-400 uppercase mb-1">REJECTION REASON:</p>
-//                         <p className="text-sm font-medium text-red-200">{reg.rejection_reason}</p>
-//                         <p className="text-[10px] font-bold tracking-[0.2em] text-white uppercase mt-4">➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW</p>
-//                       </div>
-//                     )}
-//                   </div>
-//                 );
-//               })}
-//             </div>
-//           )}
-//         </div>
-//         {/* MENU CARD */}
-//         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-//           <div onClick={() => router.push('/dashboard/event')} className="group relative overflow-hidden border bg-black/40 backdrop-blur-md p-10 md:p-14 cursor-pointer transition-all duration-700 hover:-translate-y-2 flex flex-col justify-between" style={{ borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
-//             <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"><span className="text-9xl font-black italic" style={{ color: palette.stucco }}>E</span></div>
-//             <div>
-//                 <p className="text-[10px] font-bold tracking-[0.3em] mb-8 uppercase" style={{ color: palette.greige }}>[ KATALOG EVENT ]</p>
-//                 <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>EVENTS</h2>
-//                 <p className="text-sm md:text-base mb-12 leading-relaxed font-medium tracking-wide" style={{ color: palette.ash }}>Ikuti berbagai rangkaian acara seru, workshop inspiratif, dan pameran karya spektakuler.</p>
-//             </div>
-//             <div className="flex items-center gap-4 mt-auto">
-//                 <span className="h-[1px] w-12 group-hover:w-24 transition-all duration-700" style={{ backgroundColor: palette.ash }}></span>
-//                 <span className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white" style={{ color: palette.stucco }}>DAFTAR EVENT ➔</span>
-//             </div>
-//           </div>
-//           <div onClick={() => router.push('/dashboard/competition')} className="group relative overflow-hidden border bg-black/40 backdrop-blur-md p-10 md:p-14 cursor-pointer transition-all duration-700 hover:-translate-y-2 flex flex-col justify-between" style={{ borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
-//             <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-10 transition-opacity duration-700 pointer-events-none"><span className="text-9xl font-black italic" style={{ color: palette.stucco }}>C</span></div>
-//             <div>
-//                 <p className="text-[10px] font-bold tracking-[0.3em] mb-8 uppercase" style={{ color: palette.greige }}>[ PENDAFTARAN LOMBA ]</p>
-//                 <h2 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>COMPETITIONS</h2>
-//                 <p className="text-sm md:text-base mb-12 leading-relaxed font-medium tracking-wide" style={{ color: palette.ash }}>Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8.</p>
-//             </div>
-//             <div className="flex items-center gap-4 mt-auto">
-//                 <span className="h-[1px] w-12 group-hover:w-24 transition-all duration-700" style={{ backgroundColor: palette.ash }}></span>
-//                 <span className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white" style={{ color: palette.stucco }}>LIHAT LOMBA ➔</span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
 'use client';
 ;
 ;
@@ -1051,12 +774,12 @@ function DashboardClient() {
             children: "DECRYPTING IDENTITY..."
         }, void 0, false, {
             fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-            lineNumber: 339,
+            lineNumber: 31,
             columnNumber: 114
         }, this)
     }, void 0, false, {
         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-        lineNumber: 339,
+        lineNumber: 31,
         columnNumber: 36
     }, this);
     const getStatusColor = (statusReg)=>{
@@ -1096,7 +819,7 @@ function DashboardClient() {
                 isVisible: true
             }, void 0, false, {
                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                lineNumber: 381,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1115,7 +838,7 @@ function DashboardClient() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 386,
+                                lineNumber: 78,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1132,7 +855,7 @@ function DashboardClient() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 389,
+                                                lineNumber: 81,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1143,13 +866,13 @@ function DashboardClient() {
                                                 children: "DASHBOARD UTAMA"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 390,
+                                                lineNumber: 82,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 388,
+                                        lineNumber: 80,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1164,7 +887,7 @@ function DashboardClient() {
                                                 className: "w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 393,
+                                                lineNumber: 85,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1172,19 +895,19 @@ function DashboardClient() {
                                                 children: "LOG OUT"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 394,
+                                                lineNumber: 86,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 392,
+                                        lineNumber: 84,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 387,
+                                lineNumber: 79,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -1201,13 +924,13 @@ function DashboardClient() {
                                         children: session?.user?.name?.split(' ')[0] || 'UNKNOWN'
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 398,
+                                        lineNumber: 90,
                                         columnNumber: 22
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 397,
+                                lineNumber: 89,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1218,13 +941,13 @@ function DashboardClient() {
                                 children: "Pilih jalur pendaftaran Innofashion Show 8 yang ingin kamu ikuti atau pantau status kelulusanmu."
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 400,
+                                lineNumber: 92,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                        lineNumber: 385,
+                        lineNumber: 77,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1246,12 +969,12 @@ function DashboardClient() {
                                     children: "[ STATUS PROTOKOL REGISTRASI ]"
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                    lineNumber: 408,
+                                    lineNumber: 100,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 407,
+                                lineNumber: 99,
                                 columnNumber: 11
                             }, this),
                             isRegLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1262,7 +985,7 @@ function DashboardClient() {
                                 children: "SYNCING WITH DATABASE..."
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 411,
+                                lineNumber: 103,
                                 columnNumber: 13
                             }, this) : allRegistrations.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "text-sm font-medium tracking-widest uppercase",
@@ -1272,7 +995,7 @@ function DashboardClient() {
                                 children: "NO ACTIVE REGISTRATIONS FOUND."
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 413,
+                                lineNumber: 105,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "space-y-4",
@@ -1304,7 +1027,7 @@ function DashboardClient() {
                                                                 children: itemType
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                lineNumber: 429,
+                                                                lineNumber: 121,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1315,7 +1038,7 @@ function DashboardClient() {
                                                                 children: itemName
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                lineNumber: 430,
+                                                                lineNumber: 122,
                                                                 columnNumber: 25
                                                             }, this),
                                                             (reg?.region || reg?.category) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1330,13 +1053,13 @@ function DashboardClient() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                lineNumber: 433,
+                                                                lineNumber: 125,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                        lineNumber: 428,
+                                                        lineNumber: 120,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1353,7 +1076,7 @@ function DashboardClient() {
                                                                 children: "JOIN WHATSAPP"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                lineNumber: 442,
+                                                                lineNumber: 134,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1371,7 +1094,7 @@ function DashboardClient() {
                                                                         }
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                        lineNumber: 454,
+                                                                        lineNumber: 146,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1382,25 +1105,25 @@ function DashboardClient() {
                                                                         children: statusStr
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                        lineNumber: 455,
+                                                                        lineNumber: 147,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                                lineNumber: 453,
+                                                                lineNumber: 145,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                        lineNumber: 439,
+                                                        lineNumber: 131,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 427,
+                                                lineNumber: 119,
                                                 columnNumber: 21
                                             }, this),
                                             isRejected && reg?.rejection_reason && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1411,7 +1134,7 @@ function DashboardClient() {
                                                         children: "REJECTION REASON:"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                        lineNumber: 461,
+                                                        lineNumber: 153,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1419,7 +1142,7 @@ function DashboardClient() {
                                                         children: reg.rejection_reason
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                        lineNumber: 462,
+                                                        lineNumber: 154,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1427,31 +1150,31 @@ function DashboardClient() {
                                                         children: "➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW"
                                                     }, void 0, false, {
                                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                        lineNumber: 463,
+                                                        lineNumber: 155,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 460,
+                                                lineNumber: 152,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, idx, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 426,
+                                        lineNumber: 118,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 415,
+                                lineNumber: 107,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                        lineNumber: 406,
+                        lineNumber: 98,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1475,12 +1198,12 @@ function DashboardClient() {
                                             children: "E"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                            lineNumber: 476,
+                                            lineNumber: 168,
                                             columnNumber: 147
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 476,
+                                        lineNumber: 168,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1493,7 +1216,7 @@ function DashboardClient() {
                                                 children: "[ KATALOG EVENT ]"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 478,
+                                                lineNumber: 170,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1504,7 +1227,7 @@ function DashboardClient() {
                                                 children: "EVENTS"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 479,
+                                                lineNumber: 171,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1515,13 +1238,13 @@ function DashboardClient() {
                                                 children: "Ikuti berbagai rangkaian acara seru, workshop inspiratif, dan pameran karya spektakuler."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 480,
+                                                lineNumber: 172,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 477,
+                                        lineNumber: 169,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1534,7 +1257,7 @@ function DashboardClient() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 483,
+                                                lineNumber: 175,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1545,19 +1268,19 @@ function DashboardClient() {
                                                 children: "DAFTAR EVENT ➔"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 484,
+                                                lineNumber: 176,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 482,
+                                        lineNumber: 174,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 475,
+                                lineNumber: 167,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1578,12 +1301,12 @@ function DashboardClient() {
                                             children: "C"
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                            lineNumber: 489,
+                                            lineNumber: 181,
                                             columnNumber: 147
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 489,
+                                        lineNumber: 181,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1596,7 +1319,7 @@ function DashboardClient() {
                                                 children: "[ PENDAFTARAN LOMBA ]"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 491,
+                                                lineNumber: 183,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1607,7 +1330,7 @@ function DashboardClient() {
                                                 children: "COMPETITIONS"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 492,
+                                                lineNumber: 184,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1618,13 +1341,13 @@ function DashboardClient() {
                                                 children: "Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8."
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 493,
+                                                lineNumber: 185,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 490,
+                                        lineNumber: 182,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1637,7 +1360,7 @@ function DashboardClient() {
                                                 }
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 496,
+                                                lineNumber: 188,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1648,31 +1371,31 @@ function DashboardClient() {
                                                 children: "LIHAT LOMBA ➔"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                                lineNumber: 497,
+                                                lineNumber: 189,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                        lineNumber: 495,
+                                        lineNumber: 187,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                                lineNumber: 488,
+                                lineNumber: 180,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                        lineNumber: 474,
+                        lineNumber: 166,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/frontend/src/components/pages/DashboardClient.tsx",
-                lineNumber: 382,
+                lineNumber: 74,
                 columnNumber: 7
             }, this)
         ]

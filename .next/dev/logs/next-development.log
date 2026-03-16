@@ -130,3 +130,24 @@ Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allow
 [00:22:48.811] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:22:49.859] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
 [00:22:49.859] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:24:59.691] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:25:00.046] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:00.046] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:03.542] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:25:03.542] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:04.004] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:07.844] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:08.320] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:17.440] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:17.813] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:18.862] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:19.330] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:28.006] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:28.169] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:29.889] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:30.223] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:25:33.148] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:25:34.821] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:29:14.242] Server  LOG     ✓ Compiled in 36ms
+[00:29:32.742] Server  LOG     ✓ Compiled in 35ms
+[00:29:39.476] Server  LOG     ✓ Compiled in 33ms

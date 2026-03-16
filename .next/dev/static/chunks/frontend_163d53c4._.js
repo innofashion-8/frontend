@@ -252,239 +252,6 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$src$2f$services$
 var __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$sweetalert2$2f$dist$2f$sweetalert2$2e$all$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/frontend/node_modules/sweetalert2/dist/sweetalert2.all.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
-// 'use client';
-// import { useState, useMemo } from 'react';
-// import { useRouter } from 'next/navigation';
-// import { useQuery } from '@tanstack/react-query';
-// import { competitionService } from '@/services/competition-service';
-// import Swal from 'sweetalert2';
-// import { Competition } from '@/types/competition';
-// // INJEKSI COLOR PALETTE DYSTOPIAN
-// const palette = {
-//   onyx: '#1C1C1B',
-//   obsidian: '#1a1a1a',
-//   walnut: '#6A5D52',
-//   greige: '#B7AC9B',
-//   ash: '#979086',
-//   stucco: '#E2E2DE',
-//   graphite: '#494947',
-//   gravel: '#7b787a'
-// };
-// export default function CompetitionCatalogPage() {
-//   const router = useRouter();
-//   const [expandedId, setExpandedId] = useState<string | null>(null);
-//   const [selectedCategory, setSelectedCategory] = useState<Record<string, string>>({});
-//   const { data: competitions, isLoading } = useQuery({
-//     queryKey: ['competitions'],
-//     queryFn: competitionService.getCompetitions,
-//   });
-//   const processedCompetitions = useMemo(() => {
-//     if (!competitions) return [];
-//     return competitions.map((comp: Competition) => {
-//       const isIndividual = comp.participant_type === 'INDIVIDUAL';
-//       return {
-//         id: comp.id, // Pakai UUID langsung aja
-//         name: comp.name.toUpperCase(),
-//         slug: comp.slug,
-//         description: comp.description,
-//         price: Number(0), // Karena pendaftaran gratis
-//         // Kalau individu (Fashion Sketch), berarti peserta harus milih tier
-//         hasAdvanced: isIndividual, 
-//       };
-//     });
-//   }, [competitions]);
-//   const handleSelectCategory = (compId: string, category: string) => {
-//     setSelectedCategory(prev => ({ ...prev, [compId]: category }));
-//   };
-//   // 🔥 FIX TOTAL: FUNGSI REGISTER YANG BARU 🔥
-//   const handleRegisterClick = (comp: any) => {
-//     // 1. CEK TIER: Kalau wajib milih Tier (Fashion Sketch) tapi belum milih
-//     if (comp.hasAdvanced && !selectedCategory[comp.id]) {
-//       Swal.fire({
-//         icon: 'warning',
-//         title: 'TIER NOT SELECTED',
-//         text: 'Please select your Tier (INT / ADV) to proceed.',
-//         background: palette.onyx,
-//         color: palette.stucco,
-//         confirmButtonColor: palette.walnut,
-//         confirmButtonText: 'ACKNOWLEDGE',
-//         customClass: {
-//           popup: 'border border-[#7b787a] rounded-none', 
-//           title: 'font-black tracking-[0.2em] uppercase text-xl',
-//           confirmButton: 'font-bold tracking-widest uppercase rounded-none px-8 py-3'
-//         }
-//       });
-//       return; 
-//     }
-//     // 2. CEK SLUG (Jaga-jaga error backend)
-//     if (!comp.slug || comp.slug === 'undefined') {
-//        Swal.fire({
-//         icon: 'error',
-//         title: 'SYSTEM ERROR',
-//         text: 'Protocol data is missing or corrupted. Please contact administrator.',
-//         background: palette.onyx,
-//         color: palette.stucco,
-//         confirmButtonColor: '#ef4444',
-//         customClass: { popup: 'border border-red-500 rounded-none' }
-//       });
-//       return;
-//     }
-//     // 3. BUAT URL QUERY
-//     // Kalau dia fashion sketch, kirim category-nya. Kalau restyling, biarin kosong query-nya
-//     let targetUrl = `/dashboard/competition/${comp.slug}`;
-//     if (comp.hasAdvanced) {
-//       targetUrl += `?category=${selectedCategory[comp.id].toLowerCase()}`;
-//     }
-//     // 4. GAS PINDAH HALAMAN!
-//     router.push(targetUrl);
-//   };
-//   if (isLoading) {
-//     return <div className="min-h-[60vh] flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>ESTABLISHING CONNECTION...</div>;
-//   }
-//   return (
-//     <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
-//       {/* 🔥 REACTBITS BEAMS BACKGROUND 🔥
-//       <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
-//         <Beams
-//           beamWidth={3}
-//           beamHeight={30}
-//           beamNumber={20}
-//           lightColor={palette.greige}
-//           speed={2}
-//           noiseIntensity={1.75}
-//           scale={0.2}
-//           rotation={30}
-//         />
-//       </div> */}
-//       <div className="relative z-10 max-w-5xl mx-auto px-4">
-//         <button onClick={() => router.push('/dashboard')} className="mb-12 font-bold cursor-pointer text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
-//           <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> RETURN TO TERMINAL
-//         </button>
-//         <div className="mb-16">
-//           <p className="text-xs font-bold tracking-[0.3em] mb-4" style={{ color: palette.greige }}>[ PENDAFTARAN LOMBA ]</p>
-//           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest" style={{ color: palette.stucco }}>
-//             COMPETITIONS
-//           </h1>
-//           <p className="text-lg font-medium tracking-widest max-w-2xl leading-relaxed" style={{ color: palette.ash }}>
-//             Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8.
-//           </p>
-//         </div>
-//         {processedCompetitions.length === 0 ? (
-//           <div className="p-12 border text-center" style={{ backgroundColor: palette.onyx, borderColor: palette.graphite }}>
-//             <p className="font-bold tracking-[0.3em] uppercase" style={{ color: palette.ash }}>SYSTEM NOTICE: NO PROTOCOLS FOUND.</p>
-//           </div>
-//         ) : (
-//           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-//             {processedCompetitions.map((comp: any, idx: number) => {
-//               const isOthersExpanded = expandedId !== null && expandedId !== comp.id;
-//               return (
-//                 <div 
-//                   key={comp.id} 
-//                   className={`group relative border p-8 md:p-10 flex flex-col transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] 
-//                     ${isOthersExpanded ? 'opacity-30 scale-[0.97] blur-[2px] grayscale pointer-events-none' : 'hover:-translate-y-2'}`} 
-//                   style={{ 
-//                     backgroundColor: palette.onyx, 
-//                     borderColor: palette.graphite,
-//                     boxShadow: isOthersExpanded ? 'none' : '0 10px 30px -10px rgba(0,0,0,0.5)'
-//                   }}
-//                   onMouseEnter={(e) => { if(!isOthersExpanded) e.currentTarget.style.boxShadow = `0 20px 40px -15px ${palette.walnut}60` }}
-//                   onMouseLeave={(e) => { if(!isOthersExpanded) e.currentTarget.style.boxShadow = '0 10px 30px -10px rgba(0,0,0,0.5)' }}
-//                 >
-//                   <div className="absolute top-0 right-0 p-6 opacity-[0.03] pointer-events-none transition-opacity duration-700 group-hover:opacity-10">
-//                     <span className="text-8xl font-black italic" style={{ color: palette.stucco }}>0{idx + 1}</span>
-//                   </div>
-//                   <div className="mb-10">
-//                     <h2 className="text-3xl font-black uppercase tracking-widest mb-2" style={{ color: palette.stucco }}>{comp.name}</h2>
-//                     <div className="text-xs font-bold tracking-[0.2em]" style={{ color: palette.ash }}>
-//                       STATUS: <span style={{ color: palette.greige }}>ACTIVE_</span>
-//                     </div>
-//                   </div>
-//                   <div className="flex justify-between items-end mb-10 pb-6 border-b" style={{ borderColor: palette.graphite }}>
-//                       <div>
-//                         <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>REGISTRATION FEE</p>
-//                         <div className="font-black text-2xl tracking-widest" style={{ color: palette.stucco }}>
-//                           Rp {comp.price.toLocaleString('id-ID')}
-//                         </div>
-//                       </div>
-//                       <div className="text-right">
-//                         <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>TIER ACCESS</p>
-//                         <div className="text-xs font-bold uppercase tracking-widest" style={{ color: palette.greige }}>
-//                             {comp.hasAdvanced ? 'INT / ADV' : 'INTERMEDIATE'}
-//                         </div>
-//                       </div>
-//                   </div>
-//                   <div className="flex-grow flex flex-col justify-end">
-//                     {expandedId === comp.id ? (
-//                       <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
-//                         <p className="text-sm leading-relaxed mb-8" style={{ color: palette.ash }}>
-//                           {comp.description || 'Prepare your futuristic concept. Originality and innovation are paramount.'}
-//                         </p>
-//                         {/* HANYA TAMPIL TIER SELECTION KALAU LOMBA INDIVIDU (Fashion Sketch) */}
-//                         {comp.hasAdvanced && (
-//                             <div className="mb-8">
-//                                 <label className="block text-[10px] font-bold uppercase tracking-[0.2em] mb-4" style={{ color: palette.greige }}>
-//                                     SELECT TIER:
-//                                 </label>
-//                                 <div className="flex gap-4 mb-6">
-//                                     <button 
-//                                         onClick={() => handleSelectCategory(comp.id, 'INTERMEDIATE')}
-//                                         className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest cursor-pointer border transition-all duration-300`}
-//                                         style={{
-//                                           backgroundColor: selectedCategory[comp.id] === 'INTERMEDIATE' ? palette.greige : 'transparent',
-//                                           color: selectedCategory[comp.id] === 'INTERMEDIATE' ? palette.onyx : palette.ash,
-//                                           borderColor: selectedCategory[comp.id] === 'INTERMEDIATE' ? palette.greige : palette.graphite
-//                                         }}
-//                                     >
-//                                         INT
-//                                     </button>
-//                                     <button 
-//                                         onClick={() => handleSelectCategory(comp.id, 'ADVANCED')}
-//                                         className={`flex-1 py-3 text-xs font-bold uppercase tracking-widest cursor-pointer border transition-all duration-300`}
-//                                         style={{
-//                                           backgroundColor: selectedCategory[comp.id] === 'ADVANCED' ? palette.greige : 'transparent',
-//                                           color: selectedCategory[comp.id] === 'ADVANCED' ? palette.onyx : palette.ash,
-//                                           borderColor: selectedCategory[comp.id] === 'ADVANCED' ? palette.greige : palette.graphite
-//                                         }}
-//                                     >
-//                                         ADV
-//                                     </button>
-//                                 </div>
-//                                 <div className="p-4 border-l-2" style={{ borderColor: palette.walnut, backgroundColor: palette.obsidian }}>
-//                                     <p className="text-[11px] font-medium mb-2 leading-relaxed" style={{ color: palette.ash }}>
-//                                         <span className="font-bold tracking-widest uppercase" style={{ color: palette.stucco }}>INT:</span> High School level (Grade 10-12).
-//                                     </p>
-//                                     <p className="text-[11px] font-medium leading-relaxed" style={{ color: palette.ash }}>
-//                                         <span className="font-bold tracking-widest uppercase" style={{ color: palette.stucco }}>ADV:</span> University level or equivalent.
-//                                     </p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                         <button 
-//                           onClick={() => handleRegisterClick(comp)}
-//                           className="w-full py-5 cursor-pointer font-black uppercase tracking-[0.2em] transition-all duration-300 text-sm hover:scale-[1.03]"
-//                           style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
-//                         >
-//                           INITIATE REGISTRATION
-//                         </button>
-//                         <button onClick={() => setExpandedId(null)} className="block w-full text-center mt-6 cursor-pointer font-bold uppercase tracking-widest text-[10px] transition-colors" style={{ color: palette.gravel }}>
-//                           [ ABORT DETAIL VIEW ]
-//                         </button>
-//                       </div>
-//                     ) : (
-//                       <button onClick={() => setExpandedId(comp.id)} className="w-full cursor-pointer py-5 font-bold uppercase tracking-[0.2em] text-xs border transition-all duration-300" style={{ color: palette.greige, borderColor: palette.graphite, backgroundColor: 'transparent' }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = palette.greige; e.currentTarget.style.color = palette.onyx; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = palette.greige; }}>
-//                         EXPAND PROTOCOL
-//                       </button>
-//                     )}
-//                   </div>
-//                 </div>
-//               );
-//             })}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
 'use client';
 ;
 ;
@@ -526,22 +293,20 @@ function CompetitionCatalogPage() {
             });
             return;
         }
-        // Langsung tembak ke halaman form tanpa query parameter category lagi!
+        // Langsung arahin ke form registrasi
         router.push(`/dashboard/competition/${comp.slug}`);
     };
-    if (isLoading) {
-        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-            className: "min-h-[60vh] flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse",
-            style: {
-                color: palette.ash
-            },
-            children: "ESTABLISHING CONNECTION..."
-        }, void 0, false, {
-            fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-            lineNumber: 300,
-            columnNumber: 12
-        }, this);
-    }
+    if (isLoading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "min-h-[60vh] flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse",
+        style: {
+            color: palette.ash
+        },
+        children: "ESTABLISHING CONNECTION..."
+    }, void 0, false, {
+        fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
+        lineNumber: 37,
+        columnNumber: 25
+    }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "relative py-12 min-h-screen bg-[#0a0a0a]",
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -561,14 +326,14 @@ function CompetitionCatalogPage() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                            lineNumber: 307,
+                            lineNumber: 43,
                             columnNumber: 11
                         }, this),
                         " RETURN TO TERMINAL"
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                    lineNumber: 306,
+                    lineNumber: 42,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -582,7 +347,7 @@ function CompetitionCatalogPage() {
                             children: "[ PENDAFTARAN LOMBA ]"
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                            lineNumber: 311,
+                            lineNumber: 47,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -593,7 +358,7 @@ function CompetitionCatalogPage() {
                             children: "COMPETITIONS"
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                            lineNumber: 312,
+                            lineNumber: 48,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -604,13 +369,13 @@ function CompetitionCatalogPage() {
                             children: "Tunjukkan bakat terbaikmu dan bersainglah di panggung megah Innofashion Show 8."
                         }, void 0, false, {
                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                            lineNumber: 313,
+                            lineNumber: 49,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                    lineNumber: 310,
+                    lineNumber: 46,
                     columnNumber: 9
                 }, this),
                 !competitions || competitions.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -627,20 +392,19 @@ function CompetitionCatalogPage() {
                         children: "SYSTEM NOTICE: NO PROTOCOLS FOUND."
                     }, void 0, false, {
                         fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                        lineNumber: 320,
+                        lineNumber: 56,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                    lineNumber: 319,
+                    lineNumber: 55,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "grid grid-cols-1 lg:grid-cols-2 gap-10",
                     children: competitions.map((comp, idx)=>{
                         const isOthersExpanded = expandedId !== null && expandedId !== comp.id;
-                        // Deteksi manual tipe lomba karena Backend ngaco
-                        const nameUpper = comp.name.toUpperCase();
-                        const isRestyling = nameUpper.includes('RESTYLING') || nameUpper.includes('STYLING');
+                        // Ngambil tipe partisipan langsung dari database API
+                        const isGroup = comp.participant_type === 'GROUP';
                         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: `group relative border p-8 md:p-10 flex flex-col transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] 
                     ${isOthersExpanded ? 'opacity-30 scale-[0.97] blur-[2px] grayscale pointer-events-none' : 'hover:-translate-y-2'}`,
@@ -669,12 +433,12 @@ function CompetitionCatalogPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                        lineNumber: 341,
+                                        lineNumber: 75,
                                         columnNumber: 21
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                    lineNumber: 340,
+                                    lineNumber: 74,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -685,10 +449,10 @@ function CompetitionCatalogPage() {
                                             style: {
                                                 color: palette.stucco
                                             },
-                                            children: isRestyling ? 'FASHION RESTYLING COMPETITION' : comp.name
+                                            children: comp.name
                                         }, void 0, false, {
                                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                            lineNumber: 345,
+                                            lineNumber: 79,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -705,19 +469,19 @@ function CompetitionCatalogPage() {
                                                     children: "ACTIVE_"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                    lineNumber: 349,
+                                                    lineNumber: 81,
                                                     columnNumber: 31
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                            lineNumber: 348,
+                                            lineNumber: 80,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                    lineNumber: 344,
+                                    lineNumber: 78,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -736,7 +500,7 @@ function CompetitionCatalogPage() {
                                                     children: "REGISTRATION FEE"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                    lineNumber: 355,
+                                                    lineNumber: 87,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -747,13 +511,13 @@ function CompetitionCatalogPage() {
                                                     children: "NO CHARGE"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                    lineNumber: 356,
+                                                    lineNumber: 88,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                            lineNumber: 354,
+                                            lineNumber: 86,
                                             columnNumber: 23
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -767,7 +531,7 @@ function CompetitionCatalogPage() {
                                                     children: "PARTICIPANT"
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                    lineNumber: 359,
+                                                    lineNumber: 91,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -775,22 +539,22 @@ function CompetitionCatalogPage() {
                                                     style: {
                                                         color: palette.greige
                                                     },
-                                                    children: isRestyling ? 'GROUP (2-3)' : 'INDIVIDUAL'
+                                                    children: isGroup ? 'GROUP (2-3)' : 'INDIVIDUAL'
                                                 }, void 0, false, {
                                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                    lineNumber: 360,
+                                                    lineNumber: 92,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                            lineNumber: 358,
+                                            lineNumber: 90,
                                             columnNumber: 23
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                    lineNumber: 353,
+                                    lineNumber: 85,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -806,7 +570,7 @@ function CompetitionCatalogPage() {
                                                 children: comp.description || 'Prepare your futuristic concept. Originality and innovation are paramount.'
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                lineNumber: 369,
+                                                lineNumber: 101,
                                                 columnNumber: 25
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -820,7 +584,7 @@ function CompetitionCatalogPage() {
                                                 children: "INITIATE REGISTRATION"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                lineNumber: 373,
+                                                lineNumber: 105,
                                                 columnNumber: 25
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -832,13 +596,13 @@ function CompetitionCatalogPage() {
                                                 children: "[ ABORT DETAIL VIEW ]"
                                             }, void 0, false, {
                                                 fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                                lineNumber: 381,
+                                                lineNumber: 113,
                                                 columnNumber: 25
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                        lineNumber: 368,
+                                        lineNumber: 100,
                                         columnNumber: 23
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$frontend$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>setExpandedId(comp.id),
@@ -859,35 +623,35 @@ function CompetitionCatalogPage() {
                                         children: "EXPAND PROTOCOL"
                                     }, void 0, false, {
                                         fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                        lineNumber: 386,
+                                        lineNumber: 118,
                                         columnNumber: 23
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                                    lineNumber: 366,
+                                    lineNumber: 98,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, comp.id, true, {
                             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                            lineNumber: 332,
+                            lineNumber: 66,
                             columnNumber: 17
                         }, this);
                     })
                 }, void 0, false, {
                     fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-                    lineNumber: 323,
+                    lineNumber: 59,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-            lineNumber: 305,
+            lineNumber: 41,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/frontend/src/components/pages/CompetitionCatalogClient.tsx",
-        lineNumber: 304,
+        lineNumber: 40,
         columnNumber: 5
     }, this);
 }
