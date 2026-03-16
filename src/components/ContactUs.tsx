@@ -580,8 +580,7 @@ export default function ContactPage() {
 
         /* ─── LEFT: Model ───────────────────────────────────── */
         .contact-model {
-          margin-left: 5%;
-          flex: 0 0 40%;
+          flex: 0 0 45%;
           position: relative;
           height: 100%;
         }
@@ -712,9 +711,9 @@ export default function ContactPage() {
           .contact-model {
             flex: none;
             width: 100%;
-            height: 42vw;               /* proporsional sama width */
-            min-height: 180px;
-            max-height: 280px;
+            height: 60vw;               /* proporsional sama width */
+            min-height: 250px;
+            max-height: none;
           }
 
           /* Konten di bawah model */
