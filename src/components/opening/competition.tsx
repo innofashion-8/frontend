@@ -286,7 +286,7 @@ const Competition = () => {
   };
 
   return (
-    <section ref={sectionRef} id="competitions" className="relative min-h-screen w-full bg-transparent overflow-hidden flex items-center justify-center py-10 lg:py-20">
+    <section ref={sectionRef} id="competitions" className="relative min-h-screen w-full bg-transparent overflow-hidden flex items-center justify-center">
       
       {/* LAYER 0: HANYA OVERLAY GELAP (BACKGROUND IMAGE DIHAPUS) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -298,14 +298,14 @@ const Competition = () => {
         <img 
           ref={dust1Ref} 
           src="/photo/dust-abu.png" 
-          className="absolute -bottom-[5%] -left-[10%] lg:-bottom-[3%] lg:-left-[3%] w-[40%] lg:w-[22%] opacity-100 rotate-[-12deg]" 
+          className="absolute -bottom-[0%] md:-bottom-[5%] -left-[10%] lg:-bottom-[3%] lg:-left-[3%] w-[40%] lg:w-[22%] opacity-100 md:rotate-[-12deg]" 
           style={dustMaskStyle} // 👈 MASKING DITERAPKAN DI SINI
           alt="" 
         />
         <img 
           ref={dust2Ref} 
           src="/photo/dust-abu.png" 
-          className="absolute -bottom-[10%] -right-[5%] lg:-right-[0%] w-[40%] lg:w-[20%] opacity-100 rotate-[270deg]" 
+          className="absolute -bottom-[2%] md:-bottom-[10%] -right-[8%] lg:-right-[3%] w-[40%] lg:w-[20%] opacity-100 md:rotate-[270deg]" 
           style={dustMaskStyle} // 👈 MASKING DITERAPKAN DI SINI
           alt="" 
         />

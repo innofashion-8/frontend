@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   display: flex;
   align-items: center;
   background: transparent;
@@ -39,7 +39,7 @@
 /* ─── Dust texture (right side) ─────────────────── */
 .dustWrapper {
   position: absolute;
-  top: -5%;
+  top: -12%;
   right: -5%;
   width: 65%;
   height: 110%;
@@ -298,7 +298,7 @@
     right: 0;
   }
 
-  .dustWrapper   { width: 80%; }
+  .dustWrapper   { display: none; }
 
   .bodyText {
     font-size: rem1.15remx;
