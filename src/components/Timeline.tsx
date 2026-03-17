@@ -529,7 +529,7 @@ export default function TimelinePage() {
           { opacity: 0, x: xOffset, y: 30, filter: 'blur(5px)' },
           {
             opacity: 1, x: 0, y: 0, filter: 'blur(0px)',
-            duration: 0.8, ease: 'power2.out',
+            duration: 2.4, ease: 'power2.out',
             scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none reverse' }
           }
         )
@@ -539,7 +539,7 @@ export default function TimelinePage() {
           gsap.fromTo(dot,
             { scale: 0, backgroundColor: '#1C1C1B' },
             {
-              scale: 1, backgroundColor: '#E2E2DE', duration: 0.5, ease: 'back.out(1.7)',
+              scale: 1, backgroundColor: '#E2E2DE', duration: 2.4, ease: 'back.out(1.7)',
               scrollTrigger: { trigger: card, start: 'top 80%', toggleActions: 'play none none reverse' }
             }
           )
@@ -583,12 +583,12 @@ export default function TimelinePage() {
         <div className="relative w-full max-w-4xl mx-auto" ref={containerRef}>
           
           {/* Default Dark Track Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-20 w-[2px] md:-translate-x-1/2 bg-[#494947]/30" />
+          <div className="absolute left-[28px] md:left-1/2 top-0 bottom-43 w-[2px] md:-translate-x-1/2 bg-[#494947]/30" />
           
           {/* Glowing Scroll Progress Line */}
           <div 
             ref={progressLineRef} 
-            className="absolute left-[28px] md:left-1/2 top-0 bottom-20 w-[2px] md:-translate-x-1/2 bg-[#E2E2DE]"
+            className="absolute left-[28px] md:left-1/2 top-0 bottom-43 w-[2px] md:-translate-x-1/2 bg-[#E2E2DE]"
             style={{ boxShadow: '0 0 15px 2px rgba(226,226,222,0.6)' }}
           />
 
