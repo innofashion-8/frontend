@@ -403,7 +403,7 @@ const contacts = [
   {
     platformIcon: '/assets/LOGO LINE.png',
     username: '@182dplyt',
-    href: '#',
+    href: 'https://line.me/ti/p/@182dplyt',
     type: 'line',
   },
   {
@@ -739,7 +739,7 @@ export default function ContactPage() {
             /* Lebar full layar untuk meminimalkan pinggiran kepotong */
             width: 100vw; 
             /* Supaya model bisa mepet kiri, tarik margin negatif sebesar padding container (jika ada) */
-            margin-left: -20px; /* Asumsi body punya padding 20px, sesuaikan jika beda */
+            margin-left: 2px; /* Asumsi body punya padding 20px, sesuaikan jika beda */
             height: 80vw; /* Tinggi disesuaikan, agak lebih besar agar tidak kerdil */
             min-height: 300px;
             max-height: 500px;

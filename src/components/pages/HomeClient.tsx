@@ -77,7 +77,7 @@ export default function HomeClient() {
           {/* TIMELINE: Solid Black di tengah. Ada gradient masuk dari atas (before) dan keluar ke bawah (after) */}
           <section 
             id="timeline" 
-            className="relative bg-[#0a0a0a] 
+            className="relative bg-[#0a0a0a]
                        before:content-[''] before:absolute before:-top-40 before:left-0 before:w-full before:h-40 before:bg-gradient-to-b before:from-transparent before:to-[#0a0a0a] before:pointer-events-none 
                        after:content-[''] after:absolute after:-bottom-40 after:left-0 after:w-full after:h-40 after:bg-gradient-to-b after:from-[#0a0a0a] after:to-transparent after:pointer-events-none"
           >
