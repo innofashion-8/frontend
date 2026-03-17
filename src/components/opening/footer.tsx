@@ -38,10 +38,10 @@ const Footer = () => {
           </div>
 
         <div className="text-center md:text-right">
-            <p className="text-white font-normal text-[10px] md:text-[12px] mt-[-10] uppercase tracking-[0.15em] leading-tight">
+            <p className="text-white font-creato-body text-[10px] md:text-[12px] mt-[-10] uppercase tracking-[0.15em] leading-tight">
             @2026 INNOFASHION SHOW.
             </p>
-            <p className="text-white font-normal text-[10px] md:text-[12px] mt-[-2] uppercase tracking-[0.15em] leading-tight">
+            <p className="text-white font-creato-body text-[10px] md:text-[12px] mt-[-2] uppercase tracking-[0.15em] leading-tight">
             All Right Reserved
             </p>
         </div>
