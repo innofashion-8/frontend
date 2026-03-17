@@ -19,7 +19,9 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
   const router = useRouter();
   
   const [selectedDetail, setSelectedDetail] = useState<CompetitionRegistrationWithUserAndCompetition | null>(null);
+  const [selectedSubmission, setSelectedSubmission] = useState<CompetitionRegistrationWithUserAndCompetition | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [isSubmissionClosing, setIsSubmissionClosing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [filterUserType, setFilterUserType] = useState<string>('ALL');
@@ -49,11 +51,21 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     }, 200); 
   };
 
+  const handleCloseSubmissionModal = () => {
+    setIsSubmissionClosing(true);
+    setTimeout(() => {
+      setSelectedSubmission(null);
+      setIsSubmissionClosing(false);
+    }, 200);
+  };
+
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         if (showFilterModal) {
           setShowFilterModal(false);
+        } else if (selectedSubmission) {
+          handleCloseSubmissionModal();
         } else if (selectedDetail) {
           handleCloseModal();
         }
@@ -61,7 +73,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     };
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
-  }, [selectedDetail, showFilterModal]);
+  }, [selectedDetail, selectedSubmission, showFilterModal]);
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     let rejectionReason = "";
@@ -197,6 +209,23 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
           <option value="VERIFIED">VERIFIED</option>
           <option value="REJECTED">REJECTED</option>
         </select>
+      )
+    },
+    {
+      header: "VIEW SUBMISSION",
+      key: "submission",
+      render: (item) => (
+        <button 
+          onClick={() => setSelectedSubmission(item)}
+          disabled={!item.submissions || item.submissions.length === 0}
+          className={`px-4 py-1.5 border-[3px] border-[#1c1c1b] text-xs font-black transition-all shadow-[3px_3px_0px_#1c1c1b] tracking-wider ${
+            item.submissions && item.submissions.length > 0
+              ? 'bg-[#6A5D52] text-white hover:bg-[#1c1c1b] cursor-pointer'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
+        >
+          {item.submissions && item.submissions.length > 0 ? 'VIEW' : 'NO DATA'}
+        </button>
       )
     },
     {
@@ -348,6 +377,92 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
                 Apply
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {selectedSubmission && (
+        <div 
+          className={`fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-200 ease-in-out ${isSubmissionClosing ? 'opacity-0' : 'opacity-100'}`} 
+          onClick={handleCloseSubmissionModal}
+        >
+          <div 
+            className={`bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-10 relative transition-all duration-200 ease-in-out ${isSubmissionClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`} 
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={handleCloseSubmissionModal}
+              className="absolute top-4 right-6 text-4xl font-black text-[#1c1c1b] hover:scale-110 transition-transform cursor-pointer z-10"
+            >
+              &times;
+            </button>
+            
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 border-b-4 border-[#1c1c1b] pb-4">
+               <h2 className="text-3xl md:text-4xl font-black font-creato-title uppercase text-[#1C1C1B]">
+                 SUBMISSION DETAILS
+               </h2>
+               <div className="mt-2 md:mt-0 text-right">
+                  <span className="text-sm font-black text-[#6A5D52] uppercase block">{selectedSubmission.competition.name}</span>
+                  <span className="text-xs font-bold text-[#1c1c1b] block">{selectedSubmission.group_name || selectedSubmission.user.name}</span>
+               </div>
+            </div>
+
+            {selectedSubmission.submissions && selectedSubmission.submissions.length > 0 ? (
+              <div className="space-y-4">
+                {selectedSubmission.submissions.map((sub, index) => (
+                  <div key={sub.id} className="bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] p-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="bg-[#1c1c1b] text-white text-xs font-black px-3 py-1 uppercase">FILE {index + 1}</span>
+                          <span className="text-sm font-black text-[#1c1c1b] uppercase">{sub.file_type}</span>
+                        </div>
+                        <p className="text-xs text-[#6A5D52] font-bold mb-1">
+                          Submitted: {new Date(sub.submitted_at).toLocaleDateString('id-ID', { 
+                            day: 'numeric', 
+                            month: 'long', 
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                        {sub.file_path && (
+                          <p className="text-xs text-[#6A5D52] font-mono break-all">{sub.file_path.split('/').pop()}</p>
+                        )}
+                      </div>
+                      <a
+                        href={`${process.env.NEXT_PUBLIC_API_URL}/storage/${sub.file_path}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white text-xs font-black hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] cursor-pointer tracking-wider uppercase"
+                      >
+                        DOWNLOAD
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 px-4">
+                <div className="mb-6 text-[#6A5D52]">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-20 h-20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <line x1="9" y1="15" x2="15" y2="15" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-black font-creato-title uppercase text-[#1c1c1b] mb-3">No Submissions Yet</h3>
+                <p className="text-[#6A5D52] font-bold text-center">This participant hasn't submitted any files</p>
+              </div>
+            )}
+
+            <button 
+              onClick={handleCloseSubmissionModal}
+              className="w-full cursor-pointer py-4 font-black uppercase text-[#1c1c1b] bg-[#E2E2DE] border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-widest mt-6"
+            >
+              CLOSE
+            </button>
           </div>
         </div>
       )}
