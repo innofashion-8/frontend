@@ -86,7 +86,7 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
       <div
         ref={heroTextRef}
         className={`absolute inset-0 flex transition-opacity duration-500
-          items-end pb-14 sm:pb-0 sm:items-center
+          items-center pb-14 sm:pb-0
           ${isFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       >
         <div className="w-full max-w-[1500px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20">
