@@ -286,7 +286,7 @@ const Competition = () => {
   };
 
   return (
-    <section ref={sectionRef} id="competitions" className="relative min-h-screen w-full bg-transparent overflow-hidden flex items-center justify-center">
+    <section ref={sectionRef} id="competitions" className="relative min-h-screen w-full bg-transparent overflow flex items-center justify-center">
       
       {/* LAYER 0: HANYA OVERLAY GELAP (BACKGROUND IMAGE DIHAPUS) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -294,32 +294,32 @@ const Competition = () => {
       </div>
 
       {/* LAYER 1: DEBU PARALLAX DENGAN MASKING SMOOTH */}
-      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-10 pointer-events-none">
         <img 
           ref={dust1Ref} 
           src="/photo/dust-abu.png" 
-          className="absolute -bottom-[0%] md:-bottom-[5%] -left-[10%] lg:-bottom-[3%] lg:-left-[3%] w-[40%] lg:w-[22%] opacity-100 md:rotate-[-12deg]" 
+          className="absolute bottom-0 lg:-bottom-[13%] -left-[15%] lg:-bottom-[3%] lg:-left-[8%] w-[40%] lg:w-[22%] rotate-10 opacity-100 object-contain" 
           style={dustMaskStyle} // 👈 MASKING DITERAPKAN DI SINI
           alt="" 
         />
         <img 
           ref={dust2Ref} 
           src="/photo/dust-abu.png" 
-          className="absolute -bottom-[2%] md:-bottom-[10%] -right-[8%] lg:-right-[3%] w-[40%] lg:w-[20%] opacity-100 md:rotate-[270deg]" 
+          className="absolute -bottom-[2%] lg:-bottom-[17%] -right-[15%] lg:-right-[8%] w-[40%] lg:w-[22%] opacity-100 -scale-x-100 -rotate-10" 
           style={dustMaskStyle} // 👈 MASKING DITERAPKAN DI SINI
           alt="" 
         />
         <img 
           ref={dust3Ref} 
           src="/photo/dust-kuning.png" 
-          className="absolute top-[0%] lg:top-[-3%] left-[10%] lg:left-[22%] w-[80%] lg:w-[65%] opacity-100 blur-xl lg:blur-none" 
+          className="absolute top-[20%] md:top-[12%] lg:top-[-3%] left-[10%] lg:left-[22%] w-[80%] lg:w-[65%] opacity-100  lg:blur-none" 
           style={dustMaskStyle} // 👈 MASKING DITERAPKAN DI SINI
           alt="" 
         />
       </div>
 
       {/* LAYER 2: KONTEN UTAMA */}
-      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:grid lg:grid-cols-2 items-center gap-10 md:gap-12 lg:gap-8 min-h-[75vh] lg:min-h-[85vh]">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:grid lg:grid-cols-2 items-center justify-center gap-10 md:gap-12 lg:gap-8 min-h-[75vh] lg:min-h-[85vh]">
         <div ref={titleGroupRef} className="w-full flex justify-center lg:justify-start -mt-5 md:-mt-10 lg:-mt-16">
           <div className="flex flex-col items-center lg:items-start gap-4 md:gap-6 lg:gap-8 w-full max-w-[320px] sm:max-w-[450px] lg:max-w-[550px]">
             <div className="w-full"><img src="/photo/compe.png" alt="COMPE" className="w-full h-auto drop-shadow-2xl" /></div>

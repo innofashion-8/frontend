@@ -18,7 +18,7 @@ const creatoBody = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Innofashion 8",
+  title: "INNOFASHIONSHOW 8",
   description: "Innofashionshow 8 2026",
 };
 

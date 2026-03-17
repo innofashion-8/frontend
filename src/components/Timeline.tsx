@@ -672,7 +672,7 @@ export default function TimelinePage() {
                 zIndex: -1,
               }}
             >
-              <Image src="/assets/DUST-1.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} unoptimized />
+              <Image src="/assets/DUST-1.png" alt="" className='-scale-x-100 ' fill style={{ objectFit: 'contain', objectPosition: 'center' }} unoptimized />
             </div>
 
             {/* Dust behind "E" — absolute to image, stays on E */}
@@ -689,7 +689,7 @@ export default function TimelinePage() {
                 zIndex: -1,
               }}
             >
-              <Image src="/assets/DUST-1.png" alt="" fill style={{ objectFit: 'cover', objectPosition: 'center' }} unoptimized />
+              <Image src="/assets/DUST-1.png" alt="" fill style={{ objectFit: 'contain', objectPosition: 'center' }} unoptimized />
             </div>
 
             <Image

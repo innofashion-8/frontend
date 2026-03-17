@@ -430,9 +430,10 @@ export default function ContactPage() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Model — slide in from left
+      // Model — slide in from left (Desktop) / bottom (Mobile)
       gsap.from(modelRef.current, {
-        x: -150,
+        x: window.innerWidth > 600 ? -150 : 0,
+        y: window.innerWidth <= 600 ? 100 : 0,
         opacity: 0,
         duration: 1.3,
         ease: 'power3.out',
@@ -483,8 +484,6 @@ export default function ContactPage() {
   return (
     <div className="contact-root" ref={sectionRef}>
 
-      {/* 🔥 SEMUA GAMBAR BACKGROUND DAN OVERLAY GELAP DIHAPUS DARI SINI 🔥 */}
-
       <div className="contact-content">
 
         <div className="contact-model" ref={modelRef}>
@@ -492,25 +491,25 @@ export default function ContactPage() {
             src="/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png"
             alt="model shadow"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
+            className="model-img"
           />
           <Image
             src="/assets/DUST ABU.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(-10%)' }}
+            className="model-img dust-left"
           />
           <Image
             src="/assets/DUST KUNING.png"
             alt="dust"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center', transform: 'translateX(15%)' }}
+            className="model-img dust-right"
           />
           <Image
             src="/assets/ASET ORANG.png"
             alt="model"
             fill
-            style={{ objectFit: 'contain', objectPosition: 'bottom center' }}
+            className="model-img"
           />
         </div>
 
@@ -585,6 +584,19 @@ export default function ContactPage() {
           height: 100%;
         }
 
+        .model-img {
+          object-fit: contain;
+          object-position: bottom center;
+        }
+        
+        .dust-left {
+          transform: translateX(-10%);
+        }
+
+        .dust-right {
+          transform: translateX(15%);
+        }
+
         /* ─── RIGHT: Content ────────────────────────────────── */
         .contact-right {
           flex: 0 0 50%;
@@ -613,7 +625,7 @@ export default function ContactPage() {
           gap: 30px !important;
           width: 75%;
           max-width: 380px;
-          margin-top: 5vh !important; /* FIXED TYPO HERE (marin-top -> margin-top) */
+          margin-top: 5vh !important;
         }
 
         /* ─── Single Card ───────────────────────────────────── */
@@ -697,65 +709,93 @@ export default function ContactPage() {
           }
         }
 
-        /* ─── MOBILE (≤ 600px): stack vertikal ─────────────── */
+        /* ─── MOBILE (≤ 600px): stack vertikal dengan model di bawah ─────────────── */
         @media (max-width: 600px) {
           .contact-root { min-height: 100dvh; }
 
           .contact-content {
-            flex-direction: column;      /* stack vertikal */
+            /* Ubah flex-direction jadi column untuk menumpuk elemen secara vertikal */
+            flex-direction: column; 
             height: auto;
             min-height: 100dvh;
+            /* Pastikan tidak ada scroll horizontal */
+            overflow-x: hidden; 
           }
 
-          /* Model di atas, lebih kecil */
-          .contact-model {
-            flex: none;
-            width: 100%;
-            height: 60vw;               /* proporsional sama width */
-            min-height: 250px;
-            max-height: none;
-          }
-
-          /* Konten di bawah model */
+          /* Konten (Title & Cards) di Atas */
           .contact-right {
             flex: none;
             width: 100%;
-            padding: 16px 20px 32px;
+            padding: 40px 20px 20px; /* Padding atas ditambah agar tidak mepet navbar */
             justify-content: flex-start;
             align-items: center;
-            gap: 30px;
+            /* Pastikan elemen di dalam flex container ini menempati ruang dengan benar */
+            order: 1; 
+          }
+
+          /* Model di Bawah */
+          .contact-model {
+            flex: none;
+            /* Lebar full layar untuk meminimalkan pinggiran kepotong */
+            width: 100vw; 
+            /* Supaya model bisa mepet kiri, tarik margin negatif sebesar padding container (jika ada) */
+            margin-left: -20px; /* Asumsi body punya padding 20px, sesuaikan jika beda */
+            height: 80vw; /* Tinggi disesuaikan, agak lebih besar agar tidak kerdil */
+            min-height: 300px;
+            max-height: 500px;
+            order: 2; /* Pindah ke urutan kedua (bawah) */
+            /* Pastikan overflow disembunyikan jika ada elemen meluber */
+            overflow: hidden; 
+            margin-top: auto; /* Dorong ke paling bawah */
+          }
+
+          /* Agar gambar menutupi lebar layar tapi tetap proporsional (memotong bagian atas/bawah jika perlu, tapi samping penuh) */
+          .model-img {
+            object-fit: cover !important; 
+            object-position: top center !important; /* Fokus pada bagian atas gambar */
+          }
+          
+          /* Hilangkan translate yang ekstrem di mobile supaya dust tidak lari keluar layar */
+          .dust-left {
+            transform: translateX(0) scale(1.1) !important;
+          }
+
+          .dust-right {
+             transform: translateX(0) scale(1.1) !important;
           }
 
           .contact-title-wrap {
             height: clamp(60px, 18vw, 100px);
-            margin-bottom: 16px;
+            margin-bottom: 24px;
             align-self: center;
           }
 
           .contact-cards {
-            width: 92%;
-            max-width: 380px;
-            gap: 25px !important;
+            width: 100%; /* Penuhi lebar parent */
+            max-width: 320px;
+            gap: 20px !important;
+            margin-top: 10px !important;
           }
 
           .contact-card {
-            padding: 10px 20px;
-            gap: 4px;
+            padding: 12px 20px;
           }
 
           .card-icon {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
           }
 
-          .card-username { font-size: clamp(9px, 3.2vw, 13px); }
+          .card-username { font-size: clamp(11px, 3.5vw, 14px); }
         }
 
         /* ─── SMALL MOBILE (≤ 380px) ────────────────────────── */
         @media (max-width: 380px) {
-          .contact-model { height: 38vw; min-height: 150px; }
-          .contact-cards { width: 96%; }
-          .card-username { font-size: 10px; }
+          .contact-model { 
+             height: 100vw; 
+             min-height: 250px; 
+          }
+          .contact-cards { width: 95%; }
         }
       `}</style>
     </div>

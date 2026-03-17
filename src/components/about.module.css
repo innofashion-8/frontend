@@ -303,7 +303,7 @@
   .bodyText {
     font-size: rem1.15remx;
     line-height: 1.85;
-    text-align: left;
+    text-align: justify;
     max-width: 100%;
   }
 
