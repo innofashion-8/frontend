@@ -20,7 +20,7 @@ export default function HomeClient() {
 
     const timer = setTimeout(() => {
       setShowContent(true);
-    }, 7000);
+    }, 3000);
 
     if (!showContent) {
       document.body.style.overflow = 'hidden';
