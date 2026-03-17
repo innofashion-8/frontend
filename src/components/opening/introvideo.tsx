@@ -86,10 +86,10 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
       <div
         ref={heroTextRef}
         className={`absolute inset-0 flex transition-opacity duration-500
-          items-center pb-14 sm:pb-0
+          items-end pb-14 sm:pb-0 sm:items-center
           ${isFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
       >
-        <div className="w-full max-w-[1500px] mx-auto px-4 lg:px-8">
+        <div className="w-full max-w-[1500px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20">
           <div className="flex flex-col gap-2 sm:gap-3 md:gap-4 w-full sm:max-w-[52vw]">
 
             {/* Tag kecil */}
