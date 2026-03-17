@@ -35,9 +35,10 @@ export default function HomeClient() {
   }, [showContent]);
 
   return (
-    <main className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
+    // 🔥 1. HAPUS overflow-x-hidden di sini agar posisi 'sticky' bisa bekerja! 🔥
+    <main className="relative min-h-screen bg-[#0a0a0a] overflow-x-clip">
       
-      {/* 🔥 1. BACKGROUND FULL PARALLAX 🔥 */}
+      {/* 🔥 2. BACKGROUND FULL PARALLAX (Tetap fixed di belakang) 🔥 */}
       <div 
         className={`fixed inset-0 z-0 w-full h-full pointer-events-none transition-opacity duration-1000 ease-in-out ${showContent ? 'opacity-100' : 'opacity-0'}`}
         style={{
@@ -49,54 +50,51 @@ export default function HomeClient() {
         }}
       />
 
-      <div className="relative z-10">
-        <Navbar isVisible={showContent} />
+      <Navbar isVisible={showContent} />
+
+      {/* 🔥 3. GRUP OVERLAP (Hanya Video & About yang ada di grup ini) 🔥 */}
+      <div className="relative w-full z-10">
         
-        {/* Intro Video: Tetap solid black */}
-        <div className='bg-[#0a0a0a]'>
+        {/* Intro Video: Akan lengket (sticky) TAPI HANYA selama grup ini masih di layar */}
+        <div className='sticky top-0 h-screen w-full bg-[#0a0a0a] z-0 flex items-center justify-center'>
           <IntroVideo isFinished={showContent} />
         </div>
 
-        {/* MAIN CONTENT AREA */}
-        <div className={`transition-opacity duration-1000 ease-in-out ${showContent ? 'opacity-100' : 'opacity-0'}`}>
-          
-          {/* ABOUT: Solid Black dengan gradient fade-out ke bawah menjorok keluar (-bottom-40) */}
+        {/* About Section: Dibungkus relative z-10 supaya dia bisa meluncur ke atas menindih Video */}
+        <div className={`relative z-10 bg-[#0a0a0a] transition-opacity duration-1000 ease-in-out ${showContent ? 'opacity-100' : 'opacity-0'}`}>
           <section 
             id="about" 
             className="relative bg-[#0a0a0a] after:content-[''] after:absolute after:-bottom-40 after:left-0 after:w-full after:h-40 after:bg-gradient-to-b after:from-[#0a0a0a] after:to-transparent after:pointer-events-none"
           >
             <AboutSection />
           </section>
-
-          {/* COMPETITIONS: Transparan (Background parallax kelihatan) */}
-          {/* Kasih padding atas-bawah biar kontennya gak ketabrak efek gradient dari section sebelahnya */}
-          <section id="competitions" className="relative py-20">
-            <Competition />
-          </section>
-
-          {/* TIMELINE: Solid Black di tengah. Ada gradient masuk dari atas (before) dan keluar ke bawah (after) */}
-          <section 
-            id="timeline" 
-            className="relative bg-[#0a0a0a]
-                       before:content-[''] before:absolute before:-top-40 before:left-0 before:w-full before:h-40 before:bg-gradient-to-b before:from-transparent before:to-[#0a0a0a] before:pointer-events-none 
-                       after:content-[''] after:absolute after:-bottom-40 after:left-0 after:w-full after:h-40 after:bg-gradient-to-b after:from-[#0a0a0a] after:to-transparent after:pointer-events-none"
-          >
-            <Timeline />
-          </section>
-
-          {/* CONTACT: Transparan (Background parallax kelihatan) */}
-          <section id="contact" className="relative">
-            <ContactPage />
-          </section>
-          
-          {/* FOOTER: Solid Black dengan gradient fade-in dari atas menjorok keluar (-top-40) */}
-          <div 
-            className="relative z-20 bg-[#0a0a0a] before:content-[''] before:absolute before:-top-40 before:left-0 before:w-full before:h-40 before:bg-gradient-to-b before:from-transparent before:to-[#0a0a0a] before:pointer-events-none"
-          >
-            <Footer />
-          </div>
-          
         </div>
+      </div>
+
+      {/* 🔥 4. SISA KONTEN (Terpisah dari grup overlap supaya parallax kelihatan) 🔥 */}
+      <div className={`relative z-10 transition-opacity duration-1000 ease-in-out ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+        
+        <section id="competitions" className="relative py-20">
+          <Competition />
+        </section>
+
+        <section 
+          id="timeline" 
+          className="relative bg-[#0a0a0a]
+                     before:content-[''] before:absolute before:-top-40 before:left-0 before:w-full before:h-40 before:bg-gradient-to-b before:from-transparent before:to-[#0a0a0a] before:pointer-events-none 
+                     after:content-[''] after:absolute after:-bottom-40 after:left-0 after:w-full after:h-40 after:bg-gradient-to-b after:from-[#0a0a0a] after:to-transparent after:pointer-events-none"
+        >
+          <Timeline />
+        </section>
+
+        <section id="contact" className="relative">
+          <ContactPage />
+        </section>
+        
+        <div className="relative z-20 bg-[#0a0a0a] before:content-[''] before:absolute before:-top-40 before:left-0 before:w-full before:h-40 before:bg-gradient-to-b before:from-transparent before:to-[#0a0a0a] before:pointer-events-none">
+          <Footer />
+        </div>
+        
       </div>
 
     </main>
