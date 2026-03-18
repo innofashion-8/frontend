@@ -1,201 +1,233 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import "./loader.css";
+const BRAND_TEXT = "INNOFASHION SHOW";
+const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
 
-interface InnoFashionLoaderProps {
-  cycleDuration?: number;
-  onComplete?: () => void;
-  show?: boolean;
+const SPARKLE_POSITIONS = [
+  { top: "8%", left: "12%", delay: 0.0, duration: 2.2 },
+  { top: "12%", right: "10%", delay: 0.5, duration: 1.8 },
+  { top: "78%", left: "8%", delay: 0.8, duration: 2.5 },
+  { top: "82%", right: "15%", delay: 1.3, duration: 2.0 },
+  { top: "50%", left: "3%", delay: 0.3, duration: 2.3 },
+  { top: "48%", right: "4%", delay: 0.9, duration: 1.9 },
+  { top: "25%", left: "45%", delay: 0.6, duration: 2.1 },
+  { top: "88%", left: "50%", delay: 1.1, duration: 2.4 },
+  { top: "35%", left: "5%", delay: 1.5, duration: 2.0 },
+  { top: "65%", right: "6%", delay: 0.2, duration: 2.6 },
+  { top: "18%", left: "30%", delay: 1.7, duration: 1.7 },
+  { top: "75%", right: "35%", delay: 0.7, duration: 2.2 },
+];
+
+const FLOAT_PARTICLES = [
+  { left: "20%", bottom: "30%", delay: 0, duration: 4 },
+  { left: "35%", bottom: "25%", delay: 1.2, duration: 3.5 },
+  { left: "50%", bottom: "35%", delay: 0.5, duration: 4.5 },
+  { left: "65%", bottom: "28%", delay: 1.8, duration: 3.8 },
+  { left: "80%", bottom: "32%", delay: 0.8, duration: 4.2 },
+  { left: "25%", bottom: "40%", delay: 2.0, duration: 3.2 },
+  { left: "70%", bottom: "38%", delay: 1.5, duration: 3.6 },
+  { left: "45%", bottom: "20%", delay: 2.5, duration: 4.0 },
+];
+
+interface LuxuryLoaderProps {
+  isLoading: boolean;
 }
 
-export default function InnoFashionLoader({
-  cycleDuration = 1800,
-  onComplete,
-  show = true,
-}: InnoFashionLoaderProps) {
-  const [visible, setVisible] = useState(show);
-  const [fadeOut, setFadeOut] = useState(false);
+export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
+  const [scrambledText, setScrambledText] = useState("");
+  const [isRevealing, setIsRevealing] = useState(false);
 
   useEffect(() => {
-    if (!show) {
-      setFadeOut(true);
-      const t = setTimeout(() => {
-        setVisible(false);
-        onComplete?.();
-      }, 700);
-      return () => clearTimeout(t);
-    }
-  }, [show, onComplete]);
+    let iteration = 0;
+    let intervalId: NodeJS.Timeout;
 
-  if (!visible) return null;
+    if (isLoading) {
+      // Start the scrambling effect
+      intervalId = setInterval(() => {
+        setScrambledText(
+          BRAND_TEXT.split("")
+            .map((char, index) => {
+              if (index < iteration) {
+                return char;
+              }
+              return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
+            })
+            .join(""),
+        );
+
+        if (iteration >= BRAND_TEXT.length) {
+          clearInterval(intervalId);
+          setIsRevealing(true);
+        }
+
+        iteration += 1 / 3; // Controls the speed of reveal
+      }, 50);
+    } else {
+      // Instantly reveal if not loading
+      setScrambledText(BRAND_TEXT);
+      setIsRevealing(true);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isLoading]);
 
   return (
-    <div
-      className={`innof-loader-overlay ${fadeOut ? "fade-out" : ""}`}
-      aria-label="Loading"
-      role="status"
-    >
-      <div className="innof-scanlines" />
-
-      <div className="innof-logo-wrapper">
-        <div className="innof-logo-base">
-          <Image
-            src="/logo_INNOF.png"
-            alt="INNOFASHION SHOW"
-            width={520}
-            height={130}
-            priority
-            draggable={false}
-          />
-        </div>
-
-        <div
-          className="innof-logo-fill"
-          style={
-            {
-              "--cycle": `${cycleDuration}ms`,
-            } as React.CSSProperties
-          }
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeIn", delay: 0.5 }}
         >
-          <Image
-            src="/logo_INNOF.png"
-            alt=""
-            aria-hidden="true"
-            width={520}
-            height={130}
-            priority
-            draggable={false}
+          {/* Silver Ambient Glow */}
+          <motion.div
+            className="silver-ambient"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 0.3 }}
           />
-        </div>
-      </div>
-
-      <div className="innof-dots">
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className="innof-dot"
-            style={{ animationDelay: `${i * 250}ms` }}
+          <motion.div
+            className="silver-ambient-secondary"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 0.8 }}
           />
-        ))}
-      </div>
 
-      <style>{`
-        /* ─── Root Variables ─────────────────────────────── */
-        :root {
-          --innof-bg: #000000;
-          --innof-glow: rgba(255, 255, 255, 0.9);
-          --innof-dim: rgba(255, 255, 255, 0.08);
-        }
+          {/* Logo Container */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="mb-8 relative inline-flex"
+          >
+            <Image
+              src="/logo_INNOF.png"
+              alt="INNOFASHION SHOW"
+              width={280}
+              height={70}
+              priority
+              className="object-contain"
+            />
+            {/* The Shimmer overlay */}
+            <div className="logo-shimmer-silver z-20" />
+          </motion.div>
 
-        /* ─── Overlay ─────────────────────────────────────── */
-        .innof-loader-overlay {
-          position: fixed;
-          inset: 0;
-          z-index: 9999;
-          background: var(--innof-bg);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 40px;
-          transition: opacity 0.7s ease;
-          font-family: "Creato Display", sans-serif;
-        }
+          {/* Scrambled Text Container */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, delay: 0.1 }}
+            className="flex flex-col items-center justify-center gap-4 relative z-50 w-full"
+          >
+            <div className="font-mono text-xs tracking-[0.3em] text-white/80 h-4 text-silver-glow whitespace-nowrap flex">
+              {scrambledText.split("").map((char, i) => (
+                <motion.span
+                  key={i}
+                  exit={
+                    i === 3
+                      ? {
+                          scale: 600,
+                          opacity: 1, // Stay opaque to create the fly-through hole illusion
+                          transition: {
+                            duration: 1.5,
+                            ease: [0.32, 0, 0.67, 0],
+                          }, // Accelerating cubic bezier
+                        }
+                      : {
+                          opacity: 0,
+                          transition: { duration: 0.2, ease: "easeOut" },
+                        }
+                  }
+                  style={
+                    i === 3
+                      ? {
+                          display: "inline-block",
+                          transformOrigin: "center",
+                          position: "relative",
+                          zIndex: 100,
+                        }
+                      : { display: "inline-block" }
+                  }
+                >
+                  {char === " " ? "\u00A0" : char}
+                </motion.span>
+              ))}
+            </div>
 
-        .innof-loader-overlay.fade-out {
-          opacity: 0;
-          pointer-events: none;
-        }
+            {/* Simulated Progress Line */}
+            <motion.div
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="w-48 h-[1px] bg-white/10 relative overflow-hidden rounded-full z-20 mt-2"
+            >
+              <motion.div
+                className="absolute top-0 left-0 h-full silver-progress-fill"
+                initial={{ width: "0%" }}
+                animate={{ width: isRevealing ? "100%" : "80%" }}
+                transition={{
+                  duration: isRevealing ? 0.5 : 2.5,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+          </motion.div>
 
-        /* ─── Scanlines ───────────────────────────────────── */
-        .innof-scanlines {
-          position: absolute;
-          inset: 0;
-          background: repeating-linear-gradient(
-            to bottom,
-            transparent,
-            transparent 2px,
-            rgba(255, 255, 255, 0.015) 2px,
-            rgba(255, 255, 255, 0.015) 4px
-          );
-          pointer-events: none;
-          z-index: 1;
-        }
+          {/* Floating Sparkles and Particles */}
+          {SPARKLE_POSITIONS.map((spark, i) => (
+            <motion.div
+              key={`sparkle-${i}`}
+              className="sparkle"
+              style={{
+                top: spark.top,
+                left: spark.left,
+                right: spark.right,
+              }}
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 + spark.delay }}
+            >
+              <div
+                className="sparkle-inner"
+                style={
+                  {
+                    "--delay": `${spark.delay}s`,
+                    "--duration": `${spark.duration}s`,
+                  } as React.CSSProperties
+                }
+              />
+            </motion.div>
+          ))}
 
-        /* ─── Logo Wrapper ────────────────────────────────── */
-        .innof-logo-wrapper {
-          position: relative;
-          width: 520px;
-          max-width: 90vw;
-          z-index: 2;
-          filter: drop-shadow(0 0 32px rgba(255,255,255,0.06));
-        }
-
-        /* Base: dim white logo */
-        .innof-logo-base {
-          width: 100%;
-          opacity: 0.08;
-          user-select: none;
-        }
-
-        .innof-logo-base img,
-        .innof-logo-fill img {
-          width: 100%;
-          height: auto;
-          display: block;
-        }
-
-        /* Fill: bright logo, revealed by sweeping clip-path */
-        .innof-logo-fill {
-          position: absolute;
-          inset: 0;
-          overflow: hidden;
-          animation: innof-sweep var(--cycle, 1800ms) cubic-bezier(0.4, 0, 0.2, 1) infinite;
-          filter:
-            brightness(1.3)
-            drop-shadow(0 0 10px rgba(255,255,255,0.85))
-            drop-shadow(0 0 25px rgba(255,255,255,0.4));
-        }
-
-        /*
-          Sweep: clip-path goes from left=0%→100% (fill in),
-          then pauses fully filled, then collapses back 100%→0% (empty out).
-          We use inset() clip to create the horizontal wipe.
-        */
-        @keyframes innof-sweep {
-          /* start empty */
-          0%   { clip-path: inset(0 100% 0 0); opacity: 0.95; }
-          /* fill left→right */
-          38%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
-          /* hold full */
-          55%  { clip-path: inset(0 0% 0 0);   opacity: 1; }
-          /* drain left←right (right side goes away first) */
-          90%  { clip-path: inset(0 0% 0 100%); opacity: 0.95; }
-          /* brief pause fully empty */
-          100% { clip-path: inset(0 100% 0 0); opacity: 0.95; }
-        }
-
-        /* ─── Loading Dots ────────────────────────────────── */
-        .innof-dots {
-          display: flex;
-          gap: 10px;
-          z-index: 2;
-        }
-
-        .innof-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.5);
-          animation: innof-pulse 1.2s ease-in-out infinite;
-        }
-
-        @keyframes innof-pulse {
-          0%, 100% { opacity: 0.15; transform: scale(0.8); }
-          50%       { opacity: 1;    transform: scale(1.2); }
-        }
-      `}</style>
-    </div>
+          {FLOAT_PARTICLES.map((p, i) => (
+            <motion.div
+              key={`float-${i}`}
+              className="float-particle"
+              style={
+                {
+                  left: p.left,
+                  bottom: p.bottom,
+                  background: "rgba(255,255,255,0.4)",
+                  boxShadow: "0 0 10px rgba(230,230,250,0.5)",
+                  "--float-delay": `${p.delay}s`,
+                  "--float-duration": `${p.duration}s`,
+                } as React.CSSProperties
+              }
+              initial={{ opacity: 0 }}
+              exit={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: 1.0 + p.delay }}
+            />
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
