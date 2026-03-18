@@ -84,7 +84,6 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeIn", delay: 0.5 }}
         >
-          {/* Silver Ambient Glow */}
           <motion.div
             className="silver-ambient"
             initial={{ opacity: 0 }}
@@ -98,7 +97,6 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
             transition={{ duration: 2, delay: 0.8 }}
           />
 
-          {/* Logo Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -114,11 +112,9 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
               priority
               className="object-contain"
             />
-            {/* The Shimmer overlay */}
             <div className="logo-shimmer-silver z-20" />
           </motion.div>
 
-          {/* Scrambled Text Container */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -161,7 +157,6 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
               ))}
             </div>
 
-            {/* Simulated Progress Line */}
             <motion.div
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
@@ -179,7 +174,6 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
             </motion.div>
           </motion.div>
 
-          {/* Floating Sparkles and Particles */}
           {SPARKLE_POSITIONS.map((spark, i) => (
             <motion.div
               key={`sparkle-${i}`}
