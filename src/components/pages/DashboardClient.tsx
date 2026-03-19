@@ -8,17 +8,7 @@ import { fetchClient } from "@/lib/fetch-client";
 import Navbar from "@/components/opening/navbar";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
-
-const palette = {
-  onyx: "#1C1C1B",
-  obsidian: "#1a1a1a",
-  walnut: "#6A5D52",
-  greige: "#B7AC9B",
-  ash: "#979086",
-  stucco: "#E2E2DE",
-  graphite: "#494947",
-  gravel: "#7b787a",
-};
+import palette from "@/config/palette";
 
 export default function DashboardClient() {
   const router = useRouter();
@@ -213,19 +203,35 @@ export default function DashboardClient() {
                 MAIN DASHBOARD
               </p>
             </div>
-            <button
-              onClick={handleLogout}
-              className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer"
-              style={{
-                borderColor: palette.graphite,
-                backgroundColor: "rgba(28,28,27,0.5)",
-              }}
-            >
-              <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
-              <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">
-                LOG OUT
-              </span>
-            </button>
+            <div className="flex items-center gap-3">
+              {/* TOMBOL EDIT PROFILE */}
+              <button
+                onClick={() => router.push("/dashboard/profile")}
+                className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer hover:bg-white/10"
+                style={{
+                  borderColor: palette.graphite,
+                  backgroundColor: "rgba(28,28,27,0.5)",
+                }}
+              >
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-white">
+                  EDIT IDENTITY
+                </span>
+              </button>
+
+              <button
+                onClick={handleLogout}
+                className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer"
+                style={{
+                  borderColor: palette.graphite,
+                  backgroundColor: "rgba(28,28,27,0.5)",
+                }}
+              >
+                <span className="w-1 h-1 rounded-full bg-red-500 opacity-50 group-hover:opacity-100 transition-opacity"></span>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-red-400">
+                  LOG OUT
+                </span>
+              </button>
+            </div>
           </div>
           <h1
             className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest"
@@ -362,10 +368,9 @@ export default function DashboardClient() {
                         {isAccepted && isSketchComp && !hasSubmitted && (
                           <button
                             onClick={() => setUploadCompKey(compKey)}
-                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition-all cursor-pointer"
+                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-white hover:text-black transition-all cursor-pointer"
                             style={{
                               borderColor: palette.stucco,
-                              color: palette.stucco,
                             }}
                           >
                             UPLOAD SUBMISSION
@@ -442,9 +447,24 @@ export default function DashboardClient() {
                         <p className="text-sm font-medium text-red-200">
                           {reg.rejection_reason}
                         </p>
-                        <p className="text-[10px] font-bold tracking-[0.2em] text-white uppercase mt-4">
-                          ➔ PLEASE RE-REGISTER FROM THE CATALOG BELOW
-                        </p>
+                        
+                        {/* 🔥 GANTI TEKS JADI TOMBOL DIRECT LINK 🔥 */}
+                        <button
+                          onClick={() => {
+                            if (isComp) {
+                              router.push(`/dashboard/competition/${compKey}`);
+                            } else if (isEvent) {
+                              const eventKey = reg?.event?.slug || reg?.event?.id;
+                              router.push(`/dashboard/event/${eventKey}`);
+                            }
+                          }}
+                          className="mt-4 w-full md:w-auto px-6 py-3 font-black text-[10px] tracking-[0.2em] uppercase transition-all cursor-pointer border text-[#ef4444] hover:bg-red-500 hover:text-white"
+                          style={{ 
+                            borderColor: '#ef4444', 
+                          }}
+                        >
+                          REVISE REGISTRATION PROTOCOL
+                        </button>
                       </div>
                     )}
                   </div>
