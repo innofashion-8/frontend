@@ -9,6 +9,7 @@ export interface Event {
   description: string;
   price: number;
   quota: number;
+  wa_link: string;
   start_time: string;
   is_active: boolean;
   created_at?: string;
@@ -24,6 +25,7 @@ export interface EventResource {
   description: string;
   price: number;
   quota: number;
+  wa_link: string;
   start_time_human: string;
   start_time_input: string;
   start_time_iso: string;
@@ -36,6 +38,7 @@ export interface EventPayload {
   description?: string;
   price: number;
   quota: number;
+  wa_link?: string;
   start_time: string;
   is_active?: boolean;
 }
