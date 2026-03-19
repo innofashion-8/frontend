@@ -8,18 +8,7 @@ import { eventService } from '@/services/event-service';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
-
-// INJEKSI COLOR PALETTE DYSTOPIAN
-const palette = {
-  onyx: '#1C1C1B',
-  obsidian: '#1a1a1a',
-  walnut: '#6A5D52',
-  greige: '#B7AC9B',
-  ash: '#979086',
-  stucco: '#E2E2DE',
-  graphite: '#494947',
-  gravel: '#7b787a'
-};
+import palette from '@/config/palette';
 
 export default function EventRegisterPage() {
   const params = useParams();
@@ -35,20 +24,47 @@ export default function EventRegisterPage() {
   });
 
   const [paymentFile, setPaymentFile] = useState<File | null>(null);
+  const [paymentPreview, setPaymentPreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
   const file = e.target.files?.[0];
-  if (!file) return setPaymentFile(null); // 👈 Beda di sini doang (setPaymentFile)
+  if (!file) {
+    setPaymentFile(null);
+    setPaymentPreview(null);
+    return;
+  }
 
-  if (file.type === 'application/pdf') return setPaymentFile(file);
+  if (file.type === 'application/pdf') {
+    setPaymentFile(file);
+    setPaymentPreview(null);
+    return;
+  }
 
+  setIsCompressing(true);
   try {
     const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1280, useWebWorker: true };
     const compressedFile = await imageCompression(file, options);
     setPaymentFile(compressedFile);
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPaymentPreview(reader.result as string);
+    };
+    reader.readAsDataURL(compressedFile);
   } catch (error) {
     setPaymentFile(file);
+    
+    // Create preview for original file
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPaymentPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  } finally {
+    setIsCompressing(false);
   }
 };
 
@@ -117,17 +133,22 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
       });
     }
 
+    // Beda message untuk event gratis vs berbayar
+    const confirmationMessage = isPaid 
+      ? 'Are you sure you want to submit? Please ensure your payment proof is correct. Data cannot be altered later.'
+      : 'Are you sure you want to register for this free event? Once confirmed, you cannot cancel your registration.';
+
     const confirmation = await Swal.fire({
-      icon: 'warning',
-      title: 'INITIATE PROTOCOL?',
-      text: 'Are you sure you want to submit? Data cannot be altered later.',
+      icon: 'question',
+      title: isPaid ? 'CONFIRM SUBMISSION?' : 'CONFIRM REGISTRATION?',
+      text: confirmationMessage,
       background: palette.onyx,
       color: palette.stucco,
       showCancelButton: true,
       confirmButtonColor: palette.walnut,
       cancelButtonColor: palette.graphite,
-      confirmButtonText: 'SECURE PASS',
-      cancelButtonText: 'ABORT',
+      confirmButtonText: isPaid ? 'SUBMIT NOW' : 'YES, REGISTER',
+      cancelButtonText: 'CANCEL',
       customClass: {
         popup: 'border border-[#7b787a] rounded-none',
         title: 'font-black tracking-[0.2em] uppercase text-xl',
@@ -173,7 +194,9 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
           
           Swal.fire({
             title: 'DATA REJECTED',
-            text: 'Data entry protocol rejected. Please verify your clearance fee proof.',
+            text: isPaid 
+              ? 'Data entry protocol rejected. Please verify your clearance fee proof.'
+              : 'Registration failed. Please try again.',
             icon: 'error',
             background: palette.onyx,
             color: palette.stucco,
@@ -212,13 +235,13 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
   if (!event) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>SYSTEM NOTICE: EVENT PROTOCOL NOT FOUND.</div>;
 
   return (
-    <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
+    <div className="relative py-12 min-h-screen">
       {/* <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
         <Beams beamWidth={3} beamHeight={30} beamNumber={20} lightColor={palette.greige} speed={2} noiseIntensity={1.75} scale={0.2} rotation={30} />
       </div> */}
 
       <div className="relative z-10 max-w-3xl mx-auto px-4">
-        <button onClick={() => router.back()} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
+        <button onClick={() => router.back()} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase cursor-pointer transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
           <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> ABORT ENTRY
         </button>
 
@@ -262,7 +285,9 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
               {regStatus?.rejection_reason && (
                 <p className="text-red-200 text-sm font-bold mb-3">Reason: {regStatus.rejection_reason}</p>
               )}
-              <p className="text-white text-[10px] tracking-[0.2em] uppercase font-bold">Please upload a valid payment proof and resubmit below.</p>
+              <p className="text-white text-[10px] tracking-[0.2em] uppercase font-bold">
+                {isPaid ? 'Please upload a valid payment proof and resubmit below.' : 'Please resubmit your registration below.'}
+              </p>
             </div>
           )}
 
@@ -279,15 +304,28 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
                   style={{ backgroundColor: palette.obsidian, borderColor: formErrors?.payment_proof ? '#ef4444' : palette.graphite, color: palette.ash }}
                 />
                 {formErrors?.payment_proof && <p className="text-red-500 text-[10px] mt-3 font-bold uppercase tracking-[0.2em]">⚠️ {formErrors.payment_proof[0]}</p>}
+                
+                {paymentPreview && (
+                  <div className="mt-4 border p-4" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
+                    <p className="text-[10px] font-bold mb-3 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>PREVIEW:</p>
+                    <img src={paymentPreview} alt="Payment proof preview" className="w-full max-w-md mx-auto rounded" style={{ border: `2px solid ${palette.graphite}` }} />
+                  </div>
+                )}
+                
+                {paymentFile && paymentFile.type === 'application/pdf' && (
+                  <div className="mt-4 border p-4" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
+                    <p className="text-xs font-bold uppercase tracking-wider" style={{ color: palette.greige }}>✓ PDF FILE UPLOADED: {paymentFile.name}</p>
+                  </div>
+                )}
               </div>
             )}
 
             <button 
-              type="submit" disabled={isSubmitting}
-              className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
+              type="submit" disabled={isSubmitting || isCompressing}
+              className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
               style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
             >
-              {isSubmitting ? 'GENERATING PASS...' : 'OBTAIN PASS NOW'}
+              {isCompressing ? 'COMPRESSING FILE...' : isSubmitting ? 'PROCESSING...' : (isPaid ? 'SUBMIT REGISTRATION' : 'REGISTER NOW')}
             </button>
           </form>
         </div>

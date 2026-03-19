@@ -5,17 +5,7 @@ import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { competitionService } from "@/services/competition-service";
 import Swal from "sweetalert2";
-
-const palette = {
-  onyx: "#1C1C1B",
-  obsidian: "#1a1a1a",
-  walnut: "#6A5D52",
-  greige: "#B7AC9B",
-  ash: "#979086",
-  stucco: "#E2E2DE",
-  graphite: "#494947",
-  gravel: "#7b787a",
-};
+import palette from "@/config/palette";
 
 export default function CompetitionCatalogPage() {
   const router = useRouter();
@@ -54,7 +44,13 @@ export default function CompetitionCatalogPage() {
     );
 
   return (
-    <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
+    <div 
+      className="relative py-12 min-h-screen"
+      onClick={() => {
+        // Tutup expanded card kalau klik di luar card
+        if (expandedId) setExpandedId(null);
+      }}
+    >
       <div className="relative z-10 max-w-5xl mx-auto px-4">
         <button
           onClick={() => router.push("/dashboard")}
@@ -110,6 +106,7 @@ export default function CompetitionCatalogPage() {
             {competitions.map((comp: any, idx: number) => {
               const isOthersExpanded =
                 expandedId !== null && expandedId !== comp.id;
+              const isThisExpanded = expandedId === comp.id;
               // Ngambil tipe partisipan langsung dari database API
               const isGroup = comp.participant_type === "GROUP";
 
@@ -124,6 +121,10 @@ export default function CompetitionCatalogPage() {
                     boxShadow: isOthersExpanded
                       ? "none"
                       : "0 10px 30px -10px rgba(0,0,0,0.5)",
+                  }}
+                  onClick={(e) => {
+                    // Stop propagation agar tidak trigger onClick parent
+                    e.stopPropagation();
                   }}
                   onMouseEnter={(e) => {
                     if (!isOthersExpanded)

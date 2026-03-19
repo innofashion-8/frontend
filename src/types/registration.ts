@@ -23,6 +23,10 @@ export interface StatusResponse {
   is_locked: boolean;
   is_eligible?: boolean;
   ineligibility_reason?: string;
+  region?: RegionType;
+  group_name?: string | null; // only for competition
+  category?: CompetitionCategory | null;
+  members?: CompetitionMember[];
   draft_data: Record<string, any> | null;
   user_profile: UserProfile;
   rejection_reason?: string;

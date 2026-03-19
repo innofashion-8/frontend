@@ -4,17 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { eventService } from "@/services/event-service";
-
-const palette = {
-  onyx: "#1C1C1B",
-  obsidian: "#1a1a1a",
-  walnut: "#6A5D52",
-  greige: "#B7AC9B",
-  ash: "#979086",
-  stucco: "#E2E2DE",
-  graphite: "#494947",
-  gravel: "#7b787a",
-};
+import palette from "@/config/palette";
 
 export default function EventCatalogPage() {
   const router = useRouter();
@@ -38,7 +28,13 @@ export default function EventCatalogPage() {
   }
 
   return (
-    <div className="relative py-12 min-h-screen bg-[#0a0a0a]">
+    <div 
+      className="relative py-12 min-h-screen"
+      onClick={() => {
+        // Tutup expanded card kalau klik di luar card
+        if (expandedId) setExpandedId(null);
+      }}
+    >
       {/* <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
         <Beams
           beamWidth={3}
@@ -121,6 +117,7 @@ export default function EventCatalogPage() {
 
               const isOthersExpanded =
                 expandedId !== null && expandedId !== evt.slug;
+              const isThisExpanded = expandedId === evt.slug;
 
               return (
                 <div
@@ -133,6 +130,10 @@ export default function EventCatalogPage() {
                     boxShadow: isOthersExpanded
                       ? "none"
                       : "0 10px 30px -10px rgba(0,0,0,0.5)",
+                  }}
+                  onClick={(e) => {
+                    // Stop propagation agar tidak trigger onClick parent
+                    e.stopPropagation();
                   }}
                   onMouseEnter={(e) => {
                     if (!isOthersExpanded)
