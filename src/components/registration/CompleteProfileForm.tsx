@@ -151,8 +151,23 @@ export function CompleteProfileForm() {
         // if (documentFile) draftForm.append('draft_data[document_path]', documentFile);
 
         userService.saveDraft(draftForm)
-          .then(() => console.log("Draft profile auto-saved"))
-          .catch(() => console.error("Failed to auto-save profile draft"));
+          .then(() => {
+            console.log("Draft auto-saved");
+            setFormErrors(null); // Clear errors ketika draft berhasil
+          })
+          .catch((error: any) => {
+            console.error("Draft save failed:", error);
+            // Tampilkan error validasi dari backend
+            if (error.isValidationError) {
+              // Flatten nested errors dari "draft_data.phone" jadi "phone"
+              const flatErrors: any = {};
+              Object.keys(error.errors).forEach(key => {
+                const cleanKey = key.replace('draft_data.', '');
+                flatErrors[cleanKey] = error.errors[key];
+              });
+              setFormErrors(flatErrors);
+            }
+          });
       }
     }, 2000); // <-- 2000 ms (2 detik). Ubah jadi 3000 kalau mau 3 detik.
 
@@ -206,15 +221,16 @@ export function CompleteProfileForm() {
       
       await Swal.fire({
         icon: 'success',
-        title: 'ACCESS GRANTED',
-        text: 'Profile completed successfully!',
+        title: 'IDENTITY VERIFIED',
+        html: '<p style="font-size: 14px; margin-top: 12px; line-height: 1.6;">Your profile has been successfully submitted and is now under review by our system administrators. You will be notified once verification is complete.</p>',
         background: palette.onyx,
         color: palette.stucco,
-        timer: 1500,
-        showConfirmButton: false,
+        confirmButtonColor: palette.walnut,
+        confirmButtonText: 'PROCEED TO TERMINAL',
         customClass: {
             popup: 'border border-[#7b787a] rounded-none',
             title: 'font-black tracking-[0.2em] uppercase text-xl',
+            confirmButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2'
         }
       });
 
@@ -227,11 +243,12 @@ export function CompleteProfileForm() {
         setFormErrors(error.errors);
         Swal.fire({
           icon: 'error',
-          title: 'ACCESS DENIED',
-          text: 'Please check your inputs! Some data are invalid.',
+          title: 'VALIDATION FAILED',
+          html: '<p style="font-size: 14px; margin-top: 12px; line-height: 1.6;">Your submission contains invalid or incomplete data. Please review the highlighted fields and ensure all information is accurate before resubmitting.</p>',
           background: palette.onyx,
           color: palette.stucco,
           confirmButtonColor: '#ef4444',
+          confirmButtonText: 'REVIEW INPUTS',
           customClass: {
             popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
             title: 'font-black tracking-[0.2em]',
@@ -242,11 +259,12 @@ export function CompleteProfileForm() {
         const safeErrorMsg = typeof error.message === 'string' ? error.message : JSON.stringify(error.message || 'SYSTEM FAILURE');
         Swal.fire({
           icon: 'error',
-          title: 'SYSTEM ERROR',
-          text: safeErrorMsg,
+          title: 'SUBMISSION FAILED',
+          html: `<p style="font-size: 14px; margin-top: 12px; line-height: 1.6;">${safeErrorMsg}</p><p style="font-size: 12px; margin-top: 8px; opacity: 0.7;">If this issue persists, please contact our technical support team for assistance.</p>`,
           background: palette.onyx,
           color: palette.stucco,
           confirmButtonColor: '#ef4444',
+          confirmButtonText: 'TRY AGAIN',
           customClass: {
             popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
             title: 'font-black tracking-[0.2em]',
