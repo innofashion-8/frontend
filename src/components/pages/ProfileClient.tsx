@@ -30,7 +30,7 @@ export default function ProfileClient() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCompressing, setIsCompressing] = useState(false); // 🔥 STATE BARU UNTUK CEK KOMPRESI
+  const [isCompressing, setIsCompressing] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
 
   const { data: profileData, isLoading } = useQuery({
@@ -88,7 +88,6 @@ export default function ProfileClient() {
       setIdCardFile(file);
       setPreviewUrl(URL.createObjectURL(file));
     } finally {
-      // 🔥 BUKA LAGI TOMBOLNYA PAS KELAR 🔥
       setIsCompressing(false);
     }
   };
@@ -121,6 +120,7 @@ export default function ProfileClient() {
     setIsSubmitting(true);
     try {
       const formData = new FormData();
+      // Data locked tetep dikirim biar lolos validasi backend
       formData.append("name", name);
       formData.append("phone", phone);
       formData.append("institution", institution);
@@ -128,7 +128,6 @@ export default function ProfileClient() {
       
       if (line) formData.append("line", line);
       
-      // 🔥 Masukin NRP & Batch HANYA kalau Internal 🔥
       if (isInternal) {
         formData.append("nrp", nrp);
         formData.append("batch", batch);
@@ -256,20 +255,18 @@ export default function ProfileClient() {
               />
             </div>
 
-            {/* NAME */}
+            {/* NAME (Read Only) */}
             <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
               <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                FULL NAME *
+                FULL NAME (LOCKED)
               </label>
               <input
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border text-sm focus:outline-none"
-                style={{ backgroundColor: palette.onyx, borderColor: formErrors?.name ? "#ef4444" : palette.graphite, color: palette.stucco }}
-                required
+                disabled
+                className="w-full px-4 py-3 border text-sm opacity-50 cursor-not-allowed focus:outline-none"
+                style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, color: palette.ash }}
               />
-              {formErrors?.name && <p className="text-red-500 text-[10px] mt-2 font-bold uppercase tracking-wider animate-pulse">{formErrors.name[0]}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -339,40 +336,35 @@ export default function ProfileClient() {
               </div>
             </div>
 
-            {/* KHUSUS INTERNAL (NRP & BATCH) */}
+            {/* KHUSUS INTERNAL (NRP & BATCH - Read Only) */}
             {isInternal && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* NRP */}
                 <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
                   <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                    NRP (STUDENT ID) *
+                    NRP (LOCKED)
                   </label>
                   <input
                     type="text"
                     value={nrp}
-                    onChange={(e) => setNrp(e.target.value)}
-                    className="w-full px-4 py-3 border text-sm focus:outline-none"
-                    style={{ backgroundColor: palette.onyx, borderColor: formErrors?.nrp ? "#ef4444" : palette.graphite, color: palette.stucco }}
-                    required
+                    disabled
+                    className="w-full px-4 py-3 border text-sm opacity-50 cursor-not-allowed focus:outline-none"
+                    style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, color: palette.ash }}
                   />
-                  {formErrors?.nrp && <p className="text-red-500 text-[10px] mt-2 font-bold uppercase tracking-wider animate-pulse">{formErrors.nrp[0]}</p>}
                 </div>
 
                 {/* BATCH */}
                 <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
                   <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                    BATCH / YEAR *
+                    BATCH / YEAR (LOCKED)
                   </label>
                   <input
                     type="text"
                     value={batch}
-                    onChange={(e) => setBatch(e.target.value)}
-                    className="w-full px-4 py-3 border text-sm focus:outline-none"
-                    placeholder="e.g. 2023"
-                    style={{ backgroundColor: palette.onyx, borderColor: formErrors?.batch ? "#ef4444" : palette.graphite, color: palette.stucco }}
-                    required
+                    disabled
+                    className="w-full px-4 py-3 border text-sm opacity-50 cursor-not-allowed focus:outline-none"
+                    style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, color: palette.ash }}
                   />
-                  {formErrors?.batch && <p className="text-red-500 text-[10px] mt-2 font-bold uppercase tracking-wider animate-pulse">{formErrors.batch[0]}</p>}
                 </div>
               </div>
             )}
