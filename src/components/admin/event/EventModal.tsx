@@ -93,6 +93,23 @@ export default function EventModal({ event, onClose }: EventModalProps) {
           </div>
         </div>
 
+        {event.wa_link && (
+          <div className="mb-6">
+            <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">WhatsApp Group Link</h3>
+            <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+              <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">Group Link:</p>
+              <a 
+                href={event.wa_link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+              >
+                {event.wa_link}
+              </a>
+            </div>
+          </div>
+        )}
+
         <button onClick={handleClose} className="w-full cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider">
           Close
         </button>

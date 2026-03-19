@@ -133,6 +133,18 @@ export default function EventSidebar({
             ></textarea>
             {errors?.description && <p className="text-red-600 text-sm mt-1">{errors.description[0]}</p>}
           </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">WhatsApp Link</label>
+            <input 
+              type="url" 
+              placeholder="https://chat.whatsapp.com/..."
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.wa_link || ''} 
+              onChange={(e) => onChange({ ...formData, wa_link: e.target.value })} 
+            />
+            {errors?.wa_link && <p className="text-red-600 text-sm mt-1">{errors.wa_link[0]}</p>}
+          </div>
           
           <div className="mt-auto pt-6 flex gap-4">
             <button type="button" onClick={onClose} className="border-2 border-[#978D82] text-[#7B7D7B] font-bold rounded-lg py-3 px-6 flex-1 hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors cursor-pointer">
