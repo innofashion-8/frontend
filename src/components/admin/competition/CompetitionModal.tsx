@@ -120,6 +120,40 @@ export default function CompetitionModal({ competition, onClose }: CompetitionMo
           </div>
         </div>
 
+        {(competition.wa_link_national || competition.wa_link_international) && (
+          <div className="mb-6">
+            <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">WhatsApp Group Links</h3>
+            <div className="space-y-4">
+              {competition.wa_link_national && (
+                <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+                  <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">National Participants:</p>
+                  <a 
+                    href={competition.wa_link_national} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+                  >
+                    {competition.wa_link_national}
+                  </a>
+                </div>
+              )}
+              {competition.wa_link_international && (
+                <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+                  <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">International Participants:</p>
+                  <a 
+                    href={competition.wa_link_international} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+                  >
+                    {competition.wa_link_international}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         <button 
           onClick={handleClose} 
           className="w-full cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider"
