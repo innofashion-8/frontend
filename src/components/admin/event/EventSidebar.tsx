@@ -69,6 +69,7 @@ export default function EventSidebar({
             >
               <option value="TALKSHOW">TALKSHOW</option>
               <option value="WORKSHOP">WORKSHOP</option>
+              <option value="GRADUATION">GRADUATION</option>
             </select>
             {errors?.category && <p className="text-red-600 text-sm mt-1">{errors.category[0]}</p>}
           </div>

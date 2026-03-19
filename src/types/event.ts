@@ -1,4 +1,4 @@
-export type EventCategory = 'TALKSHOW' | 'WORKSHOP';
+export type EventCategory = 'TALKSHOW' | 'WORKSHOP' | 'GRADUATION';
 
 // untuk /events
 export interface Event {
