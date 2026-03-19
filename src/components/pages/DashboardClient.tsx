@@ -165,6 +165,43 @@ export default function DashboardClient() {
     });
   };
 
+  const handleViewTicket = (regId: string, eventName: string) => {
+    const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(regId)}&size=300&margin=2`;
+
+    Swal.fire({
+      title: "ACCESS PASS",
+      html: `
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px;">
+          <p style="color: ${palette.greige}; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">${eventName}</p>
+          
+          <div style="background: ${palette.stucco}; padding: 15px; display: inline-block;">
+            <img src="${qrUrl}" alt="QR Code" style="width: 250px; height: 250px; display: block;" />
+          </div>
+          
+          <p style="color: ${palette.ash}; font-size: 10px; letter-spacing: 1px; margin-top: 15px; text-transform: uppercase;">
+            TICKET PROTOCOL ID:
+          </p>
+          <div style="padding: 10px; border: 1px dashed ${palette.graphite}; background: rgba(0,0,0,0.5); width: 100%;">
+            <strong style="color: ${palette.stucco}; font-size: 12px; letter-spacing: 2px; word-break: break-all;">${regId}</strong>
+          </div>
+          
+          <p style="color: ${palette.gravel}; font-size: 9px; margin-top: 10px; font-style: italic;">
+            Present this QR Code or ID at the entrance gate.
+          </p>
+        </div>
+      `,
+      background: palette.onyx,
+      color: palette.stucco,
+      confirmButtonText: "ACKNOWLEDGE",
+      confirmButtonColor: palette.walnut,
+      customClass: {
+        popup: "border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]",
+        title: "font-black tracking-[0.2em] uppercase",
+        confirmButton: "font-bold tracking-widest uppercase rounded-none px-6 py-2",
+      },
+    });
+  };
+
   let allRegistrations: any[] = [];
   if (registrations) {
     allRegistrations = Array.isArray(registrations)
@@ -391,7 +428,21 @@ export default function DashboardClient() {
                             VIEW SUBMISSION
                           </button>
                         )}
-                        {/* 🔥 TOMBOL WHATSAPP (SEKARANG MUNCUL UNTUK SEMUA YG VERIFIED: SKETCH, RESTYLING, EVENT) 🔥 */}
+
+                        {/* 🔥 TOMBOL VIEW TICKET (KHUSUS EVENT YG VERIFIED) 🔥 */}
+                        {isAccepted && isEvent && (
+                          <button
+                            onClick={() => handleViewTicket(reg.id, itemName)}
+                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-[#E2E2DE] hover:text-[#1C1C1B] transition-all cursor-pointer"
+                            style={{
+                              borderColor: palette.stucco,
+                            }}
+                          >
+                            VIEW TICKET
+                          </button>
+                        )}
+
+                        {/* 🔥 TOMBOL WHATSAPP 🔥 */}
                         {isAccepted && finalWaLink && (
                           <a 
                             href={finalWaLink} target="_blank" rel="noopener noreferrer"
@@ -434,7 +485,6 @@ export default function DashboardClient() {
                           {reg.rejection_reason}
                         </p>
                         
-                        {/* 🔥 GANTI TEKS JADI TOMBOL DIRECT LINK 🔥 */}
                         <button
                           onClick={() => {
                             if (isComp) {
