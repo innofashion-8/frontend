@@ -391,20 +391,6 @@ export default function DashboardClient() {
                             VIEW SUBMISSION
                           </button>
                         )}
-
-                        {isAccepted &&
-                          finalWaLink &&
-                          (isEvent || isRestylingComp) && (
-                            <a
-                              href={finalWaLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all cursor-pointer"
-                              style={{ borderColor: "#25D366" }}
-                            >
-                              JOIN WHATSAPP
-                            </a>
-                          )}
                         {/* 🔥 TOMBOL WHATSAPP (SEKARANG MUNCUL UNTUK SEMUA YG VERIFIED: SKETCH, RESTYLING, EVENT) 🔥 */}
                         {isAccepted && finalWaLink && (
                           <a 
