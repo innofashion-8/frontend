@@ -8,7 +8,16 @@ export default function GlobalLoader() {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Skip loader untuk halaman admin
+  const isAdminPage = pathname?.startsWith('/admin');
+
   useEffect(() => {
+    // Jangan tampilkan loader kalau di halaman admin
+    if (isAdminPage) {
+      setIsLoading(false);
+      return;
+    }
+
     // Trigger loader on route change
     setIsLoading(true);
 
@@ -18,7 +27,10 @@ export default function GlobalLoader() {
     }, 2800);
 
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [pathname, isAdminPage]);
+
+  // Jangan render loader sama sekali kalau di admin
+  if (isAdminPage) return null;
 
   return <InnoFashionLoader isLoading={isLoading} />;
 }
