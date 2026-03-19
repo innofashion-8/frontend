@@ -1,8 +1,0 @@
-[00:32:56.872] Server  LOG       Reload env: .env
-[00:32:57.233] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open 'C:\laragon\www\innof2026\innof-frontend\.next\dev\server\edge\chunks\node_modules_7755df38._.js'
-[00:32:57.245] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open 'C:\laragon\www\innof2026\innof-frontend\.next\dev\server\edge\chunks\node_modules_7755df38._.js'
-[00:32:57.248] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open 'C:\laragon\www\innof2026\innof-frontend\.next\dev\server\edge\chunks\node_modules_7755df38._.js'
-[00:32:57.265] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open 'C:\laragon\www\innof2026\innof-frontend\.next\dev\server\edge\chunks\node_modules_7755df38._.js'
-[00:32:57.270] Server  LOG     ✓ Compiled in 1ms
-[00:33:00.252] Server  LOG     ○ Compiling /_error ...
-[00:33:03.983] Server  ERROR   ⨯ Error: ENOENT: no such file or directory, open 'C:\laragon\www\innof2026\innof-frontend\.next\dev\server\edge\chunks\node_modules_7755df38._.js'
