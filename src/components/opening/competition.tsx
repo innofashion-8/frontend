@@ -22,6 +22,22 @@ const Competition = () => {
   const [briefingStep, setBriefingStep] = useState(0); 
   const [selectedCategory, setSelectedCategory] = useState("");
 
+  // --- HANDLE ESC KEY ---
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && briefingStep > 0) {
+        if (briefingStep === 2) {
+          setBriefingStep(1); // Kembali ke step 1
+        } else {
+          setBriefingStep(0); // Tutup modal
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [briefingStep]);
+
   const buttons = [
     { id: "briefing", label: "Competition Briefing" },
     { id: "regis", label: "Competition Registration" },
@@ -128,7 +144,7 @@ const Competition = () => {
       <div className="absolute inset-0 z-10 pointer-events-none">
         <img ref={dust1Ref} src="/photo/dust-abu.png" className="absolute bottom-0 lg:-bottom-[13%] -left-[15%] lg:-bottom-[3%] lg:-left-[8%] w-[40%] lg:w-[22%] rotate-10 opacity-100 object-contain" style={dustMaskStyle} alt="" />
         <img ref={dust2Ref} src="/photo/dust-abu.png" className="absolute bottom-0 lg:-bottom-[17%] -right-[15%] lg:-right-[8%] w-[40%] lg:w-[22%] opacity-100 -scale-x-100 -rotate-10" style={dustMaskStyle} alt="" />
-        <img ref={dust3Ref} src="/photo/dust-kuning.png" className="absolute top-[20%] md:top-[12%] lg:top-[-3%] left-[10%] lg:left-[22%] w-[80%] lg:w-[65%] opacity-100 lg:blur-none" style={dustMaskStyle} alt="" />
+        <img ref={dust3Ref} src="/photo/dust-kuning.webp" className="absolute top-[20%] md:top-[12%] lg:top-[-3%] left-[10%] lg:left-[22%] w-[80%] lg:w-[65%] opacity-100 lg:blur-none" style={dustMaskStyle} alt="" />
       </div>
 
       {/* LAYER 2: KONTEN UTAMA */}
@@ -191,14 +207,24 @@ const Competition = () => {
           <div 
             className={`absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black/80 backdrop-blur-lg rounded-[2rem] border border-[#494947] transition-all duration-500 shadow-[0_0_50px_rgba(0,0,0,0.8)]
             ${briefingStep > 0 ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}`}
+            onClick={(e) => {
+              // Tutup modal kalau klik di background (bukan di konten)
+              if (e.target === e.currentTarget) {
+                if (briefingStep === 2) {
+                  setBriefingStep(1);
+                } else {
+                  setBriefingStep(0);
+                }
+              }
+            }}
           >
-            <h3 className="text-white font-black italic text-xl md:text-2xl tracking-widest mb-2 uppercase drop-shadow-lg">
+            <h3 className="text-white font-black italic text-xl md:text-2xl tracking-widest mb-2 uppercase drop-shadow-lg" onClick={(e) => e.stopPropagation()}>
               {briefingStep === 1 ? "SELECT CATEGORY" : "SELECT REGION"}
             </h3>
 
             {/* STEP 1: Pilih Kategori Lomba */}
             {briefingStep === 1 && (
-              <>
+              <div className="flex flex-col items-center gap-4 w-full" onClick={(e) => e.stopPropagation()}>
                 <SubButton label="FASHION SKETCH" onClick={() => { setSelectedCategory("sketch"); setBriefingStep(2); }} />
                 <SubButton label="RESTYLING" onClick={() => { setSelectedCategory("restyling"); setBriefingStep(2); }} />
                 <button 
@@ -207,12 +233,12 @@ const Competition = () => {
                 >
                   [ CANCEL ]
                 </button>
-              </>
+              </div>
             )}
 
             {/* STEP 2: Pilih Skala (Nasional/Internasional) */}
             {briefingStep === 2 && (
-              <>
+              <div className="flex flex-col items-center gap-4 w-full" onClick={(e) => e.stopPropagation()}>
                 <SubButton label="NATIONAL" onClick={() => handleDownloadPdf("national")} />
                 <SubButton label="INTERNATIONAL" onClick={() => handleDownloadPdf("international")} />
                 <button 
@@ -221,7 +247,7 @@ const Competition = () => {
                 >
                   [ BACK ]
                 </button>
-              </>
+              </div>
             )}
           </div>
 
