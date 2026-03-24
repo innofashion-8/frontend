@@ -58,7 +58,7 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
     >
       {/* VIDEO */}
       <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-        <source src="/photo/teaser.mp4" type="video/mp4" />
+        <source src="/photo/teaser.webm" type="video/webm" />
       </video>
 
       {/* Overlay */}

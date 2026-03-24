@@ -521,7 +521,7 @@ export default function ContactPage() {
           <Image src="/assets/ASET ORANG SHADOW (KALO KURANG JELAS).png" alt="model shadow" fill className="model-img" />
           <Image src="/assets/DUST ABU.png" alt="dust" fill className="model-img dust-left" />
           <Image src="/assets/DUST KUNING.png" alt="dust" fill className="model-img dust-right" />
-          <Image src="/assets/ASET ORANG.png" alt="model" fill className="model-img" />
+          <Image src="/assets/ASET ORANG.webp" alt="model" fill className="model-img" />
         </div>
 
         {/* RIGHT: Content */}
