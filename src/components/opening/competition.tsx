@@ -123,7 +123,7 @@ const Competition = () => {
   };
 
   return (
-    <section ref={sectionRef} id="competitions" className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} id="competitions" className="relative h-screen w-full flex items-center justify-center overflow">
       {/* LAYER 1: DEBU FLOATING */}
       <div className="absolute inset-0 z-10 pointer-events-none">
         <img ref={dust1Ref} src="/photo/dust-abu.png" className="absolute bottom-0 lg:-bottom-[13%] -left-[15%] lg:-bottom-[3%] lg:-left-[8%] w-[40%] lg:w-[22%] rotate-10 opacity-100 object-contain" style={dustMaskStyle} alt="" />
@@ -155,7 +155,7 @@ const Competition = () => {
               key={btn.id}
               ref={(el) => { buttonsRef.current[idx] = el; }}
               onClick={() => handleMainClick(btn.id)} // 👈 Eksekusi Logic Redirect / Buka Modal
-              className="relative group cursor-pointer w-full max-w-[280px] md:max-w-[400px] lg:max-w-[500px] rounded-[2rem] overflow-hidden transition-all duration-300 hover:brightness-110 hover:scale-105"
+              className="relative group cursor-pointer w-full max-w-[280px] md:max-w-[400px] lg:max-w-[500px] rounded-[2rem] overflow-hidden transition-all duration-300 hover:brightness-110"
               style={{
                 background: "linear-gradient(180deg, rgba(85,85,85,0.7) 0%, rgba(30,30,30,0.9) 100%)",
                 boxShadow: "inset 0 2px 4px rgba(255,255,255,0.3), 0 10px 30px rgba(0,0,0,0.6)",
@@ -236,7 +236,7 @@ function SubButton({ label, onClick }: { label: string, onClick: () => void }) {
   return (
     <div 
       onClick={onClick}
-      className="relative group cursor-pointer w-[85%] max-w-[400px] rounded-full overflow-hidden transition-all duration-300 hover:scale-105"
+      className="relative group cursor-pointer w-[85%] max-w-[400px] rounded-full overflow-hidden transition-all duration-300"
       style={{
         background: "linear-gradient(90deg, rgba(73,73,71,0.4) 0%, rgba(28,28,27,0.8) 100%)",
         border: "1px solid rgba(183,172,155,0.3)",
