@@ -258,13 +258,13 @@ export default function ProfileClient() {
             {/* NAME (Read Only) */}
             <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
               <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                FULL NAME (LOCKED)
+                FULL NAME
               </label>
               <input
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 value={name}
-                disabled
-                className="w-full px-4 py-3 border text-sm opacity-50 cursor-not-allowed focus:outline-none"
+                className="w-full px-4 py-3 border text-sm focus:outline-none"
                 style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, color: palette.ash }}
               />
             </div>
