@@ -25,7 +25,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
   const [viewDetail, setViewDetail] = useState<EventResource | null>(null); 
 
   const handleOpenCreate = () => {
-    setFormData({ title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, start_time: '', is_active: true });
+    setFormData({ title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, wa_link: '', start_time: '', is_active: true });
     setErrors(null);
     setIsEditing(false);
     setIsSidebarOpen(true);
@@ -38,6 +38,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
       description: event.description,
       price: event.price,
       quota: event.quota,
+      wa_link: event.wa_link || '',
       start_time: event.start_time_input, 
       is_active: event.is_active
     });

@@ -164,22 +164,31 @@
 //   );
 // }
 
-import { CompleteProfileForm } from '@/components/registration/CompleteProfileForm';
-import { themeColors } from '@/lib/theme';
+import { CompleteProfileForm } from '@/components/registration/CompleteProfileForm'; // 👈 Pastikan path importnya bener sesuai file lu
+import Beams from '@/components/ui/Beams';
+
+const palette = {
+  greige: '#B7AC9B',
+};
 
 export default function CompleteRegistrationPage() {
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden"
-      style={{ 
-        backgroundColor: themeColors.bg,
-        backgroundImage: "url('/assets/BACKGROUND.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
-      {/* Panggil komponen pintar yang udah kita pisah tadi */}
+    <div className="relative py-12 min-h-screen bg-[#0a0a0a] flex items-center justify-center overflow-x-hidden">
+      {/* REACTBITS BEAMS BACKGROUND */}
+      <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
+        <Beams
+          beamWidth={3}
+          beamHeight={30}
+          beamNumber={20}
+          lightColor={palette.greige} 
+          speed={2}
+          noiseIntensity={1.75}
+          scale={0.2}
+          rotation={30}
+        />
+      </div>
+
+      {/* Panggil komponen pintar lu */}
       <CompleteProfileForm />
     </div>
   );

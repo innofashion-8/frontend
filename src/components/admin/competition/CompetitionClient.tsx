@@ -19,29 +19,67 @@ export default function CompetitionClient({ initialCompetitions }: CompetitionCl
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<CompetitionPayload>({ 
     name: '', 
-    category: 'INTERMEDIATE', 
+    participant_type: 'INDIVIDUAL', 
+    min_members: 1,
+    max_members: 1,
+    wa_link_national: '',
+    wa_link_international: '',
     description: '', 
-    registration_fee: 0,
-    is_active: true 
+    is_active: true,
+    registration_open_at: '',
+    registration_close_at: '',
+    submission_open_at: '',
+    submission_close_at: ''
   });
   const [errors, setErrors] = useState<ApiValidationErrors | null>(null);
   const [editingId, setEditingId] = useState<string>('');
   const [viewDetail, setViewDetail] = useState<Competition | null>(null);
 
   const handleOpenCreate = () => {
-    setFormData({ name: '', category: 'INTERMEDIATE', description: '', registration_fee: 0, is_active: true });
+    setFormData({ 
+      name: '', 
+      participant_type: 'INDIVIDUAL', 
+      min_members: 1,
+      max_members: 1,
+      wa_link_national: '',
+      wa_link_international: '',
+      description: '', 
+      is_active: true,
+      registration_open_at: '',
+      registration_close_at: '',
+      submission_open_at: '',
+      submission_close_at: ''
+    });
     setErrors(null);
     setIsEditing(false);
     setIsSidebarOpen(true);
   };
 
   const handleOpenUpdate = (comp: Competition) => {
+    // Convert datetime to datetime-local format (YYYY-MM-DDTHH:mm)
+    const formatDateTimeLocal = (dateString: string) => {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
     setFormData({
       name: comp.name,
-      category: comp.category,
-      description: comp.description,
-      registration_fee: comp.registration_fee,
-      is_active: comp.is_active
+      participant_type: comp.participant_type,
+      min_members: comp.min_members,
+      max_members: comp.max_members,
+      wa_link_national: comp.wa_link_national,
+      wa_link_international: comp.wa_link_international,
+      description: comp.description || '',
+      is_active: comp.is_active,
+      registration_open_at: formatDateTimeLocal(comp.registration_open_at),
+      registration_close_at: formatDateTimeLocal(comp.registration_close_at),
+      submission_open_at: formatDateTimeLocal(comp.submission_open_at),
+      submission_close_at: formatDateTimeLocal(comp.submission_close_at)
     });
     setErrors(null);
     setEditingId(comp.id);

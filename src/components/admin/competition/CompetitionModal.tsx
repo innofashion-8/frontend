@@ -34,7 +34,7 @@ export default function CompetitionModal({ competition, onClose }: CompetitionMo
       onClick={handleClose}
     >
       <div 
-        className={`relative w-full max-w-3xl bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] p-8 md:p-10 transition-all duration-200 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+        className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] p-8 md:p-10 transition-all duration-200 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button 
@@ -54,13 +54,12 @@ export default function CompetitionModal({ competition, onClose }: CompetitionMo
             <div className="p-2 bg-[#1C1C1B]">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M7.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-                <path d="M3 6v5.172a2 2 0 0 0 .586 1.414l7.71 7.71a2.41 2.41 0 0 0 3.408 0l5.592 -5.592a2.41 2.41 0 0 0 0 -3.408l-7.71 -7.71a2 2 0 0 0 -1.414 -.586h-5.172a3 3 0 0 0 -3 3z" />
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
             <div>
-              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider">Kategori</p>
-              <p className="font-bold text-lg text-[#1C1C1B] uppercase">{competition.category}</p>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider">Tipe Peserta</p>
+              <p className="font-bold text-lg text-[#1C1C1B] uppercase">{competition.participant_type}</p>
             </div>
           </div>
 
@@ -68,18 +67,48 @@ export default function CompetitionModal({ competition, onClose }: CompetitionMo
             <div className="p-2 bg-[#5B4D4B]">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12" />
-                <path d="M20 12v4h-4a2 2 0 0 1 0 -4h4" />
+                <path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+                <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+                <path d="M12 12l0 .01" />
+                <path d="M3 13a20 20 0 0 0 18 0" />
               </svg>
             </div>
             <div>
-              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider">Biaya Pendaftaran</p>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider">Jumlah Anggota</p>
               <p className="font-bold text-lg text-[#5B4D4B]">
-                {competition.registration_fee === 0 
-                  ? "Gratis" 
-                  : `Rp ${competition.registration_fee.toLocaleString('id-ID')}`
+                {competition.participant_type === 'INDIVIDUAL' 
+                  ? '1 Orang' 
+                  : `${competition.min_members || 1} - ${competition.max_members || 1} Orang`
                 }
               </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">Periode Pendaftaran</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider mb-1">Buka</p>
+              <p className="font-bold text-[#1c1c1b]">{new Date(competition.registration_open_at).toLocaleString('id-ID')}</p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider mb-1">Tutup</p>
+              <p className="font-bold text-[#1c1c1b]">{new Date(competition.registration_close_at).toLocaleString('id-ID')}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">Periode Submission</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider mb-1">Buka</p>
+              <p className="font-bold text-[#1c1c1b]">{new Date(competition.submission_open_at).toLocaleString('id-ID')}</p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider mb-1">Tutup</p>
+              <p className="font-bold text-[#1c1c1b]">{new Date(competition.submission_close_at).toLocaleString('id-ID')}</p>
             </div>
           </div>
         </div>
@@ -90,6 +119,40 @@ export default function CompetitionModal({ competition, onClose }: CompetitionMo
             {competition.description}
           </div>
         </div>
+
+        {(competition.wa_link_national || competition.wa_link_international) && (
+          <div className="mb-6">
+            <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">WhatsApp Group Links</h3>
+            <div className="space-y-4">
+              {competition.wa_link_national && (
+                <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+                  <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">National Participants:</p>
+                  <a 
+                    href={competition.wa_link_national} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+                  >
+                    {competition.wa_link_national}
+                  </a>
+                </div>
+              )}
+              {competition.wa_link_international && (
+                <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+                  <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">International Participants:</p>
+                  <a 
+                    href={competition.wa_link_international} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+                  >
+                    {competition.wa_link_international}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <button 
           onClick={handleClose} 

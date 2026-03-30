@@ -4,6 +4,7 @@ import "./globals.css";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 import GlobalErrorWatcher from "@/components/GlobalErrorWatcher";
+import GlobalLoader from "@/components/GlobalLoader";
 
 const creatoTitle = localFont({
   src: "../../public/assets/fonts/CreatoDisplay-Black.otf",
@@ -18,7 +19,7 @@ const creatoBody = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Innofashion 8",
+  title: "Innofashion Show 8",
   description: "Innofashionshow 8 2026",
 };
 
@@ -34,6 +35,7 @@ export default function RootLayout({
       >
         <GlobalErrorWatcher />
         <Providers>
+          <GlobalLoader />
           {children}
           <Toaster
             position="top-right" // Bisa diganti 'top-center', 'bottom-right', dll

@@ -20,6 +20,32 @@ body {
   font-family: var(--font-creato-title);
 }
 
+
+/* Untuk Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px; /* Lebar scrollbar, dibuat agak tipis biar elegan */
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a; /* Warna background track, ngikutin warna background web kamu */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333; /* Warna batangnya (thumb), abu-abu gelap */
+  border-radius: 10px; /* Bikin ujungnya melengkung (rounded) */
+  border: 2px solid #0a0a0a; /* Kasih border sama kayak background biar kelihatan kayak ada jarak (padding) */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a; /* Warna pas di-hover (ngambil dari warna dot timeline kamu) */
+}
+
+/* Untuk Firefox */
+* {
+  scrollbar-width: thin; /* Bikin tipis */
+  scrollbar-color: #333333 #0a0a0a; /* thumb-color track-color */
+}
+
 @layer utilities {
   .card-bubble-glass {
     position: relative;

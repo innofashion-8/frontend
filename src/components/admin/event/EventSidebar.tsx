@@ -69,6 +69,7 @@ export default function EventSidebar({
             >
               <option value="TALKSHOW">TALKSHOW</option>
               <option value="WORKSHOP">WORKSHOP</option>
+              <option value="GRADUATION">GRADUATION</option>
             </select>
             {errors?.category && <p className="text-red-600 text-sm mt-1">{errors.category[0]}</p>}
           </div>
@@ -132,6 +133,18 @@ export default function EventSidebar({
               onChange={(e) => onChange({ ...formData, description: e.target.value })}
             ></textarea>
             {errors?.description && <p className="text-red-600 text-sm mt-1">{errors.description[0]}</p>}
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">WhatsApp Link</label>
+            <input 
+              type="url" 
+              placeholder="https://chat.whatsapp.com/..."
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+              value={formData.wa_link || ''} 
+              onChange={(e) => onChange({ ...formData, wa_link: e.target.value })} 
+            />
+            {errors?.wa_link && <p className="text-red-600 text-sm mt-1">{errors.wa_link[0]}</p>}
           </div>
           
           <div className="mt-auto pt-6 flex gap-4">

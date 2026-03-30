@@ -1,5 +1,7 @@
 import { Sidebar } from "@/components/ui/Sidebar";
 import "./admin.css";
+
+export const dynamic = 'force-dynamic';
 export default function AdminDashboardLayout({
   children,
 }: {

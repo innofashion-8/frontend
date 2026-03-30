@@ -37,7 +37,7 @@ export default function EventModal({ event, onClose }: EventModalProps) {
 
   return (
     <div className={`fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 transition-opacity duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`} onClick={handleClose}>
-      <div className={`relative w-full max-w-3xl bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] p-8 md:p-10 transition-all duration-200 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] p-8 md:p-10 transition-all duration-200 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`} onClick={(e) => e.stopPropagation()}>
         <button onClick={handleClose} className="absolute top-4 right-6 text-4xl font-black text-[#1c1c1b] hover:scale-110 transition-transform cursor-pointer" aria-label="Tutup">
           &times;
         </button>
@@ -92,6 +92,23 @@ export default function EventModal({ event, onClose }: EventModalProps) {
             {event.description}
           </div>
         </div>
+
+        {event.wa_link && (
+          <div className="mb-6">
+            <h3 className="text-xl font-black text-[#1C1C1B] uppercase mb-4 border-b-2 border-[#1c1c1b] pb-2">WhatsApp Group Link</h3>
+            <div className="p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+              <p className="text-sm font-bold text-[#6A5D52] uppercase tracking-wider mb-2">Group Link:</p>
+              <a 
+                href={event.wa_link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#1C1C1B] font-bold break-all hover:text-[#6A5D52] transition-colors underline"
+              >
+                {event.wa_link}
+              </a>
+            </div>
+          </div>
+        )}
 
         <button onClick={handleClose} className="w-full cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider">
           Close

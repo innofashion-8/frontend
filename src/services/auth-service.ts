@@ -96,11 +96,25 @@ export const authService = {
     },
     getProfile: async(): Promise<AuthProfile> => {
         try {
-            const res = await fetchClient<ApiResponse<AuthProfile>>(`/api/auth/profile`, {
+            const res = await fetchClient<ApiResponse<AuthProfile>>(`/api/profile`, {
                 method: 'GET',
             });
             return res.data as AuthProfile;
         } catch (error: any) {
+            throw new Error(error.message);
+        }
+    },
+    updateProfile: async(formData: FormData): Promise<string> => {
+        try {
+            const res = await fetchClient<ApiResponse<string>>(`/api/profile/update`, {
+                method: 'POST',
+                body: formData,
+            });
+            return res.message || 'Profile updated successfully!';
+        } catch (error: any) {
+            if (error.isValidationError) {
+                throw { isValidationError: true, errors: error.data as ApiValidationErrors };
+            }
             throw new Error(error.message);
         }
     }

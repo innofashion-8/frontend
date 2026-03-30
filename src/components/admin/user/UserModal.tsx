@@ -241,18 +241,6 @@ export default function UserModal({ user, onClose }: UserModalProps) {
                           <p className="font-bold text-[#1c1c1b]">{new Date(reg.created_at).toLocaleDateString('id-ID')}</p>
                         </div>
                       </div>
-                      {reg.payment_proof && (
-                        <div className="mt-2">
-                          <a
-                          href={`${process.env.NEXT_PUBLIC_API_URL}/storage/${reg.payment_proof}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="px-3 py-1.5 border-[2px] border-[#1c1c1b] bg-white text-xs font-black hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[2px_2px_0px_#1c1c1b] inline-block cursor-pointer"
-                        >
-                          VIEW PAYMENT
-                        </a>
-                        </div>
-                      )}
                     </div>
                   ))}
                 </div>
