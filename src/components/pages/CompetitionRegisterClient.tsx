@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { competitionService } from '@/services/competition-service';
 import toast from 'react-hot-toast';
@@ -34,7 +34,6 @@ export default function CompetitionRegisterPage() {
     enabled: !!key, retry: false, staleTime: 0, gcTime: 0     
   });
 
-  // DETEKSI MURNI DARI BACKEND
   const isGroup = competition?.participant_type === 'GROUP'; 
   const minMembers = competition?.min_members || (isGroup ? 2 : 1);
   const maxMembers = competition?.max_members || (isGroup ? 3 : 1);
@@ -97,21 +96,24 @@ export default function CompetitionRegisterPage() {
     if (isAlreadyRegistered || isSubmitting || !competition || isLoading) return;
 
     const timer = setTimeout(async () => {
-       const formData = new FormData();
-       formData.append('draft_data[region]', region);
-       if (groupName) formData.append('draft_data[group_name]', groupName);
-       if (category) formData.append('draft_data[category]', category);
+       const hasMemberData = members.some(m => m.name || m.email || m.phone);
+       if (groupName || category || hasMemberData) {
+           const formData = new FormData();
+           formData.append('draft_data[region]', region);
+           if (groupName) formData.append('draft_data[group_name]', groupName);
+           if (category) formData.append('draft_data[category]', category);
 
-       const membersToDraft = isGroup ? members.slice(1) : [];
-       membersToDraft.forEach((m, idx) => {
-          if (m.name) formData.append(`draft_data[members][${idx}][name]`, m.name);
-          if (m.email) formData.append(`draft_data[members][${idx}][email]`, m.email);
-          if (m.phone) formData.append(`draft_data[members][${idx}][phone]`, m.phone);
-          if (m.id_card instanceof File) formData.append(`draft_data[members][${idx}][id_card]`, m.id_card);
-       });
+           const membersToDraft = isGroup ? members.slice(1) : [];
+           membersToDraft.forEach((m, idx) => {
+              if (m.name) formData.append(`draft_data[members][${idx}][name]`, m.name);
+              if (m.email) formData.append(`draft_data[members][${idx}][email]`, m.email);
+              if (m.phone) formData.append(`draft_data[members][${idx}][phone]`, m.phone);
+              if (m.id_card instanceof File) formData.append(`draft_data[members][${idx}][id_card]`, m.id_card);
+           });
 
-       try { await competitionService.saveDraft(key, formData); } 
-       catch(e) {}
+           try { await competitionService.saveDraft(key, formData); } 
+           catch(e) {}
+       }
     }, 3000); 
 
     return () => clearTimeout(timer); 
@@ -139,32 +141,45 @@ export default function CompetitionRegisterPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.type === 'application/pdf') {
-      handleMemberChange(index, 'id_card', file);
-      handleMemberChange(index, 'preview', null);
+      setMembers(prev => {
+        const updated = [...prev];
+        updated[index] = { ...updated[index], id_card: file, preview: null };
+        return updated;
+      });
       return;
     }
-    
+
     setIsCompressing(true);
     try {
       const options = { maxSizeMB: 0.5, maxWidthOrHeight: 1280, useWebWorker: true };
       const compressedFile = await imageCompression(file, options);
-      handleMemberChange(index, 'id_card', compressedFile);
-      
-      // Create preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleMemberChange(index, 'preview', reader.result as string);
-      };
-      reader.readAsDataURL(compressedFile);
-    } catch (error) { 
-      handleMemberChange(index, 'id_card', file);
-      
-      // Create preview for original file
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        handleMemberChange(index, 'preview', reader.result as string);
-      };
-      reader.readAsDataURL(file);
+
+      // Baca preview dulu, baru set keduanya sekaligus
+      const preview = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(compressedFile);
+      });
+
+      // Satu setState, tidak ada stale closure
+      setMembers(prev => {
+        const updated = [...prev];
+        updated[index] = { ...updated[index], id_card: compressedFile, preview };
+        return updated;
+      });
+
+    } catch (error) {
+      const preview = await new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+
+      setMembers(prev => {
+        const updated = [...prev];
+        updated[index] = { ...updated[index], id_card: file, preview };
+        return updated;
+      });
     } finally {
       setIsCompressing(false);
     }
@@ -186,7 +201,6 @@ export default function CompetitionRegisterPage() {
 
     if (isGroup && members.length < 2) return toast.error('A group must have at least 2 members.', { style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` } });
     if (isGroup && !groupName) return toast.error('Group name is required.', { style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` } });
-    
     if (!isGroup && !category) return toast.error('Category is required.', { style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` } });
 
     const confirmation = await Swal.fire({
@@ -199,10 +213,39 @@ export default function CompetitionRegisterPage() {
 
     setIsSubmitting(true);
     try {
-      const membersToSubmit = isGroup ? members.slice(1) : [];
+      const finalFormData = new FormData();
       
-      // 1. Submit Registration Murni Tanpa PDF Karya
-      await competitionService.submitFinal(key, membersToSubmit, groupName, region, isGroup ? undefined : category);
+      if (region) finalFormData.append('region', region);
+      if (isGroup && groupName) finalFormData.append('group_name', groupName);
+      if (!isGroup && category) finalFormData.append('category', category);
+
+      const leaderIdCard = members[0]?.id_card;
+      if (leaderIdCard) {
+          let fileToUpload = leaderIdCard;
+          if (!(fileToUpload instanceof File)) {
+              fileToUpload = new File([leaderIdCard], `leader_id_card.jpg`, { type: 'image/jpeg' });
+          }
+          finalFormData.append('id_card', fileToUpload); 
+      }
+
+      const membersToSubmit = isGroup ? members.slice(1) : [];
+      membersToSubmit.forEach((member, index) => {
+          if(member.name) finalFormData.append(`members[${index}][name]`, member.name);
+          if(member.email) finalFormData.append(`members[${index}][email]`, member.email);
+          if(member.phone) finalFormData.append(`members[${index}][phone]`, member.phone);
+          
+          if(member.id_card) {
+              let fileToUpload = member.id_card;
+              if (!(fileToUpload instanceof File)) {
+                 fileToUpload = new File([member.id_card], `id_card_member_${index}.jpg`, { type: 'image/jpeg' });
+              }
+              const fileName = fileToUpload.name || `id_card_member_${index}.jpg`;
+              finalFormData.append(`members[${index}][id_card]`, fileToUpload, fileName);
+          }
+      });
+
+      // 4. Hit API Service yg udah dibersihin
+      await competitionService.submitFinal(key, finalFormData);
 
       toast.success('Registration protocol submitted successfully!', { style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` } });
       queryClient.invalidateQueries({ queryKey: ['competition', key] });
