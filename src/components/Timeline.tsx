@@ -475,14 +475,15 @@ interface TimelineNode {
 }
 
 const nodes: TimelineNode[] = [
-  { side: 'left',  label: { date: 'Mar 23, 2026', name: 'Open Registration' } },
-  { side: 'right', label: { date: 'May 18, 2026', name: 'Seminar: What Makes It Fashion' } },
-  { side: 'left',  label: { date: 'May 22, 2026', name: 'Workshop: Pretty Little Daredevil' } },
-  { side: 'right', label: { date: 'May 29, 2026', name: 'Workshop: Trinkets (TBA)' } },
-  { side: 'left',  label: { date: 'Jul 30, 2026', name: 'Competition Deadline' } },
-  { side: 'right', label: { date: 'Jul 31, 2026', name: 'Briefing Restyling' } },
-  { side: 'left',  label: { date: 'To Be Announced',          name: 'Grand Exhibition' } },
-  { side: 'right', label: { date: 'Aug 13, 2026', name: 'Graduation Show & Awarding' } },
+  { side: 'left',  label: { date: 'Mar 27, 2026', name: 'Open Registration Sketch' } },
+  { side: 'right', label: { date: 'Apr 03, 2026', name: 'Open Registration Restyling' } },
+  { side: 'left', label: { date: 'May 18, 2026', name: 'Seminar: What Makes It Fashion' } },
+  { side: 'right',  label: { date: 'May 22, 2026', name: 'Workshop: Pretty Little Daredevil' } },
+  { side: 'left', label: { date: 'May 29, 2026', name: 'Workshop: Trinkets (TBA)' } },
+  { side: 'right',  label: { date: 'Jul 30, 2026', name: 'Competition Deadline' } },
+  { side: 'left', label: { date: 'Jul 31, 2026', name: 'Briefing Restyling' } },
+  { side: 'right',  label: { date: 'To Be Announced',          name: 'Grand Exhibition' } },
+  { side: 'left', label: { date: 'Aug 13, 2026', name: 'Graduation Show & Awarding' } },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
