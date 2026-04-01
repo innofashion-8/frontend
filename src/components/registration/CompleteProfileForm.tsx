@@ -341,7 +341,7 @@ export function CompleteProfileForm() {
 
           <div className="pt-4">
             <label className="block text-[10px] font-bold mb-4 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-              UPLOAD {userType === 'INTERNAL' ? 'KTM (STUDENT ID)' : 'ID CARD'} (JPG/PNG/PDF) *
+              UPLOAD {userType === 'INTERNAL' ? 'KTM (STUDENT ID)' : 'ID CARD'} (JPG/PNG) *
             </label>
             <input 
               type="file" accept=".jpg,.jpeg,.png,.pdf"

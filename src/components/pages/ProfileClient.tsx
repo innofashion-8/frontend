@@ -373,7 +373,7 @@ export default function ProfileClient() {
             <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
               <div className="flex justify-between items-center mb-4">
                  <label className="block text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                   {isInternal ? "STUDENT CARD / KTM (JPG/PNG/PDF)" : "ID CARD (JPG/PNG/PDF)"}
+                   {isInternal ? "STUDENT CARD / KTM (JPG/PNG)" : "ID CARD (JPG/PNG)"}
                  </label>
                  {existingPath && !idCardFile && (
                     <span className="text-[10px] text-green-500 font-bold tracking-widest uppercase">✓ ON FILE</span>
