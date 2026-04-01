@@ -477,17 +477,18 @@ interface TimelineNode {
 const nodes: TimelineNode[] = [
   { side: 'left',  label: { date: 'Mar 27, 2026', name: 'Open Registration Sketch' } },
   { side: 'right', label: { date: 'Apr 03, 2026', name: 'Open Registration Restyling' } },
-  { side: 'left', label: { date: 'May 18, 2026', name: 'Seminar: What Makes It Fashion' } },
-  { side: 'right',  label: { date: 'May 22, 2026', name: 'Workshop: Pretty Little Daredevil' } },
-  { side: 'left', label: { date: 'May 29, 2026', name: 'Workshop: Trinkets (TBA)' } },
-  { side: 'right',  label: { date: 'Jul 10, 2026', name: 'Close Registration Sketch' } 
-  { side: 'left',  label: { date: 'Jul 12, 2026', name: 'Last Subsmission Sketch' } },
-  { side: 'right', label: { date: 'Jul 15, 2026', name: 'Penjurian' } },
-  { side: 'left',  label: { date: 'Jul 20, 2026', name: 'Finalist Announcement' } },
-  { side: 'right',  label: { date: 'Jul 30, 2026', name: 'Competition Deadline' } },
-  { side: 'left', label: { date: 'Jul 31, 2026', name: 'Briefing Restyling' } },
-  { side: 'right',  label: { date: 'To Be Announced',          name: 'Grand Exhibition' } },
-  { side: 'left', label: { date: 'Aug 13, 2026', name: 'Graduation Show & Awarding' } },
+  { side: 'left', label: { date: 'Apr 27, 2026', name: 'Open Registration Seminar and Workshop' } },
+  { side: 'right', label: { date: 'May 18, 2026', name: 'Seminar: What Makes It Fashion' } },
+  { side: 'left',  label: { date: 'May 22, 2026', name: 'Workshop: Pretty Little Daredevil' } },
+  { side: 'right', label: { date: 'May 29, 2026', name: 'Workshop: Trinkets (TBA)' } },
+  { side: 'left',  label: { date: 'Jul 10, 2026', name: 'Close Registration Sketch' } },
+  { side: 'right',  label: { date: 'Jul 12, 2026', name: 'Last Subsmission Sketch' } },
+  { side: 'left', label: { date: 'Jul 15, 2026', name: 'Judgin Session' } },
+  { side: 'right',  label: { date: 'Jul 20, 2026', name: 'Finalist Announcement' } },
+  { side: 'left',  label: { date: 'Jul 30, 2026', name: 'Competition Deadline' } },
+  { side: 'right', label: { date: 'Jul 31, 2026', name: 'Briefing Restyling' } },
+  { side: 'left',  label: { date: 'To Be Announced', name: 'Grand Exhibition' } },
+  { side: 'right', label: { date: 'Aug 13, 2026', name: 'Graduation Show & Awarding' } },
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
