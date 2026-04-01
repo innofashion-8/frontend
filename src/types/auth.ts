@@ -27,3 +27,14 @@ export interface BackendAuthResponse {
   permissions: string[];     // Admin punya array, User = []
   userType: UserTypes | 'ADMIN'; // Gabungan dari 'EXTERNAL' | 'INTERNAL' | 'ADMIN'
 }
+
+export interface ImpersonateResponse {
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    type: UserTypes;
+    is_profile_complete: boolean;
+  };
+}

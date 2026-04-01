@@ -1,5 +1,8 @@
 import { UserWithRegistrations } from '@/types/user';
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { signIn } from 'next-auth/react';
+import { authService } from '@/services/auth-service';
 
 interface UserModalProps {
   user: UserWithRegistrations | null;
@@ -8,6 +11,77 @@ interface UserModalProps {
 
 export default function UserModal({ user, onClose }: UserModalProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [isImpersonating, setIsImpersonating] = useState(false);
+
+  const handleImpersonate = async () => {
+    if (!user) return;
+
+    const result = await Swal.fire({
+      title: 'LOGIN AS USER?',
+      html: `<p style="font-size: 14px; margin-top: 12px;">You will be logged in as <strong>${user.name}</strong> (${user.email})</p>`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1c1c1b',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'YES, LOGIN',
+      cancelButtonText: 'CANCEL',
+      customClass: {
+        popup: 'rounded-none border-4 border-[#1c1c1b]',
+        confirmButton: 'rounded-none font-bold uppercase tracking-widest text-sm',
+        cancelButton: 'rounded-none font-bold uppercase tracking-widest text-sm',
+      }
+    });
+
+    if (!result.isConfirmed) return;
+
+    setIsImpersonating(true);
+
+    try {
+      const authData = await authService.impersonate(user.id);
+
+      await Swal.fire({
+        title: 'SUCCESS!',
+        text: `Logging in as ${user.name}...`,
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        customClass: {
+          popup: 'rounded-none border-4 border-[#1c1c1b]'
+        }
+      });
+
+      const signInResult = await signIn('credentials', {
+        token: authData.token,
+        user: JSON.stringify({
+          id: authData.id,
+          name: authData.name,
+          email: authData.email,
+          is_profile_complete: authData.is_profile_complete,
+          type: authData.userType
+        }),
+        redirect: false
+      });
+
+      if (signInResult?.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        throw new Error('Failed to sign in');
+      }
+
+    } catch (error: any) {
+      Swal.fire({
+        title: 'ERROR!',
+        text: error.message || 'Failed to impersonate user',
+        icon: 'error',
+        confirmButtonColor: '#1c1c1b',
+        customClass: {
+          popup: 'rounded-none border-4 border-[#1c1c1b]'
+        }
+      });
+    } finally {
+      setIsImpersonating(false);
+    }
+  };
 
   useEffect(() => {
     if (user) {
@@ -251,12 +325,21 @@ export default function UserModal({ user, onClose }: UserModalProps) {
           </div>
         </div>
 
-        <button 
-          onClick={handleClose} 
-          className="w-full cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider"
-        >
-          Close
-        </button>
+        <div className="flex gap-3">
+          <button 
+            onClick={handleImpersonate}
+            disabled={isImpersonating}
+            className="flex-1 cursor-pointer py-3 px-6 font-black uppercase text-white bg-[#6A5D52] border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isImpersonating ? 'LOGGING IN...' : 'LOGIN AS USER'}
+          </button>
+          <button 
+            onClick={handleClose} 
+            className="flex-1 cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { authService } from './../../../services/auth-service'; 
 import { UserTypes } from "@/types/user";
 
@@ -17,6 +18,31 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
+    CredentialsProvider({
+      id: "credentials",
+      name: "Credentials",
+      credentials: {
+        token: { label: "Token", type: "text" },
+        user: { label: "User", type: "text" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.token || !credentials?.user) return null;
+        
+        try {
+          const userData = JSON.parse(credentials.user);
+          return {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email,
+            accessToken: credentials.token,
+            is_profile_complete: userData.is_profile_complete,
+            userType: userData.type,
+          };
+        } catch (error) {
+          return null;
+        }
+      },
+    }),
   ],
 
   callbacks: {
@@ -31,14 +57,25 @@ export const authOptions: NextAuthOptions = {
     },
 
     // 🔥 FIX INFINITE LOOP: NANGKEP TRIGGER "update" DARI HALAMAN REGISTRASI 🔥
-    async jwt({ token, account, trigger, session }) {
+    async jwt({ token, account, user, trigger, session }) {
       
       // 1. TANGKAP SINYAL UPDATE DARI CLIENT
       if (trigger === "update" && session?.is_profile_complete !== undefined) {
         token.is_profile_complete = session.is_profile_complete;
       }
 
-      // 2. PROSES LOGIN ADMIN
+      // 2. CREDENTIALS LOGIN (IMPERSONATE)
+      if (account?.provider === "credentials" && user) {
+        token.accessToken = (user as any).accessToken;
+        token.is_profile_complete = (user as any).is_profile_complete;
+        token.userType = (user as any).userType;
+        token.role = null;
+        token.division = null;
+        token.permissions = [];
+        return token;
+      }
+
+      // 3. PROSES LOGIN ADMIN
       if (account?.provider === "google-admin" && account.access_token) {
         try {
             const data = await authService.loginGoogleAdmin(account.access_token);
@@ -53,7 +90,7 @@ export const authOptions: NextAuthOptions = {
         }
       }
       
-      // 3. PROSES LOGIN USER BIASA
+      // 4. PROSES LOGIN USER BIASA
       else if (account?.provider === "google-user" && account.access_token) {
         try {
             const data = await authService.loginGoogleUser(account.access_token);

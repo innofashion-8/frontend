@@ -1,8 +1,9 @@
 import { fetchBackend } from "@/lib/fetch-backend";
 import { fetchClient } from "@/lib/fetch-client";
 import { ApiResponse, ApiValidationErrors } from "@/types/api";
-import { RegisterPayload, BackendAuthResponse } from "@/types/auth";
+import { RegisterPayload, BackendAuthResponse, ImpersonateResponse } from "@/types/auth";
 import { AuthProfile } from "@/types/user";
+import { getSession } from "next-auth/react";
 
 export const authService = {
     register: async(payload: RegisterPayload): Promise<string> => {
@@ -117,5 +118,34 @@ export const authService = {
             }
             throw new Error(error.message);
         }
+    },
+
+    impersonate: async(userId: string): Promise<BackendAuthResponse> => {
+        const session = await getSession();
+        if (!session?.accessToken) throw new Error('Admin session not found');
+
+        const res = await fetchBackend('/admin/impersonate', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${session.accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: userId }),
+        });
+
+        const result = await res.json();
+        if (!res.ok || !result.success) throw new Error(result.message || 'Failed to impersonate user');
+
+        return {
+            id: result.data.user.id,
+            token: result.data.token,
+            name: result.data.user.name,
+            email: result.data.user.email,
+            is_profile_complete: result.data.user.is_profile_complete,
+            division: null,
+            role: null,
+            permissions: [],
+            userType: result.data.user.type,
+        };
     }
 };
