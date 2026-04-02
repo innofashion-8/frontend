@@ -88,6 +88,10 @@ export const fetchClient = async <T = any>(path: string, options: RequestInit = 
     const responseData = await res.json().catch(() => ({})); 
 
     if (!res.ok) {
+        if (res.status === 413) {
+            throw new Error('File terlalu besar. Maksimal ukuran file adalah 2MB.');
+        }
+        
         throw {
             code: responseData.code || res.status,
             message: responseData.message || 'Terjadi Kesalahan',

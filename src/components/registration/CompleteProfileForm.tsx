@@ -53,22 +53,50 @@ export function CompleteProfileForm() {
     const file = e.target.files?.[0];
     if (!file) return setDocumentFile(null);
 
-    if (file.type === 'application/pdf') {
-      return setDocumentFile(file);
+    if (file.size > 5 * 1024 * 1024) {
+        return Swal.fire({
+            icon: 'warning',
+            title: 'FILE TOO LARGE',
+            text: 'File maksimal 5MB sebelum dikompresi. Gunakan foto yang lebih kecil.',
+            background: palette.onyx,
+            color: palette.stucco,
+            confirmButtonColor: palette.walnut,
+        });
     }
 
     try {
-      const options = {
-        maxSizeMB: 0.5, 
-        maxWidthOrHeight: 1280, 
-        useWebWorker: true,
-      };
+        const options = {
+            maxSizeMB: 0.8,
+            maxWidthOrHeight: 1280,
+            useWebWorker: true,
+        };
+        const compressedFile = await imageCompression(file, options);
+        
+        if (compressedFile.size > 2 * 1024 * 1024) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'COMPRESSION FAILED',
+                text: 'File masih terlalu besar setelah dikompresi. Coba foto dengan resolusi lebih rendah.',
+                background: palette.onyx,
+                color: palette.stucco,
+                confirmButtonColor: palette.walnut,
+            });
+        }
 
-      const compressedFile = await imageCompression(file, options);
-      setDocumentFile(compressedFile);
+        setDocumentFile(compressedFile);
     } catch (error) {
-      console.error("Gagal compress:", error);
-      setDocumentFile(file); 
+        // JANGAN fallback ke file original — kasih error ke user
+        console.error("Gagal compress:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'UPLOAD ERROR',
+            text: 'Gagal memproses file. Pastikan file adalah gambar JPG/PNG yang valid.',
+            background: palette.onyx,
+            color: palette.stucco,
+            confirmButtonColor: palette.walnut,
+        });
+        setDocumentFile(null);
+        e.target.value = ''; // reset input
     }
   };
 
