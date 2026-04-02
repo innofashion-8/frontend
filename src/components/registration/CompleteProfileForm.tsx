@@ -85,7 +85,6 @@ export function CompleteProfileForm() {
 
         setDocumentFile(compressedFile);
     } catch (error) {
-        // JANGAN fallback ke file original — kasih error ke user
         console.error("Gagal compress:", error);
         Swal.fire({
             icon: 'error',
@@ -96,65 +95,54 @@ export function CompleteProfileForm() {
             confirmButtonColor: palette.walnut,
         });
         setDocumentFile(null);
-        e.target.value = ''; // reset input
+        e.target.value = '';
     }
   };
 
   useEffect(() => {
-    if (statusData?.is_completed) {
-      if (session?.user?.is_profile_complete !== true) {
-        console.log("[SYSTEM] Sinkronisasi Token...");
-        update({ is_profile_complete: true }).then(() => {
-          window.location.href = '/dashboard';
-        });
-      } else {
-        router.push('/dashboard');
-      }
-      return; 
-    }
-    
-    const data = statusData as any;
-    if (data?.draft_data) {
-      setPhone(data.draft_data.phone || '');
-      setLine(data.draft_data.line || ''); 
-      setMajor(data.draft_data.major || '');
-      setInstitution(data.draft_data.institution || '');
-    }
+    if (statusData?.is_completed) {
+      if (session?.user?.is_profile_complete !== true) {
+        console.log("[SYSTEM] Sinkronisasi Token...");
+        update({ is_profile_complete: true }).then(() => {
+          window.location.href = '/dashboard';
+        });
+      } else {
+        router.push('/dashboard');
+      }
+      return; 
+    }
+    
+    const data = statusData as any;
+    setPhone(data?.draft_data?.phone || data?.profile_data?.phone || '');
+    setLine(data?.draft_data?.line || data?.profile_data?.line || ''); 
+    setMajor(data?.draft_data?.major || data?.profile_data?.major || '');
+    setInstitution(data?.draft_data?.institution || data?.profile_data?.institution || '');
 
-    // 🔥 LOGIC AUTO-FILL NRP & BATCH DARI EMAIL
-    if (userType === 'INTERNAL') {
-      let defaultNrp = data?.draft_data?.nrp || data?.profile_data?.nrp || '';
-      let defaultBatch = data?.draft_data?.batch || data?.profile_data?.batch || '';
+    if (userType === 'INTERNAL') {
+      let defaultNrp = data?.draft_data?.nrp || data?.profile_data?.nrp || '';
+      let defaultBatch = data?.draft_data?.batch || data?.profile_data?.batch || '';
 
-      // Jika NRP masih kosong tapi email di session tersedia, ekstrak otomatis
-      if (!defaultNrp && session?.user?.email) {
-        const email = session.user.email;
-        const extractedNrp = email.split('@')[0]; // Ambil string sebelum "@"
-        defaultNrp = extractedNrp;
+      if (!defaultNrp && session?.user?.email) {
+        const email = session.user.email;
+        const extractedNrp = email.split('@')[0];
+        defaultNrp = extractedNrp;
 
-        // Pastikan format panjangnya sesuai NRP Petra sebelum mengekstrak angkatan
-        if (extractedNrp.length >= 5) {
-          // Ambil huruf ke 4 dan 5 (index 3 dan 4) lalu tambahkan '20'
-          defaultBatch = '20' + extractedNrp.substring(3, 5); 
-        }
-      }
+        if (extractedNrp.length >= 5) {
+          defaultBatch = '20' + extractedNrp.substring(3, 5); 
+        }
+      }
 
-      // Gunakan fungsi updater (prev) agar kita tidak mereplace apa yang sudah diketik user
-      setNrp(prev => prev || defaultNrp);
-      setBatch(prev => prev || defaultBatch);
-    } else {
-      // Untuk user EXTERNAL, tetap ambil dari draft jika ada
-      setNrp(data?.draft_data?.nrp || '');
-      setBatch(data?.draft_data?.batch || '');
-    }
-  }, [statusData, session, router, update, userType]);
+      setNrp(prev => prev || defaultNrp);
+      setBatch(prev => prev || defaultBatch);
+    } else {
+      setNrp(data?.draft_data?.nrp || data?.profile_data?.nrp || '');
+      setBatch(data?.draft_data?.batch || data?.profile_data?.batch || '');
+    }
+  }, [statusData, session, router, update, userType]);
 
-
-  // 🔥 2. AUTO-SAVE DRAFT (DEBOUNCE 2 DETIK) 🔥
-  const isInitialMount = useRef(true); // Ref buat ngecek apakah ini render pertama kali
+  const isInitialMount = useRef(true);
   
   useEffect(() => {
-    // Biar nggak nge-save pas baru aja halamannya keload (nge-save draft kosong)
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
@@ -162,10 +150,7 @@ export function CompleteProfileForm() {
     
     if (isLoadingStatus || statusData?.is_completed || isLoading) return;
 
-    // Tunggu selama 2 detik. Kalau selama 2 detik ini user ngetik sesuatu lagi, 
-    // timer yang lama bakal dibatalin (clearTimeout) dan dibikin timer baru.
     const timer = setTimeout(() => {
-      // Cek apakah minimal ada 1 field yang diisi sebelum ngesave ke server
       if (phone || line || major || nrp || batch || institution) {
         const draftForm = new FormData();
         if (phone) draftForm.append('draft_data[phone]', phone);
@@ -175,19 +160,14 @@ export function CompleteProfileForm() {
         if (batch) draftForm.append('draft_data[batch]', batch);
         if (institution) draftForm.append('draft_data[institution]', institution);
 
-        // Opsional: Kalau lu mau nge-save foto KTP-nya juga ke draft (Kaya lomba kemaren)
-        // if (documentFile) draftForm.append('draft_data[document_path]', documentFile);
-
         userService.saveDraft(draftForm)
           .then(() => {
             console.log("Draft auto-saved");
-            setFormErrors(null); // Clear errors ketika draft berhasil
+            setFormErrors(null);
           })
           .catch((error: any) => {
             console.error("Draft save failed:", error);
-            // Tampilkan error validasi dari backend
             if (error.isValidationError) {
-              // Flatten nested errors dari "draft_data.phone" jadi "phone"
               const flatErrors: any = {};
               Object.keys(error.errors).forEach(key => {
                 const cleanKey = key.replace('draft_data.', '');
@@ -197,14 +177,11 @@ export function CompleteProfileForm() {
             }
           });
       }
-    }, 2000); // <-- 2000 ms (2 detik). Ubah jadi 3000 kalau mau 3 detik.
+    }, 2000);
 
-    // Cleanup function: Kunci dari "Debounce". Ini bakal dipanggil setiap kali
-    // salah satu *dependencies* (phone, line, major, dll) berubah SEBELUM timernya selesai.
     return () => clearTimeout(timer);
     
-  }, [phone, line, major, nrp, batch, institution, documentFile]); // <-- Masukin state yang memicu save
-
+  }, [phone, line, major, nrp, batch, institution, documentFile]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
