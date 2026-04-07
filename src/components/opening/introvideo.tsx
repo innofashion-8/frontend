@@ -92,13 +92,8 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
         <div className="w-full max-w-[1500px] mx-auto px-4 sm:px-10 lg:px-16 xl:px-20">
           <div className="flex flex-col gap-2 sm:gap-3 md:gap-4 w-full sm:max-w-[52vw]">
 
-            {/* Tag kecil */}
-            <div ref={subtitleRef} className="opacity-0 flex items-center gap-2 mb-1">
-              <span style={{
-                display: 'inline-block', width: '28px', height: '2px', flexShrink: 0,
-                background: 'linear-gradient(to right, rgba(255,255,255,0.8), transparent)',
-                borderRadius: '99px',
-              }} />
+            {/* 🔥 REVISI: Tag kecil (Garis dihapus, flex dihapus biar rata kiri full) 🔥 */}
+            <div ref={subtitleRef} className="opacity-0 mb-1">
               <span style={{
                 color: 'rgba(255,255,255,0.55)',
                 fontSize: 'clamp(9px, 2.8vw, 13px)',
@@ -109,7 +104,7 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
               </span>
             </div>
 
-            {/* Headline — mobile: penuh lebar layar, desktop: dibatasi */}
+            {/* Headline */}
             <div className="flex flex-col leading-none">
               {[
                 { ref: line1Ref, text: 'INNO', gold: false },
@@ -123,7 +118,6 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
                   style={{
                     fontWeight: 900,
                     fontStyle: 'italic',
-                    // Mobile: 20vw bikin full layar, desktop: 6.2vw lebih kecil proporsional
                     fontSize: 'clamp(56px, 20vw, 96px)',
                     lineHeight: 0.88,
                     letterSpacing: '-0.03em',
