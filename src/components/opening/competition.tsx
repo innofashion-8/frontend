@@ -390,7 +390,7 @@ const Competition = () => {
           pin: true,
           start: "top top",
           // 🔥 REVISI: Dipercepat jadi +=180% (Dulu 300% terlalu lama, 100% terlalu cepat) 🔥
-          end: "+=40%", 
+          end: "+=80%", 
           scrub: 0.8,
         },
       });
