@@ -18,14 +18,14 @@ export default function EventClient({ initialEvents }: EventClientProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<EventPayload>({ 
-    title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, start_time: '', is_active: true 
+    title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, start_time: '', is_active: true 
   });
   const [errors, setErrors] = useState<ApiValidationErrors | null>(null);
   const [editingId, setEditingId] = useState<string>('');
   const [viewDetail, setViewDetail] = useState<EventResource | null>(null); 
 
   const handleOpenCreate = () => {
-    setFormData({ title: '', category: 'TALKSHOW', description: '', price: 0, quota: 1, wa_link: '', start_time: '', is_active: true });
+    setFormData({ title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, wa_link: '', start_time: '', is_active: true });
     setErrors(null);
     setIsEditing(false);
     setIsSidebarOpen(true);

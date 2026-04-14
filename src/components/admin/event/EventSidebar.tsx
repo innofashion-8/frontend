@@ -67,6 +67,8 @@ export default function EventSidebar({
               value={formData.category} 
               onChange={(e) => onChange({ ...formData, category: e.target.value as EventCategory })}
             >
+              <option value="" disabled>-- Select Category --</option>
+              <option value="SEMINAR">SEMINAR</option>
               <option value="TALKSHOW">TALKSHOW</option>
               <option value="WORKSHOP">WORKSHOP</option>
               <option value="GRADUATION">GRADUATION</option>
