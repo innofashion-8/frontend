@@ -130,6 +130,26 @@ import { ProfileStatusResponse, UserWithRegistrations } from '@/types/user';
 import { getServerSession } from 'next-auth';
 
 export const userService = {
+    exportUsers: async (): Promise<void> => {
+        try {
+            const blob = await fetchClient<Blob>('/api/admin/users/export', {
+                method: 'GET',
+                responseType: 'blob'
+            });
+            
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = 'users.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => window.URL.revokeObjectURL(downloadUrl), 100);
+        } catch (error: any) {
+            throw new Error("Failed to export data");
+        }
+    },
+
     getUser: async(id: string): Promise<UserWithRegistrations> => {
         try {
         const res = await fetchClient<ApiResponse<UserWithRegistrations>>(`/api/admin/users/${id}`, {
