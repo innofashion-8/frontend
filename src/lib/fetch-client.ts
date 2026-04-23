@@ -44,7 +44,11 @@
 
 import { getSession, signOut } from "next-auth/react";
 
-export const fetchClient = async <T = any>(path: string, options: RequestInit = {}): Promise<T> => {
+export interface FetchClientOptions extends RequestInit {
+    responseType?: 'json' | 'blob';
+}
+
+export const fetchClient = async <T = any>(path: string, options: FetchClientOptions = {}): Promise<T> => {
     // 1. 🔥 KITA PAKSA SELALU NEMBAK KE LARAVEL (GAK PAKE PROXY NEXT.JS LAGI) 🔥
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     
@@ -83,6 +87,15 @@ export const fetchClient = async <T = any>(path: string, options: RequestInit = 
             signOut({ callbackUrl: '/login' });
         }
         throw { code: 401, message: 'Unauthorized', isValidationError: false };
+    }
+
+    if (options.responseType === 'blob') {
+        if (!res.ok) {
+            const errorText = await res.text().catch(() => 'Error fetching file');
+            throw new Error(errorText);
+        }
+        const blob = await res.blob();
+        return blob as unknown as T;
     }
 
     const responseData = await res.json().catch(() => ({})); 
