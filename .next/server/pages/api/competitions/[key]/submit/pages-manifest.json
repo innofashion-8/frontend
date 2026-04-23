@@ -1,3 +1,0 @@
-{
-  "/api/competitions/[key]/submit": "pages/api/competitions/[key]/submit.js"
-}
