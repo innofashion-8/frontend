@@ -28,11 +28,11 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
   const [isSubmissionClosing, setIsSubmissionClosing] = useState(false);
   
   // Ambil state awal dari URL params
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [searchQuery, setSearchQuery] = useState(searchParams?.get('search') || '');
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [filterUserType, setFilterUserType] = useState<string>(searchParams.get('user_type') || 'ALL');
-  const [filterCompetitionCategory, setFilterCompetitionCategory] = useState<string>(searchParams.get('category') || 'ALL');
-  const [filterCompetitionName, setFilterCompetitionName] = useState<string>(searchParams.get('competition_name') || '');
+  const [filterUserType, setFilterUserType] = useState<string>(searchParams?.get('user_type') || 'ALL');
+  const [filterCompetitionCategory, setFilterCompetitionCategory] = useState<string>(searchParams?.get('category') || 'ALL');
+  const [filterCompetitionName, setFilterCompetitionName] = useState<string>(searchParams?.get('competition_name') || '');
   const [isExporting, setIsExporting] = useState(false);
   const [competitionOptions, setCompetitionOptions] = useState<string[]>([]);
 

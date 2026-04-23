@@ -27,10 +27,10 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
   const [isClosing, setIsClosing] = useState(false);
   
   // Ambil state awal dari URL params
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [searchQuery, setSearchQuery] = useState(searchParams?.get('search') || '');
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [filterUserType, setFilterUserType] = useState<string>(searchParams.get('user_type') || 'ALL');
-  const [filterEventName, setFilterEventName] = useState<string>(searchParams.get('event_name') || '');
+  const [filterUserType, setFilterUserType] = useState<string>(searchParams?.get('user_type') || 'ALL');
+  const [filterEventName, setFilterEventName] = useState<string>(searchParams?.get('event_name') || '');
   const [eventOptions, setEventOptions] = useState<string[]>([]);
   const [isExporting, setIsExporting] = useState(false);
 
