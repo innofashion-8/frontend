@@ -8,6 +8,7 @@ import { registrationService } from "@/services/registration-service";
 import Swal from "sweetalert2";
 import { CompetitionRegistrationWithUserAndCompetition, RegistrationStatus } from "@/types/registration";
 import { PaginatedResponse } from "@/types";
+import { competitionService } from "@/services/competition-service";
 
 interface CompetitionRegistrationClientProps {
   data: CompetitionRegistrationWithUserAndCompetition[];
@@ -15,33 +16,75 @@ interface CompetitionRegistrationClientProps {
   title: string;
 }
 
+import { useSearchParams } from "next/navigation";
+
 export default function CompetitionRegistrationClient({ data, meta, title }: CompetitionRegistrationClientProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   const [selectedDetail, setSelectedDetail] = useState<CompetitionRegistrationWithUserAndCompetition | null>(null);
   const [selectedSubmission, setSelectedSubmission] = useState<CompetitionRegistrationWithUserAndCompetition | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isSubmissionClosing, setIsSubmissionClosing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Ambil state awal dari URL params
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [filterUserType, setFilterUserType] = useState<string>('ALL');
-  const [filterCompetitionCategory, setFilterCompetitionCategory] = useState<string>('ALL');
+  const [filterUserType, setFilterUserType] = useState<string>(searchParams.get('user_type') || 'ALL');
+  const [filterCompetitionCategory, setFilterCompetitionCategory] = useState<string>(searchParams.get('category') || 'ALL');
+  const [filterCompetitionName, setFilterCompetitionName] = useState<string>(searchParams.get('competition_name') || '');
+  const [isExporting, setIsExporting] = useState(false);
+  const [competitionOptions, setCompetitionOptions] = useState<string[]>([]);
 
-  // Filter Kategori (Intermediate / Advanced)
-  const competitionCategories = Array.from(new Set(data.map(reg => reg.category).filter(Boolean)));
+  useEffect(() => {
+    const fetchCompetitions = async () => {
+      try {
+        const comps = await competitionService.getCompetitions();
+        setCompetitionOptions(comps.map(c => c.name));
+      } catch (err) {
+        console.error("Failed to fetch competition options", err);
+      }
+    };
+    fetchCompetitions();
+  }, []);
 
-  const filteredData = data.filter(reg => {
-    const matchSearch = reg.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.user.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.competition.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.status.toLowerCase().includes(searchQuery.toLowerCase());
+  const applyFilters = (search?: string) => {
+    const params = new URLSearchParams();
     
-    const matchUserType = filterUserType === 'ALL' || reg.user.type === filterUserType;
-    const matchCompetitionCategory = filterCompetitionCategory === 'ALL' || reg.category === filterCompetitionCategory;
+    // Kita paksakan page=1 tiap kali apply filter
+    params.set('page', '1');
     
-    return matchSearch && matchUserType && matchCompetitionCategory;
-  });
+    const finalSearch = search !== undefined ? search : searchQuery;
+    if (finalSearch) params.set('search', finalSearch);
+    if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
+    if (filterCompetitionCategory !== 'ALL') params.set('category', filterCompetitionCategory);
+    if (filterCompetitionName) params.set('competition_name', filterCompetitionName);
+    
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    applyFilters();
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    applyFilters('');
+  };
+
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      await registrationService.exportCompetitionsRegistrations();
+    } catch (error) {
+      alert("Gagal mengexport data");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const filteredData = data;
 
   const handleCloseModal = () => {
     setIsClosing(true);
@@ -252,23 +295,25 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
 
       <div className="mb-6">
         <div className="flex gap-3">
-          <div className="flex-1 relative">
+          <form onSubmit={handleSearchSubmit} className="flex-1 relative">
             <input
               type="text"
-              placeholder="Cari nama, email, lomba, grup, status..."
+              placeholder="Cari nama, email, lomba, grup..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold text-[#1c1c1b] placeholder:text-[#6A5D52] placeholder:font-medium focus:outline-none shadow-[4px_4px_0px_#1c1c1b]"
             />
+            <button type="submit" className="hidden"></button>
             {searchQuery && (
               <button
-                onClick={() => setSearchQuery('')}
+                type="button"
+                onClick={handleClearSearch}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1c1c1b] hover:text-[#6A5D52] font-black text-xl"
               >
                 ×
               </button>
             )}
-          </div>
+          </form>
           <button
             onClick={() => setShowFilterModal(true)}
             className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase cursor-pointer hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2"
@@ -282,10 +327,24 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
           </button>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase transition-all tracking-wider shadow-[4px_4px_0px_#1c1c1b] flex items-center gap-2 ${isExporting ? 'bg-gray-400 text-[#1c1c1b] cursor-not-allowed' : 'bg-green-600 text-white hover:bg-[#1c1c1b] cursor-pointer'}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+              <path d="M12 11v6" />
+              <path d="M9.5 13.5l2.5 2.5l2.5 -2.5" />
+            </svg>
+            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+          </button>
         </div>
-        {(searchQuery || filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL') && (
+        {(searchQuery || filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName) && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
-            Found {filteredData.length} result{filteredData.length !== 1 ? 's' : ''}
+            Found {meta.total} result{meta.total !== 1 ? 's' : ''} in Total
           </p>
         )}
       </div>
@@ -353,8 +412,21 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
                   className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
                 >
                   <option value="ALL">ALL TIERS</option>
-                  {competitionCategories.map(category => (
-                    <option key={category || 'empty'} value={category || ''}>{category || '-'}</option>
+                  <option value="INTERMEDIATE">INTERMEDIATE</option>
+                  <option value="ADVANCED">ADVANCED</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Nama Lomba</label>
+                <select
+                  value={filterCompetitionName}
+                  onChange={(e) => setFilterCompetitionName(e.target.value)}
+                  className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
+                >
+                  <option value="">ALL COMPETITIONS</option>
+                  {competitionOptions.map(name => (
+                    <option key={name} value={name}>{name}</option>
                   ))}
                 </select>
               </div>
@@ -365,13 +437,24 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
                 onClick={() => {
                   setFilterUserType('ALL');
                   setFilterCompetitionCategory('ALL');
+                  setFilterCompetitionName('');
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setShowFilterModal(false);
+                    // Langsung router ganti url
+                    router.push('?page=1');
+                    setIsClosing(false);
+                  }, 100);
                 }}
                 className="flex-1 py-3 px-4 border-[3px] border-[#1c1c1b] bg-white text-[#1c1c1b] font-black uppercase hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] cursor-pointer tracking-wider"
               >
                 Reset
               </button>
               <button
-                onClick={() => setShowFilterModal(false)}
+                onClick={() => {
+                  setShowFilterModal(false);
+                  applyFilters();
+                }}
                 className="flex-1 py-3 px-4 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] cursor-pointer tracking-wider"
               >
                 Apply

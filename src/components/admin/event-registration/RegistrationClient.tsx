@@ -8,6 +8,7 @@ import { registrationService } from "@/services/registration-service";
 import Swal from "sweetalert2";
 import { EventRegistrationWithUserAndEvent, RegistrationStatus } from "@/types/registration";
 import { PaginatedResponse } from "@/types";
+import { eventService } from "@/services/event-service";
 
 interface EventRegistrationClientProps {
   data: EventRegistrationWithUserAndEvent[];
@@ -15,32 +16,72 @@ interface EventRegistrationClientProps {
   title: string;
 }
 
+import { useSearchParams } from "next/navigation";
+
 export default function EventRegistrationClient({ data, meta, title }: EventRegistrationClientProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   
   // State untuk data modal dan animasi
   const [selectedDetail, setSelectedDetail] = useState<EventRegistrationWithUserAndEvent | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Ambil state awal dari URL params
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [showFilterModal, setShowFilterModal] = useState(false);
-  const [filterUserType, setFilterUserType] = useState<string>('ALL');
-  const [filterEventCategory, setFilterEventCategory] = useState<string>('ALL');
+  const [filterUserType, setFilterUserType] = useState<string>(searchParams.get('user_type') || 'ALL');
+  const [filterEventName, setFilterEventName] = useState<string>(searchParams.get('event_name') || '');
+  const [eventOptions, setEventOptions] = useState<string[]>([]);
+  const [isExporting, setIsExporting] = useState(false);
 
-  // Get unique event categories
-  const eventCategories = Array.from(new Set(data.map(reg => reg.event.category)));
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const evts = await eventService.getEvents();
+        setEventOptions(evts.map(e => e.title));
+      } catch (err) {
+        console.error("Failed to fetch event options", err);
+      }
+    };
+    fetchEvents();
+  }, []);
 
-  const filteredData = data.filter(reg => {
-    const matchSearch = reg.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.user.type.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      reg.status.toLowerCase().includes(searchQuery.toLowerCase());
+  const applyFilters = (search?: string) => {
+    const params = new URLSearchParams();
     
-    const matchUserType = filterUserType === 'ALL' || reg.user.type === filterUserType;
-    const matchEventCategory = filterEventCategory === 'ALL' || reg.event.category === filterEventCategory;
+    // Kita paksakan page=1 tiap kali apply filter
+    params.set('page', '1');
     
-    return matchSearch && matchUserType && matchEventCategory;
-  });
+    const finalSearch = search !== undefined ? search : searchQuery;
+    if (finalSearch) params.set('search', finalSearch);
+    if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
+    if (filterEventName) params.set('event_name', filterEventName);
+    
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      await registrationService.exportEventRegistrations();
+    } catch (error) {
+      alert("Gagal mengexport data events");
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    applyFilters();
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    applyFilters('');
+  };
+
+  const filteredData = data;
 
   // Fungsi untuk menutup modal dengan animasi
   const handleCloseModal = () => {
@@ -245,7 +286,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
       {/* SEARCH BAR & FILTER */}
       <div className="mb-6">
         <div className="flex gap-3">
-          <div className="flex-1 relative">
+          <form onSubmit={handleSearchSubmit} className="flex-1 relative">
             <input
               type="text"
               placeholder="Search by name, email, type, event, or status..."
@@ -253,15 +294,17 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-bold text-[#1c1c1b] placeholder:text-[#6A5D52] placeholder:font-medium focus:outline-none shadow-[4px_4px_0px_#1c1c1b]"
             />
+            <button type="submit" className="hidden"></button>
             {searchQuery && (
               <button
-                onClick={() => setSearchQuery('')}
+                type="button"
+                onClick={handleClearSearch}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1c1c1b] hover:text-[#6A5D52] font-black text-xl"
               >
                 ×
               </button>
             )}
-          </div>
+          </form>
           <button
             onClick={() => setShowFilterModal(true)}
             className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase cursor-pointer hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2"
@@ -271,14 +314,29 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
             </svg>
             FILTER
-            {(filterUserType !== 'ALL' || filterEventCategory !== 'ALL') && (
+            {(filterUserType !== 'ALL' || filterEventName) && (
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
           </button>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase cursor-pointer transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2
+              ${isExporting ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-[#EBCB58] text-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white'}`}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+              <path d="M12 11v6" />
+              <path d="M9.5 13.5l2.5 2.5l2.5 -2.5" />
+            </svg>
+            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+          </button>
         </div>
-        {(searchQuery || filterUserType !== 'ALL' || filterEventCategory !== 'ALL') && (
+        {(searchQuery || filterUserType !== 'ALL' || filterEventName) && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
-            Found {filteredData.length} result{filteredData.length !== 1 ? 's' : ''}
+            Found {meta.total} result{meta.total !== 1 ? 's' : ''} in Total
           </p>
         )}
       </div>
@@ -340,15 +398,15 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               </div>
 
               <div>
-                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Event Category</label>
+                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Event Name</label>
                 <select
-                  value={filterEventCategory}
-                  onChange={(e) => setFilterEventCategory(e.target.value)}
+                  value={filterEventName}
+                  onChange={(e) => setFilterEventName(e.target.value)}
                   className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
                 >
-                  <option value="ALL">ALL CATEGORIES</option>
-                  {eventCategories.map(category => (
-                    <option key={category} value={category}>{category}</option>
+                  <option value="">ALL EVENTS</option>
+                  {eventOptions.map(name => (
+                    <option key={name} value={name}>{name}</option>
                   ))}
                 </select>
               </div>
@@ -358,14 +416,24 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               <button
                 onClick={() => {
                   setFilterUserType('ALL');
-                  setFilterEventCategory('ALL');
+                  setFilterEventName('');
+                  setIsClosing(true);
+                  setTimeout(() => {
+                    setShowFilterModal(false);
+                    // Langsung router ganti url
+                    router.push('?page=1');
+                    setIsClosing(false);
+                  }, 100);
                 }}
                 className="flex-1 py-3 px-4 border-[3px] border-[#1c1c1b] bg-white text-[#1c1c1b] font-black uppercase hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] cursor-pointer tracking-wider"
               >
                 Reset
               </button>
               <button
-                onClick={() => setShowFilterModal(false)}
+                onClick={() => {
+                  setShowFilterModal(false);
+                  applyFilters();
+                }}
                 className="flex-1 py-3 px-4 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] cursor-pointer tracking-wider"
               >
                 Apply
