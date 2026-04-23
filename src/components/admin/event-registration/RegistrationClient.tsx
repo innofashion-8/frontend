@@ -31,6 +31,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [filterUserType, setFilterUserType] = useState<string>(searchParams?.get('user_type') || 'ALL');
   const [filterEventName, setFilterEventName] = useState<string>(searchParams?.get('event_name') || '');
+  const [filterStatus, setFilterStatus] = useState<string>(searchParams?.get('status') || 'ALL');
   const [eventOptions, setEventOptions] = useState<string[]>([]);
   const [isExporting, setIsExporting] = useState(false);
 
@@ -56,6 +57,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
     if (finalSearch) params.set('search', finalSearch);
     if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
     if (filterEventName) params.set('event_name', filterEventName);
+    if (filterStatus !== 'ALL') params.set('status', filterStatus);
     
     router.push(`?${params.toString()}`);
   };
@@ -314,7 +316,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
             </svg>
             FILTER
-            {(filterUserType !== 'ALL' || filterEventName) && (
+            {(filterUserType !== 'ALL' || filterEventName || filterStatus !== 'ALL') && (
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
           </button>
@@ -334,7 +336,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
             {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
           </button>
         </div>
-        {(searchQuery || filterUserType !== 'ALL' || filterEventName) && (
+        {(searchQuery || filterUserType !== 'ALL' || filterEventName || filterStatus !== 'ALL') && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
             Found {meta.total} result{meta.total !== 1 ? 's' : ''} in Total
           </p>
@@ -410,6 +412,20 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Status</label>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
+                >
+                  <option value="ALL">ALL STATUSES</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="VERIFIED">VERIFIED</option>
+                  <option value="REJECTED">REJECTED</option>
+                </select>
+              </div>
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -417,6 +433,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
                 onClick={() => {
                   setFilterUserType('ALL');
                   setFilterEventName('');
+                  setFilterStatus('ALL');
                   setIsClosing(true);
                   setTimeout(() => {
                     setShowFilterModal(false);

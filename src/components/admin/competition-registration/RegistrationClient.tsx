@@ -33,6 +33,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
   const [filterUserType, setFilterUserType] = useState<string>(searchParams?.get('user_type') || 'ALL');
   const [filterCompetitionCategory, setFilterCompetitionCategory] = useState<string>(searchParams?.get('category') || 'ALL');
   const [filterCompetitionName, setFilterCompetitionName] = useState<string>(searchParams?.get('competition_name') || '');
+  const [filterStatus, setFilterStatus] = useState<string>(searchParams?.get('status') || 'ALL');
   const [isExporting, setIsExporting] = useState(false);
   const [competitionOptions, setCompetitionOptions] = useState<string[]>([]);
 
@@ -59,6 +60,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
     if (filterCompetitionCategory !== 'ALL') params.set('category', filterCompetitionCategory);
     if (filterCompetitionName) params.set('competition_name', filterCompetitionName);
+    if (filterStatus !== 'ALL') params.set('status', filterStatus);
     
     router.push(`?${params.toString()}`);
   };
@@ -323,7 +325,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
               <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
             </svg>
             FILTER
-            {(filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL') && (
+            {(filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName || filterStatus !== 'ALL') && (
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
           </button>
@@ -342,7 +344,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
             {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
           </button>
         </div>
-        {(searchQuery || filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName) && (
+        {(searchQuery || filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName || filterStatus !== 'ALL') && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
             Found {meta.total} result{meta.total !== 1 ? 's' : ''} in Total
           </p>
@@ -430,6 +432,20 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Status</label>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
+                >
+                  <option value="ALL">ALL STATUSES</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="VERIFIED">VERIFIED</option>
+                  <option value="REJECTED">REJECTED</option>
+                </select>
+              </div>
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -438,6 +454,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
                   setFilterUserType('ALL');
                   setFilterCompetitionCategory('ALL');
                   setFilterCompetitionName('');
+                  setFilterStatus('ALL');
                   setIsClosing(true);
                   setTimeout(() => {
                     setShowFilterModal(false);
