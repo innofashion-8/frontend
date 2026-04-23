@@ -296,8 +296,8 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
       </div>
 
       <div className="mb-6">
-        <div className="flex gap-3">
-          <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+        <div className="flex flex-col md:flex-row gap-3">
+          <form onSubmit={handleSearchSubmit} className="flex-1 relative w-full">
             <input
               type="text"
               placeholder="Cari nama, email, lomba, grup..."
@@ -316,8 +316,9 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
               </button>
             )}
           </form>
-          <button
-            onClick={() => setShowFilterModal(true)}
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <button
+              onClick={() => setShowFilterModal(true)}
             className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase cursor-pointer hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -328,9 +329,9 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
             {(filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName || filterStatus !== 'ALL') && (
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
-          </button>
-          <button
-            onClick={handleExport}
+            </button>
+            <button
+              onClick={handleExport}
             disabled={isExporting}
             className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase transition-all tracking-wider shadow-[4px_4px_0px_#1c1c1b] flex items-center gap-2 ${isExporting ? 'bg-gray-400 text-[#1c1c1b] cursor-not-allowed' : 'bg-green-600 text-white hover:bg-[#1c1c1b] cursor-pointer'}`}
           >
@@ -341,8 +342,9 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
               <path d="M12 11v6" />
               <path d="M9.5 13.5l2.5 2.5l2.5 -2.5" />
             </svg>
-            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
-          </button>
+              {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+            </button>
+          </div>
         </div>
         {(searchQuery || filterUserType !== 'ALL' || filterCompetitionCategory !== 'ALL' || filterCompetitionName || filterStatus !== 'ALL') && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">

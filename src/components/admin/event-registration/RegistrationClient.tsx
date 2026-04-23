@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { UniversalTable, Column } from "@/components/admin/UniversalTable";
 import { UniversalPagination } from "@/components/admin/UniversalPagination";
 import { useRouter } from "next/navigation";
-import { registrationService } from "@/services/registration-service"; 
+import { registrationService } from "@/services/registration-service";
 import Swal from "sweetalert2";
 import { EventRegistrationWithUserAndEvent, RegistrationStatus } from "@/types/registration";
 import { PaginatedResponse } from "@/types";
@@ -21,11 +21,11 @@ import { useSearchParams } from "next/navigation";
 export default function EventRegistrationClient({ data, meta, title }: EventRegistrationClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
+
   // State untuk data modal dan animasi
   const [selectedDetail, setSelectedDetail] = useState<EventRegistrationWithUserAndEvent | null>(null);
   const [isClosing, setIsClosing] = useState(false);
-  
+
   // Ambil state awal dari URL params
   const [searchQuery, setSearchQuery] = useState(searchParams?.get('search') || '');
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -49,16 +49,16 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
   const applyFilters = (search?: string) => {
     const params = new URLSearchParams();
-    
+
     // Kita paksakan page=1 tiap kali apply filter
     params.set('page', '1');
-    
+
     const finalSearch = search !== undefined ? search : searchQuery;
     if (finalSearch) params.set('search', finalSearch);
     if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
     if (filterEventName) params.set('event_name', filterEventName);
     if (filterStatus !== 'ALL') params.set('status', filterStatus);
-    
+
     router.push(`?${params.toString()}`);
   };
 
@@ -91,7 +91,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
     setTimeout(() => {
       setSelectedDetail(null);
       setIsClosing(false);
-    }, 200); 
+    }, 200);
   };
 
   // ESC key handler
@@ -134,11 +134,11 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
       });
 
       if (isDismissed) {
-        router.refresh(); 
-        return; 
+        router.refresh();
+        return;
       }
       rejectionReason = reason;
-    } 
+    }
     // 2. LOGIC JIKA STATUS VERIFIED/PENDING (KONFIRMASI BIASA)
     else {
       const result = await Swal.fire({
@@ -157,7 +157,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
       });
 
       if (!result.isConfirmed) {
-        router.refresh(); 
+        router.refresh();
         return;
       }
     }
@@ -182,7 +182,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
       // Kalau modal lagi kebuka dan datanya sama, kita refresh state-nya
       if (selectedDetail && selectedDetail.id === id) {
-          setSelectedDetail(prev => prev ? { ...prev, status: newStatus as RegistrationStatus, rejection_reason: rejectionReason } : null);
+        setSelectedDetail(prev => prev ? { ...prev, status: newStatus as RegistrationStatus, rejection_reason: rejectionReason } : null);
       }
 
       router.refresh();
@@ -199,28 +199,28 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
   };
 
   const columns: Column<EventRegistrationWithUserAndEvent>[] = [
-    { 
-      header: "NO", 
-      key: "id", 
-      render: (_, index) => <span className="font-black text-lg">{(meta.current_page - 1) * meta.per_page + (index + 1)}</span> 
+    {
+      header: "NO",
+      key: "id",
+      render: (_, index) => <span className="font-black text-lg">{(meta.current_page - 1) * meta.per_page + (index + 1)}</span>
     },
-    { 
-      header: "NAMA PESERTA", 
-      key: "name", 
+    {
+      header: "NAMA PESERTA",
+      key: "name",
       render: (item) => (
         <span className="font-bold uppercase text-base">{item.user.name}</span>
       )
     },
-    { 
-      header: "EMAIL", 
-      key: "email", 
+    {
+      header: "EMAIL",
+      key: "email",
       render: (item) => (
         <span className="text-sm md:text-base font-medium text-[#484847]">{item.user.email}</span>
       )
     },
-    { 
-      header: "TYPE", 
-      key: "type", 
+    {
+      header: "TYPE",
+      key: "type",
       render: (item) => (
         <span className={`px-3 py-1.5 border-[3px] border-[#1c1c1b] font-bold text-xs uppercase shadow-[3px_3px_0px_#1c1c1b] tracking-wider
           ${item.user.type === 'INTERNAL' ? 'bg-[#1c1c1b] text-white' : 'bg-white text-[#1c1c1b]'}`}>
@@ -228,10 +228,10 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
         </span>
       )
     },
-    { 
-      header: "EVENT", 
-      key: "event", 
-      render: (item) => <span className="text-sm md:text-base font-bold block max-w-[200px] leading-snug">{item.event.title}</span> 
+    {
+      header: "EVENT",
+      key: "event",
+      render: (item) => <span className="text-sm md:text-base font-bold block max-w-[200px] leading-snug">{item.event.title}</span>
     },
     {
       header: "PAYMENT",
@@ -247,11 +247,11 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
         ) : <span className="text-sm italic font-medium text-gray-500">NO_FILE</span>
       )
     },
-    { 
-      header: "STATUS", 
+    {
+      header: "STATUS",
       key: "status",
       render: (item) => (
-        <select 
+        <select
           value={item.status}
           onChange={(e) => handleUpdateStatus(item.id, e.target.value)}
           className={`px-3 py-1.5 border-[3px] border-[#1c1c1b] font-black text-xs uppercase cursor-pointer outline-none shadow-[4px_4px_0px_#1c1c1b] transition-colors
@@ -267,7 +267,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
       header: "AKSI",
       key: "action",
       render: (item) => (
-        <button 
+        <button
           onClick={() => setSelectedDetail(item)}
           className="px-4 py-1.5 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white text-xs font-black hover:bg-[#1c1c1b] transition-all shadow-[3px_3px_0px_#1c1c1b] cursor-pointer tracking-wider"
         >
@@ -287,8 +287,8 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
       {/* SEARCH BAR & FILTER */}
       <div className="mb-6">
-        <div className="flex gap-3">
-          <form onSubmit={handleSearchSubmit} className="flex-1 relative">
+        <div className="flex flex-col md:flex-row gap-3">
+          <form onSubmit={handleSearchSubmit} className="flex-1 relative w-full">
             <input
               type="text"
               placeholder="Search by name, email, type, event, or status..."
@@ -307,34 +307,36 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               </button>
             )}
           </form>
-          <button
-            onClick={() => setShowFilterModal(true)}
-            className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase cursor-pointer hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
-            </svg>
-            FILTER
-            {(filterUserType !== 'ALL' || filterEventName || filterStatus !== 'ALL') && (
-              <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
-            )}
-          </button>
-          <button
-            onClick={handleExport}
-            disabled={isExporting}
-            className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase cursor-pointer transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2
-              ${isExporting ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-[#EBCB58] text-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white'}`}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-              <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-              <path d="M12 11v6" />
-              <path d="M9.5 13.5l2.5 2.5l2.5 -2.5" />
-            </svg>
-            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <button
+              onClick={() => setShowFilterModal(true)}
+              className="px-6 py-3 border-[3px] border-[#1c1c1b] bg-[#6A5D52] text-white font-black uppercase cursor-pointer hover:bg-[#1c1c1b] transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
+              </svg>
+              FILTER
+              {(filterUserType !== 'ALL' || filterEventName || filterStatus !== 'ALL') && (
+                <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
+              )}
+            </button>
+            <button
+              onClick={handleExport}
+              disabled={isExporting}
+              className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase cursor-pointer transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider flex items-center gap-2
+              ${isExporting ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-[#1c1c1b] hover:text-white'}`}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                <path d="M12 11v6" />
+                <path d="M9.5 13.5l2.5 2.5l2.5 -2.5" />
+              </svg>
+              {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+            </button>
+          </div>
         </div>
         {(searchQuery || filterUserType !== 'ALL' || filterEventName || filterStatus !== 'ALL') && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
@@ -342,7 +344,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
           </p>
         )}
       </div>
-      
+
       <div className="bg-[#E2E2DE] p-6 border-[3px] border-[#1c1c1b] shadow-[6px_6px_0px_#1c1c1b] mb-6">
         {filteredData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-4">
@@ -358,29 +360,29 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
           <UniversalTable columns={columns} data={filteredData} />
         )}
       </div>
-      
-      <UniversalPagination 
-        meta={meta} 
-        onPageChange={(page) => router.push(`?page=${page}`)} 
+
+      <UniversalPagination
+        meta={meta}
+        onPageChange={(page) => router.push(`?page=${page}`)}
       />
 
       {/* FILTER MODAL */}
       {showFilterModal && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-200"
           onClick={() => setShowFilterModal(false)}
         >
-          <div 
+          <div
             className="bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] w-full max-w-md p-8 relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <button 
+            <button
               onClick={() => setShowFilterModal(false)}
               className="absolute top-4 right-6 text-4xl font-black text-[#1c1c1b] hover:scale-110 transition-transform cursor-pointer"
             >
               &times;
             </button>
-            
+
             <h2 className="text-2xl md:text-3xl font-black font-creato-title uppercase border-b-4 border-[#1c1c1b] pb-4 mb-6">
               Filter Options
             </h2>
@@ -462,21 +464,21 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
       {/* MODAL DETAIL BRUTALIST DENGAN ANIMASI */}
       {selectedDetail && (
-        <div 
-          className={`fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-200 ease-in-out ${isClosing ? 'opacity-0' : 'opacity-100'}`} 
+        <div
+          className={`fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 transition-opacity duration-200 ease-in-out ${isClosing ? 'opacity-0' : 'opacity-100'}`}
           onClick={handleCloseModal}
         >
-          <div 
-            className={`bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-10 relative transition-all duration-200 ease-in-out ${isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`} 
+          <div
+            className={`bg-[#E2E2DE] border-4 border-[#1c1c1b] shadow-[12px_12px_0px_#1c1c1b] w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-10 relative transition-all duration-200 ease-in-out ${isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <button 
+            <button
               onClick={handleCloseModal}
               className="absolute top-4 right-6 text-4xl font-black text-[#1c1c1b] hover:scale-110 transition-transform cursor-pointer z-10"
             >
               &times;
             </button>
-            
+
             <h2 className="text-3xl md:text-4xl font-black font-creato-title uppercase border-b-4 border-[#1c1c1b] pb-4 mb-8">
               {selectedDetail.user.name}
             </h2>
@@ -604,11 +606,10 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               <div className="bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] p-4">
                 <div className="flex items-start justify-between mb-3">
                   <h4 className="font-black text-[#1C1C1B] text-xl">{selectedDetail.event.title}</h4>
-                  <span className={`px-3 py-1 text-xs font-black border-2 border-[#1c1c1b] ${
-                    selectedDetail.status === 'VERIFIED' ? 'bg-green-400 text-[#1c1c1b]' :
+                  <span className={`px-3 py-1 text-xs font-black border-2 border-[#1c1c1b] ${selectedDetail.status === 'VERIFIED' ? 'bg-green-400 text-[#1c1c1b]' :
                     selectedDetail.status === 'REJECTED' ? 'bg-red-400 text-white' :
-                    'bg-yellow-300 text-[#1c1c1b]'
-                  }`}>
+                      'bg-yellow-300 text-[#1c1c1b]'
+                    }`}>
                     {selectedDetail.status}
                   </span>
                 </div>
@@ -642,7 +643,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handleCloseModal}
               className="w-full cursor-pointer py-3 px-6 font-black uppercase text-[#1c1c1b] bg-white border-[3px] border-[#1c1c1b] hover:bg-[#1c1c1b] hover:text-white transition-all shadow-[4px_4px_0px_#1c1c1b] tracking-wider"
             >

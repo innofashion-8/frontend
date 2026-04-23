@@ -120,8 +120,8 @@ export default function UserClient({ data }: UserClientProps) {
 
       {/* SEARCH BAR */}
       <div className="mb-6">
-        <div className="flex gap-3 mb-3">
-          <div className="flex-1 relative">
+        <div className="flex flex-col md:flex-row gap-3 mb-3">
+          <div className="flex-1 relative w-full">
             <input
               type="text"
               placeholder="Search by name, email, type, institution, or phone..."
@@ -138,22 +138,24 @@ export default function UserClient({ data }: UserClientProps) {
               </button>
             )}
           </div>
-          <select
-            value={filterType}
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <select
+              value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
             className="px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase text-sm"
           >
             <option value="ALL">ALL TYPES</option>
             <option value="INTERNAL">INTERNAL</option>
-            <option value="EXTERNAL">EXTERNAL</option>
-          </select>
-          <button
-            onClick={handleExport}
+              <option value="EXTERNAL">EXTERNAL</option>
+            </select>
+            <button
+              onClick={handleExport}
             disabled={isExporting}
             className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase transition-all tracking-wider shadow-[4px_4px_0px_#1c1c1b] ${isExporting ? 'bg-gray-400 cursor-not-allowed text-[#1c1c1b]' : 'bg-[#6A5D52] text-white hover:bg-[#1c1c1b] cursor-pointer'}`}
-          >
-            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
-          </button>
+            >
+              {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+            </button>
+          </div>
         </div>
         {(searchQuery || filterType !== 'ALL') && (
           <p className="text-sm font-bold text-[#6A5D52]">
