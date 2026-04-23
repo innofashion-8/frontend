@@ -7,6 +7,7 @@ import { UniversalTable, Column } from '@/components/admin/UniversalTable';
 import { UniversalPagination } from '@/components/admin/UniversalPagination';
 import { PaginatedResponse } from '@/types';
 import { useRouter } from 'next/navigation';
+import { userService } from '@/services/user-service';
 
 interface UserClientProps {
   data: PaginatedResponse<UserWithRegistrations>;
@@ -18,6 +19,18 @@ export default function UserClient({ data }: UserClientProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<string>('ALL');
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      await userService.exportUsers();
+    } catch (error) {
+      alert("Gagal mengexport data");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const filteredData = data.data.filter(user => {
     const matchSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -134,6 +147,13 @@ export default function UserClient({ data }: UserClientProps) {
             <option value="INTERNAL">INTERNAL</option>
             <option value="EXTERNAL">EXTERNAL</option>
           </select>
+          <button
+            onClick={handleExport}
+            disabled={isExporting}
+            className={`px-6 py-3 border-[3px] border-[#1c1c1b] font-black uppercase transition-all tracking-wider shadow-[4px_4px_0px_#1c1c1b] ${isExporting ? 'bg-gray-400 cursor-not-allowed text-[#1c1c1b]' : 'bg-[#6A5D52] text-white hover:bg-[#1c1c1b] cursor-pointer'}`}
+          >
+            {isExporting ? 'EXPORTING...' : 'EXPORT EXCEL'}
+          </button>
         </div>
         {(searchQuery || filterType !== 'ALL') && (
           <p className="text-sm font-bold text-[#6A5D52]">
