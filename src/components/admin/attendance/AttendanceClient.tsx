@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Scanner, useDevices } from "@yudiel/react-qr-scanner";
+import React, { useState, useEffect } from "react";
+import { Scanner } from "@yudiel/react-qr-scanner";
 import Swal from "sweetalert2";
 import { fetchClient } from "@/lib/fetch-client";
 
@@ -10,7 +10,39 @@ export default function AttendanceClient() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
   const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
-  const devices = useDevices();
+  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+  const [isSwitching, setIsSwitching] = useState(false);
+
+  // Ambil daftar kamera
+  const getCameras = async () => {
+    try {
+      const allDevices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = allDevices.filter(device => device.kind === 'videoinput');
+      setDevices(videoDevices);
+    } catch (err) {
+      console.warn("Gagal mengambil daftar kamera:", err);
+    }
+  };
+
+  useEffect(() => {
+    // Beri jeda sebentar biar komponen Scanner sempat minta izin kamera dulu
+    const timer = setTimeout(() => {
+      getCameras();
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleCameraChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newDeviceId = e.target.value || undefined;
+    
+    // Unmount scanner sebentar biar browser ngelepas akses ke kamera lama
+    setIsSwitching(true);
+    setDeviceId(newDeviceId);
+    
+    setTimeout(() => {
+      setIsSwitching(false);
+    }, 500);
+  };
 
   const processCheckIn = async (registrationId: string) => {
     if (isProcessing || !registrationId) return;
@@ -103,7 +135,8 @@ export default function AttendanceClient() {
             </label>
             <select
               value={deviceId || ""}
-              onChange={(e) => setDeviceId(e.target.value || undefined)}
+              onClick={getCameras} // Klik dropdown akan refresh daftar kamera (buat jaga-jaga)
+              onChange={handleCameraChange}
               className="w-full px-3 py-2 border-[3px] border-[#1c1c1b] bg-white font-bold text-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] focus:outline-none"
             >
               <option value="">Default Camera</option>
@@ -115,9 +148,10 @@ export default function AttendanceClient() {
             </select>
           </div>
 
-          {cameraActive ? (
+          {cameraActive && !isSwitching ? (
             <div className="w-full max-w-sm aspect-square relative border-4 border-[#1c1c1b] shadow-[8px_8px_0px_#1c1c1b] bg-black overflow-hidden p-2">
               <Scanner 
+                key={deviceId || 'default'} // Ini penting biar scanner beneran ke-reset ke kamera baru
                 onScan={handleScan} 
                 onError={(error: any) => console.log(error?.message || error)}
                 constraints={deviceId ? { deviceId: { exact: deviceId } } : undefined}
