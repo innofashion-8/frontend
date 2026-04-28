@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { Scanner, useDevices } from "@yudiel/react-qr-scanner";
 import Swal from "sweetalert2";
 import { fetchClient } from "@/lib/fetch-client";
 
@@ -9,6 +9,8 @@ export default function AttendanceClient() {
   const [manualId, setManualId] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [cameraActive, setCameraActive] = useState(true);
+  const [deviceId, setDeviceId] = useState<string | undefined>(undefined);
+  const devices = useDevices();
 
   const processCheckIn = async (registrationId: string) => {
     if (isProcessing || !registrationId) return;
@@ -95,11 +97,30 @@ export default function AttendanceClient() {
             Optical Scanner
           </h2>
 
+          <div className="w-full max-w-sm mb-4">
+            <label className="text-sm font-black text-[#6A5D52] uppercase block mb-1 tracking-wider">
+              Pilih Kamera
+            </label>
+            <select
+              value={deviceId || ""}
+              onChange={(e) => setDeviceId(e.target.value || undefined)}
+              className="w-full px-3 py-2 border-[3px] border-[#1c1c1b] bg-white font-bold text-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b] focus:outline-none"
+            >
+              <option value="">Default Camera</option>
+              {devices.map((device) => (
+                <option key={device.deviceId} value={device.deviceId}>
+                  {device.label || `Camera ${device.deviceId.substring(0, 5)}...`}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {cameraActive ? (
             <div className="w-full max-w-sm aspect-square relative border-4 border-[#1c1c1b] shadow-[8px_8px_0px_#1c1c1b] bg-black overflow-hidden p-2">
               <Scanner 
                 onScan={handleScan} 
                 onError={(error: any) => console.log(error?.message || error)}
+                constraints={deviceId ? { deviceId: { exact: deviceId } } : undefined}
                 components={{
                   audio: false, 
                   onOff: true, 
