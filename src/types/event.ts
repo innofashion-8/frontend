@@ -25,6 +25,7 @@ export interface EventResource {
   description: string;
   price: number;
   quota: number;
+  quota_left: number;
   wa_link: string;
   start_time_human: string;
   start_time_input: string;
