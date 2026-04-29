@@ -206,15 +206,15 @@ export default function EventCatalogPage() {
                         className="text-[9px] tracking-[0.2em] mb-2 uppercase"
                         style={{ color: palette.ash }}
                       >
-                        CAPACITY
+                        AVAILABLE SLOTS
                       </p>
                       <p
                         className="text-sm font-bold tracking-widest mt-1 uppercase"
                         style={{
-                          color: evt.quota ? palette.stucco : palette.ash,
+                          color: evt.quota_left > 0 ? palette.stucco : palette.ash,
                         }}
                       >
-                        {evt.quota ? `${evt.quota} SLOTS LEFT` : "UNLIMITED"}
+                        {evt.quota_left !== undefined ? `${evt.quota_left} SLOTS LEFT` : "UNLIMITED"}
                       </p>
                     </div>
                   </div>
