@@ -17,6 +17,7 @@ export default function EventCard({ event, onViewDetail, onEdit, onDelete }: Eve
         </span>
         <p className="text-[#1C1C1B] text-sm font-bold mb-1">Price: Rp {event.price.toLocaleString('id-ID')}</p>
         <p className="text-[#6A5D52] text-xs font-bold mb-1">Quota: {event.quota} seats</p>
+        <p className="text-[#1C1C1B] text-xs font-bold mb-1">Available: {event.quota_left} seats</p>
         <p className="text-[#6A5D52] text-xs font-bold">Start: {event.start_time_input.replace('T', ' ')}</p>
       </div>
       <hr className="my-4 border-[#1c1c1b] border-2" />
