@@ -148,7 +148,59 @@ export default function EventSidebar({
             />
             {errors?.wa_link && <p className="text-red-600 text-sm mt-1">{errors.wa_link[0]}</p>}
           </div>
-          
+
+          {/* Payment Details Section — Only relevant for paid events */}
+          {(formData.price > 0) && (
+            <div className="border-t-2 border-dashed border-[#B2B4B2] pt-5 mt-2">
+              <p className="text-sm font-black text-[#5B4D4B] mb-4 uppercase tracking-wider">Payment Details (Optional)</p>
+              
+              <div className="flex flex-col gap-4">
+                <div>
+                  <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Bank Name</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g. BCA, BNI, Mandiri"
+                    className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                    value={formData.bank_name || ''}
+                    onChange={(e) => onChange({ ...formData, bank_name: e.target.value || null })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Account Holder Name</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g. John Doe"
+                    className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                    value={formData.bank_account_name || ''}
+                    onChange={(e) => onChange({ ...formData, bank_account_name: e.target.value || null })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Account Number</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g. 1234567890"
+                    className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                    value={formData.bank_account_number || ''}
+                    onChange={(e) => onChange({ ...formData, bank_account_number: e.target.value || null })}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Transfer Note Format</label>
+                  <input 
+                    type="text"
+                    placeholder="e.g. INNOF2026-NamaLengkap"
+                    className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors"
+                    value={formData.transfer_note_format || ''}
+                    onChange={(e) => onChange({ ...formData, transfer_note_format: e.target.value || null })}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
           <div className="mt-auto pt-6 flex gap-4">
             <button type="button" onClick={onClose} className="border-2 border-[#978D82] text-[#7B7D7B] font-bold rounded-lg py-3 px-6 flex-1 hover:bg-[#978D82] hover:text-[#EBEBDD] transition-colors cursor-pointer">
               Cancel

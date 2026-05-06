@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import palette from '@/config/palette';
+import PaymentInstructionBox from '@/components/user/payment/PaymentInstructionBox';
 
 export default function EventRegisterPage() {
   const params = useParams();
@@ -276,6 +277,16 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
                 </div>
             </div>
           </div>
+
+          {/* 🔥 PAYMENT INSTRUCTION BOX — only for paid events with payment details 🔥 */}
+          {isPaid && event.payment_details && (
+            <div className="mb-10 relative z-10">
+              <PaymentInstructionBox
+                paymentDetails={event.payment_details}
+                price={Number(event.price)}
+              />
+            </div>
+          )}
 
           {/* 🔥 3. KASIH WARNING KALAU DIA MAU RE-SUBMIT KARENA REJECT 🔥 */}
           {isRejected && (
