@@ -16,6 +16,13 @@ export interface Event {
   updated_at?: string;
 }
 
+export interface PaymentDetails {
+  bank_name: string | null;
+  bank_account_name: string | null;
+  bank_account_number: string | null;
+  transfer_note_format: string | null;
+}
+
 // Untuk API /events/{key}
 export interface EventResource {
   id: string;
@@ -27,6 +34,7 @@ export interface EventResource {
   quota: number;
   quota_left: number;
   wa_link: string;
+  payment_details: PaymentDetails | null;
   start_time_human: string;
   start_time_input: string;
   start_time_iso: string;
@@ -42,4 +50,8 @@ export interface EventPayload {
   wa_link?: string;
   start_time: string;
   is_active?: boolean;
+  bank_name?: string | null;
+  bank_account_name?: string | null;
+  bank_account_number?: string | null;
+  transfer_note_format?: string | null;
 }
