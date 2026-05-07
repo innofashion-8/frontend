@@ -1,22 +1,29 @@
 'use client';
 
 import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { themeColors } from '@/lib/theme';
 
 export default function LoginClient() {
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
 
+  // Ambil URL tujuan dari query param 'next'
+  const callbackUrl = searchParams?.get('next') || '/dashboard';
+
   useEffect(() => {
-    if (status === 'authenticated') router.push('/dashboard');
-  }, [status, router]);
+    if (status === 'authenticated') {
+      router.push(callbackUrl);
+    }
+  }, [status, router, callbackUrl]);
 
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    await signIn('google-user', { callbackUrl: '/dashboard' });
+    // Pass callbackUrl ke signIn biar NextAuth tau mau redirect kemana
+    await signIn('google-user', { callbackUrl });
   };
 
   if (status === 'loading') return null;
