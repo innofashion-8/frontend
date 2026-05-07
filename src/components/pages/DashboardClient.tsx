@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchClient } from "@/lib/fetch-client";
 import Navbar from "@/components/opening/navbar";
+import UserQrScanner from "@/components/user/attendance/UserQrScanner";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import palette from "@/config/palette";
@@ -20,6 +21,8 @@ export default function DashboardClient() {
   const [artworkFile, setArtworkFile] = useState<File | null>(null);
   const [conceptFile, setConceptFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [showQrScanner, setShowQrScanner] = useState(false);
+  const [isQrClosing, setIsQrClosing] = useState(false);
 
   const { data: registrations, isLoading: isRegLoading } = useQuery({
     queryKey: ["my-registrations"],
@@ -33,6 +36,25 @@ export default function DashboardClient() {
   });
 
   const handleLogout = async () => await signOut({ callbackUrl: "/login" });
+
+  const handleCloseQrScanner = () => {
+    setIsQrClosing(true);
+    setTimeout(() => {
+      setShowQrScanner(false);
+      setIsQrClosing(false);
+    }, 200);
+  };
+
+  // ESC key handler for QR Scanner
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showQrScanner) {
+        handleCloseQrScanner();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [showQrScanner]);
 
   if (status === "loading")
     return (
@@ -240,24 +262,58 @@ export default function DashboardClient() {
                 MAIN DASHBOARD
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              {/* TOMBOL EDIT PROFILE */}
+            <div className="flex flex-wrap items-center gap-3">
+              {/* TOMBOL QR SCANNER - PROMINENT */}
               <button
-                onClick={() => router.push("/dashboard/profile")}
-                className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer hover:bg-white/10"
+                onClick={() => setShowQrScanner(true)}
+                className="w-full sm:w-auto group flex items-center gap-2 px-4 py-2 border transition-all duration-300 cursor-pointer hover:bg-white/10"
                 style={{
                   borderColor: palette.graphite,
                   backgroundColor: "rgba(28,28,27,0.5)",
                 }}
               >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <rect x="4" y="4" width="6" height="6" rx="1" />
+                  <line x1="7" y1="17" x2="7" y2="17.01" />
+                  <rect x="14" y="4" width="6" height="6" rx="1" />
+                  <line x1="7" y1="7" x2="7" y2="7.01" />
+                  <rect x="4" y="14" width="6" height="6" rx="1" />
+                  <line x1="17" y1="7" x2="17" y2="7.01" />
+                  <line x1="14" y1="14" x2="17" y2="14" />
+                  <line x1="20" y1="14" x2="20" y2="14.01" />
+                  <line x1="14" y1="14" x2="14" y2="17" />
+                  <line x1="14" y1="20" x2="17" y2="20" />
+                  <line x1="17" y1="17" x2="20" y2="17" />
+                  <line x1="20" y1="17" x2="20" y2="20" />
+                </svg>
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-white">
-                  EDIT IDENTITY
+                  SCAN QR
+                </span>
+              </button>
+
+              {/* TOMBOL EDIT PROFILE */}
+              <button
+                onClick={() => router.push("/dashboard/profile")}
+                className="w-full sm:w-auto group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer hover:bg-white/10"
+                style={{
+                  borderColor: palette.graphite,
+                  backgroundColor: "rgba(28,28,27,0.5)",
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                  <circle cx="12" cy="7" r="4" />
+                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                </svg>
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase transition-colors text-gray-400 group-hover:text-white">
+                  PROFILE
                 </span>
               </button>
 
               <button
                 onClick={handleLogout}
-                className="group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer"
+                className="w-full sm:w-auto group flex items-center gap-2 px-4 py-2 border transition-all duration-300 backdrop-blur-sm cursor-pointer"
                 style={{
                   borderColor: palette.graphite,
                   backgroundColor: "rgba(28,28,27,0.5)",
@@ -511,8 +567,7 @@ export default function DashboardClient() {
         </div>
 
         {/* MENU CARD */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">          <div
             onClick={() => router.push("/dashboard/event")}
             className="group relative overflow-hidden border bg-black/40 backdrop-blur-md p-10 md:p-14 cursor-pointer transition-all duration-700 hover:-translate-y-2 flex flex-col justify-between"
             style={{
@@ -728,6 +783,27 @@ export default function DashboardClient() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL QR SCANNER */}
+      {showQrScanner && (
+        <div 
+          className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-sm transition-opacity duration-200 ${isQrClosing ? 'opacity-0' : 'opacity-100'}`}
+          onClick={handleCloseQrScanner}
+        >
+          <div 
+            className={`relative w-full max-w-lg transition-all duration-200 ${isQrClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={handleCloseQrScanner}
+              className="absolute -top-2 -right-2 z-10 w-8 h-8 flex items-center justify-center bg-[#1C1C1B] border-2 border-[#494947] text-white font-black text-lg hover:bg-red-600 hover:border-red-600 transition-all cursor-pointer"
+            >
+              ×
+            </button>
+            <UserQrScanner />
           </div>
         </div>
       )}
