@@ -24,7 +24,7 @@ export default function GlobalLoader() {
     // Provide enough time for animation and fake loading progress
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2800);
+    }, 2600); // Dikurangi dari 2800ms ke 1500ms
 
     return () => clearTimeout(timer);
   }, [pathname, isAdminPage]);

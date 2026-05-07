@@ -79,7 +79,7 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black overflow-hidden pointer-events-auto"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeIn", delay: 0.5 }}
