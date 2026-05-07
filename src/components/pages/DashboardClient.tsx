@@ -455,13 +455,13 @@ export default function DashboardClient() {
                         )}
                       </div>
 
-                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                      <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">
                         
                         {/* 🔥 TOMBOL UPLOAD / VIEW (KHUSUS SKETCH) 🔥 */}
                         {isAccepted && isSketchComp && !hasSubmitted && (
                           <button
                             onClick={() => setUploadCompKey(compKey)}
-                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-white hover:text-black transition-all cursor-pointer"
+                            className="w-full sm:w-auto px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-white hover:text-black transition-all cursor-pointer"
                             style={{
                               borderColor: palette.stucco,
                             }}
@@ -475,7 +475,7 @@ export default function DashboardClient() {
                             onClick={() =>
                               handleViewSubmission(artworkUrl, conceptUrl)
                             }
-                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-white/10 hover:bg-white hover:text-black transition-all cursor-pointer"
+                            className="w-full sm:w-auto px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-white/10 hover:bg-white hover:text-black transition-all cursor-pointer"
                             style={{
                               borderColor: palette.stucco,
                               color: palette.stucco,
@@ -489,7 +489,7 @@ export default function DashboardClient() {
                         {isAccepted && isEvent && (
                           <button
                             onClick={() => handleViewTicket(reg.id, itemName)}
-                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-[#E2E2DE] hover:text-[#1C1C1B] transition-all cursor-pointer"
+                            className="w-full sm:w-auto px-4 py-2 border font-bold text-[10px] tracking-widest uppercase text-[#E2E2DE] hover:bg-[#E2E2DE] hover:text-[#1C1C1B] transition-all cursor-pointer"
                             style={{
                               borderColor: palette.stucco,
                             }}
@@ -502,7 +502,7 @@ export default function DashboardClient() {
                         {isAccepted && finalWaLink && (
                           <a 
                             href={finalWaLink} target="_blank" rel="noopener noreferrer"
-                            className="px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all cursor-pointer"
+                            className="w-full sm:w-auto px-4 py-2 border font-bold text-[10px] tracking-widest uppercase bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-all cursor-pointer text-center"
                             style={{ borderColor: '#25D366' }}
                           >
                             JOIN WHATSAPP
@@ -510,7 +510,7 @@ export default function DashboardClient() {
                         )}
 
                         <div
-                          className="flex items-center gap-3 px-4 py-2 border"
+                          className="flex items-center gap-3 px-4 py-2 border w-full sm:w-auto"
                           style={{
                             borderColor: palette.graphite,
                             backgroundColor: "rgba(0,0,0,0.5)",
