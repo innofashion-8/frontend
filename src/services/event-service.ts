@@ -117,5 +117,32 @@ export const eventService = {
         if (error.isValidationError) throw { isValidationError: true, errors: error.data };
         throw new Error(error.message);
         }
+    },
+
+    getRotatingQr: async (key: string): Promise<{ token: string }> => {
+        try {
+            const res = await fetchClient<ApiResponse<{ token: string }>>(`/api/admin/events/${key}/rotating-qr`, {
+                method: 'GET',
+            });
+            return res.data!;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    },
+
+    userScanCheckIn: async (token: string): Promise<{ message: string, data: any }> => {
+        try {
+            const res = await fetchClient<ApiResponse<any>>(`/api/events/scan-attendance`, {
+                method: 'POST',
+                body: JSON.stringify({ token }),
+            });
+            return {
+                message: res.message || 'Check-in berhasil',
+                data: res.data
+            };
+        } catch (error: any) {
+            if (error.isValidationError) throw { isValidationError: true, errors: error.data };
+            throw new Error(error.message);
+        }
     }
 };
