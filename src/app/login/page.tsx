@@ -74,8 +74,19 @@
 //   );
 // }
 
+import { Suspense } from 'react';
 import LoginClient from '@/components/pages/LoginClient';
 
 export default function LoginPage() {
-  return <LoginClient />;
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+        <div className="text-xs font-bold tracking-[0.4em] uppercase animate-pulse text-[#979086]">
+          INITIALIZING...
+        </div>
+      </div>
+    }>
+      <LoginClient />
+    </Suspense>
+  );
 }
