@@ -67,7 +67,7 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
               </div>
 
               {/* CTA BUTTONS — ShimmerCard (desktop only) */}
-              <div className="hidden md:flex items-center space-x-3 mr-4">
+              <div className="hidden lg:flex items-center space-x-3 mr-4">
                 {status === 'authenticated' ? (
                   <>
                     {pathname === '/dashboard' ? (
