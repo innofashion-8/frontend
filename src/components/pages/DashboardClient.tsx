@@ -125,20 +125,34 @@ export default function DashboardClient() {
 
       queryClient.invalidateQueries({ queryKey: ["my-registrations"] });
     } catch (error: any) {
+      let errorMessage = "System failed to process your artwork.";
+      
+      // Handle validation errors dari backend
+      if (error.isValidationError && error.errors) {
+        const errorMessages = Object.values(error.errors)
+          .flat()
+          .join("<br>");
+        errorMessage = errorMessages;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       Swal.fire({
         title: "UPLOAD FAILED",
-        text: error.message || "System failed to process your artwork.",
+        html: `<p style="font-size: 14px; line-height: 1.6;">${errorMessage}</p>`,
         icon: "error",
         background: palette.onyx,
         color: palette.stucco,
         confirmButtonColor: "#ef4444",
+        confirmButtonText: "RETRY",
         customClass: {
           popup:
             "border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]",
-          title: "font-black tracking-[0.2em]",
+          title: "font-black tracking-[0.2em] uppercase",
+          confirmButton: "font-bold tracking-widest uppercase rounded-none px-6 py-2"
         },
       });
-        queryClient.invalidateQueries({ queryKey: ['my-registrations'] });
+      queryClient.invalidateQueries({ queryKey: ['my-registrations'] });
     } finally {
       setIsUploading(false);
     }
@@ -724,7 +738,7 @@ export default function DashboardClient() {
                   className="text-[9px] mt-2 italic"
                   style={{ color: palette.gravel }}
                 >
-                  Format: Full Name_Competition Category.pdf
+                  Format: Full Name_Competition Category.pdf | Max: 5MB
                 </p>
               </div>
               <div>
@@ -750,7 +764,7 @@ export default function DashboardClient() {
                   className="text-[9px] mt-2 italic"
                   style={{ color: palette.gravel }}
                 >
-                  Format: Full Name_Concept_Competition Category.pdf
+                  Format: Full Name_Concept_Competition Category.pdf | Max: 5MB
                 </p>
               </div>
 
