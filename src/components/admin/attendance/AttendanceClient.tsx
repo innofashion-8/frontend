@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import Swal from "sweetalert2";
+import { adminSuccess, adminError } from '@/lib/admin-swal';
 import { fetchClient } from "@/lib/fetch-client";
 
 export default function AttendanceClient() {
@@ -56,38 +56,20 @@ export default function AttendanceClient() {
         body: JSON.stringify({ registration_id: registrationId }),
       });
 
-      Swal.fire({
+      adminSuccess({
         title: "ACCESS GRANTED",
         text: res.message,
-        icon: "success",
-        background: "#E2E2DE",
-        color: "#1C1C1B",
-        confirmButtonColor: "#1C1C1B",
         confirmButtonText: "NEXT SCAN",
-        customClass: {
-          popup: "rounded-none border-4 border-[#1C1C1B] shadow-[8px_8px_0px_#1C1C1B]",
-          title: "font-black font-creato-title tracking-widest uppercase text-2xl",
-          confirmButton: "rounded-none font-black uppercase tracking-widest border-[3px] border-[#1C1C1B] shadow-[4px_4px_0px_#1C1C1B] px-6 py-2 hover:bg-white hover:text-[#1C1C1B] transition-all",
-        },
       }).then(() => {
         setCameraActive(true);
       });
 
       setManualId(""); 
     } catch (error: any) {
-      Swal.fire({
+      adminError({
         title: "ACCESS DENIED",
         text: error.message || "ID tidak valid atau belum diverifikasi.",
-        icon: "error",
-        background: "#E2E2DE",
-        color: "#ef4444",
-        confirmButtonColor: "#1C1C1B",
         confirmButtonText: "TUTUP",
-        customClass: {
-          popup: "rounded-none border-4 border-[#1C1C1B] shadow-[8px_8px_0px_#1C1C1B]",
-          title: "font-black font-creato-title tracking-widest uppercase text-2xl text-[#ef4444]",
-          confirmButton: "rounded-none font-black uppercase tracking-widest border-[3px] border-[#1C1C1B] shadow-[4px_4px_0px_#1C1C1B] px-6 py-2 hover:bg-[#ef4444] transition-all",
-        },
       }).then(() => {
         setCameraActive(true);
       });
