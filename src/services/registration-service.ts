@@ -118,5 +118,12 @@ export const registrationService = {
             method: 'PATCH',
             body: JSON.stringify({ status, rejection_reason })
         });
+    },
+
+    async updateEventAttendance(id: string, attended: boolean): Promise<ApiResponse<null>> {
+        return await fetchClient<ApiResponse<null>>(`/api/admin/registrations/events/${id}/attendance`, {
+            method: 'PATCH',
+            body: JSON.stringify({ attended })
+        });
     }
 };
