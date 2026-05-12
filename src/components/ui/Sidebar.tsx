@@ -11,6 +11,7 @@ export function Sidebar() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [isActive, setIsActive] = useState(false);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   const sidebarRef = useRef<HTMLElement>(null);
   const mobileBtnRef = useRef<HTMLDivElement>(null);
@@ -52,60 +53,119 @@ export function Sidebar() {
 
   const adminMenus = [
     {
+      type: "single",
       path: "/admin/dashboard",
       name: "Dashboard",
       permission: null,
       icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 12l-2 0l9 -9l9 9l-2 0" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></>
     },
     {
+      type: "single",
       path: "/admin/competition",
       name: "Manage Competition",
       permission: "manage_competitions",
       icon: <><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></>
     },
     {
+      type: "single",
       path: "/admin/event",
       name: "Manage Event",
       permission: "manage_events",
       icon: <><rect width="18" height="18" x="3" y="4" rx="2" ry="2" /><line x1="16" x2="16" y1="2" y2="6" /><line x1="8" x2="8" y1="2" y2="6" /><line x1="3" x2="21" y1="10" y2="10" /></>
     },
     {
+      type: "single",
       path: "/admin/user",
       name: "Manage User",
       permission: "manage_users",
       icon: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></>
     },
     {
-      path: "/admin/event-registration",
-      name: "Event Registration",
+      type: "group",
+      label: "REGISTRATIONS",
       permission: "manage_registrations",
-      icon: <><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" /></>
+      icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M9 14l2 2l4 -4" /></>,
+      items: [
+        {
+          path: "/admin/event-registration",
+          name: "Event Reg.",
+          icon: <><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" /></>
+        },
+        {
+          path: "/admin/competition-registration",
+          name: "Comp. Reg.",
+          icon: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z" /><path d="m9 14 2 2 4-4" /></>
+        }
+      ]
     },
     {
-      path: "/admin/competition-registration",
-      name: "Comp. Registration",
-      permission: "manage_registrations",
-      icon: <><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1Z" /><path d="m9 14 2 2 4-4" /></>
-    },
-    {
-      path: "/admin/scan-attendance",
-      name: "Scan Attendance",
-      permission: "scan_attendance",
-      icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 12l14 0" /></>
-    },
-    {
-      path: "/admin/qr-event",
-      name: "QR Event",
-      permission: "manage_events",
-      icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M7 17l0 .01" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M7 7l0 .01" /><path d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M17 7l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 14l0 3" /><path d="M14 20l3 0" /><path d="M17 17l3 0" /><path d="M20 17l0 3" /></>
-    },
+      type: "group",
+      label: "ATTENDANCE",
+      permission: "scan_attendance", // Permission udah disamain biar panitia scan bisa buka semua
+      icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 12l14 0" /></>,
+      items: [
+        {
+          path: "/admin/scan-attendance",
+          name: "Scan Attd.",
+          icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 12l14 0" /></>
+        },
+        {
+          path: "/admin/event-attendance",
+          name: "Event Attd.",
+          icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" /><path d="M16 3l0 4" /><path d="M8 3l0 4" /><path d="M4 11l16 0" /><path d="M8 15h2v2h-2l0 -2" /></>
+        },
+        {
+          path: "/admin/qr-event",
+          name: "QR Event",
+          icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M7 17l0 .01" /><path d="M14 5a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M7 7l0 .01" /><path d="M4 15a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1l0 -4" /><path d="M17 7l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 14l0 3" /><path d="M14 20l3 0" /><path d="M17 17l3 0" /><path d="M20 17l0 3" /></>
+        }
+      ]
+    }
   ];
 
-  const allowedMenus = adminMenus.filter((item) => {
-    if (!item.permission) return true;
+  const allowedMenus = adminMenus.filter((menu) => {
+    if (!menu.permission) return true;
     if (userPermissions.includes("*")) return true;
-    return userPermissions.includes(item.permission);
+    return userPermissions.includes(menu.permission);
   });
+
+  useEffect(() => {
+    const currentGroup = allowedMenus.find(menu =>
+      menu.type === "group" && menu.items?.some(item => pathname?.startsWith(item.path))
+    );
+    if (currentGroup) {
+      setOpenGroups(prev => ({ ...prev, [currentGroup.label as string]: true }));
+    }
+  }, [pathname]);
+
+  const renderMenuItem = (item: any, key: string | number, isChild: boolean = false) => {
+    const isCurrent =
+      item.path === "/admin/dashboard"
+        ? pathname === "/admin/dashboard"
+        : pathname === item.path || pathname?.startsWith(`${item.path}/`);
+
+    return (
+      <li key={key} className={`w-full h-[50px] leading-[50px] ${isChild ? "pl-2" : ""}`}>
+        <Link
+          href={item.path}
+          onClick={() => { if (window.innerWidth <= 1024) setIsActive(false); }}
+          className={`flex items-center w-full h-full rounded-xl transition-all duration-400 relative
+          ${isCurrent
+              ? "bg-gradient-to-r from-[#6a5d52]/10 to-transparent border-l-4 border-[#6a5d52] text-[#1a1a1a]"
+              : "text-[#484847] hover:bg-[#b7ac9b]/20"}`}
+        >
+          <i className={`min-w-[50px] h-[50px] flex items-center justify-center ${isCurrent ? "text-[#6a5d52]" : ""}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width={isChild ? "18" : "22"} height={isChild ? "18" : "22"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              {item.icon}
+            </svg>
+          </i>
+          <span className={`font-semibold font-creato-body ${isChild ? "text-[14px]" : "text-[15px]"} transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+            {item.name}
+          </span>
+        </Link>
+      </li>
+    );
+  };
 
   return (
     <>
@@ -162,34 +222,52 @@ export function Sidebar() {
 
         {/* LIST MENU TENGAH */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
-          <ul className="flex flex-col gap-1 w-full p-0 m-0">
-            {allowedMenus.map((item, index) => {
-              const isCurrent =
-                item.path === "/admin/dashboard"
-                  ? pathname === "/admin/dashboard"
-                  : pathname === item.path || pathname?.startsWith(`${item.path}/`);
+          <ul className="flex flex-col gap-1 w-full p-0 m-0 pb-10">
+            {allowedMenus.map((menu, index) => {
+              if (menu.type === "group") {
+                const isOpen = openGroups[menu.label as string];
+                const isGroupActive = menu.items?.some(item => pathname?.startsWith(item.path));
 
-              return (
-                <li key={index} className="w-full h-[50px] leading-[50px]">
-                  <Link
-                    href={item.path}
-                    onClick={() => { if (window.innerWidth <= 1024) setIsActive(false); }}
-                    className={`flex items-center w-full h-full rounded-xl transition-all duration-400 relative
-                    ${isCurrent
-                        ? "bg-gradient-to-r from-[#6a5d52]/10 to-transparent border-l-4 border-[#6a5d52] text-[#1a1a1a]"
-                        : "text-[#484847] hover:bg-[#b7ac9b]/20"}`}
-                  >
-                    <i className={`min-w-[50px] h-[50px] flex items-center justify-center ${isCurrent ? "text-[#6a5d52]" : ""}`}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        {item.icon}
-                      </svg>
-                    </i>
-                    <span className={`font-semibold font-creato-body text-[15px] transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              );
+                return (
+                  <li key={`group-${index}`} className="w-full flex flex-col my-1">
+                    <button
+                      onClick={() => {
+                        if (!isActive) {
+                          setIsActive(true);
+                          setOpenGroups(prev => ({ ...prev, [menu.label as string]: true }));
+                        } else {
+                          setOpenGroups(prev => ({ ...prev, [menu.label as string]: !isOpen }));
+                        }
+                      }}
+                      className={`flex items-center w-full h-[50px] rounded-xl transition-all duration-400 relative
+                      ${isGroupActive && !isOpen && !isActive
+                          ? "bg-gradient-to-r from-[#6a5d52]/10 to-transparent border-l-4 border-[#6a5d52] text-[#1a1a1a]"
+                          : "text-[#484847] hover:bg-[#b7ac9b]/20"}`}
+                    >
+                      <i className={`min-w-[50px] h-[50px] flex items-center justify-center ${isGroupActive ? "text-[#6a5d52]" : ""}`}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          {menu.icon}
+                        </svg>
+                      </i>
+                      <div className={`flex flex-1 justify-between items-center pr-4 transition-opacity duration-300 ${isActive ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
+                        <span className="font-black font-creato-body text-[13px] tracking-[0.1em] uppercase text-[#1c1c1b]">
+                          {menu.label}
+                        </span>
+                        <svg className={`w-4 h-4 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
+                    </button>
+
+                    <ul className={`flex flex-col gap-1 overflow-hidden transition-all duration-300 ease-in-out
+                      ${isOpen && isActive ? "max-h-[300px] opacity-100 mt-1" : "max-h-0 opacity-0"}`}>
+                      {menu.items?.map((item, idx) => renderMenuItem(item, `child-${index}-${idx}`, true))}
+                    </ul>
+                  </li>
+                );
+              }
+
+              return renderMenuItem(menu, `single-${index}`);
             })}
           </ul>
         </div>
