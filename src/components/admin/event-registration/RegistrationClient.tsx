@@ -5,7 +5,7 @@ import { UniversalTable, Column } from "@/components/admin/UniversalTable";
 import { UniversalPagination } from "@/components/admin/UniversalPagination";
 import { useRouter } from "next/navigation";
 import { registrationService } from "@/services/registration-service";
-import Swal from "sweetalert2";
+import { adminConfirm, adminSuccess, adminError, adminLoading, adminInput } from '@/lib/admin-swal';
 import { EventRegistrationWithUserAndEvent, RegistrationStatus } from "@/types/registration";
 import { PaginatedResponse } from "@/types";
 import { eventService } from "@/services/event-service";
@@ -113,24 +113,16 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
     let rejectionReason = "";
 
     if (newStatus === "REJECTED") {
-      const { value: reason, isDismissed } = await Swal.fire({
+      const { value: reason, isDismissed } = await adminInput({
         title: 'ALASAN PENOLAKAN',
         input: 'textarea',
         inputPlaceholder: 'Tuliskan alasan penolakan...',
         showCancelButton: true,
-        confirmButtonColor: '#1c1c1b',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'TOLAK PESERTA',
         cancelButtonText: 'BATAL',
         inputValidator: (value) => {
           if (!value) return 'Alasan penolakan wajib diisi!';
         },
-        customClass: {
-          popup: 'rounded-none border-4 border-[#1c1c1b]',
-          confirmButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          cancelButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          input: 'border-2 border-[#1c1c1b] rounded-none focus:ring-0 text-lg p-3',
-        }
       });
 
       if (isDismissed) {
@@ -141,19 +133,10 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
     }
     // 2. LOGIC JIKA STATUS VERIFIED/PENDING (KONFIRMASI BIASA)
     else {
-      const result = await Swal.fire({
+      const result = await adminConfirm({
         title: 'KONFIRMASI UPDATE',
         text: `Ubah status menjadi ${newStatus}?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#1c1c1b',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'YA, PROSES',
-        customClass: {
-          popup: 'rounded-none border-4 border-[#1c1c1b]',
-          confirmButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          cancelButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-        }
       });
 
       if (!result.isConfirmed) {
@@ -164,21 +147,11 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
     // 3. EKSEKUSI API
     try {
-      Swal.fire({
-        title: 'SEDANG MEMPROSES...',
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading(),
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      adminLoading('SEDANG MEMPROSES...');
 
       await registrationService.updateEventStatus(id, newStatus as RegistrationStatus, rejectionReason);
 
-      await Swal.fire({
-        title: 'BERHASIL!',
-        icon: 'success',
-        confirmButtonColor: '#1c1c1b',
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      await adminSuccess({ title: 'BERHASIL!' });
 
       // Kalau modal lagi kebuka dan datanya sama, kita refresh state-nya
       if (selectedDetail && selectedDetail.id === id) {
@@ -187,13 +160,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
       router.refresh();
     } catch (error: any) {
-      Swal.fire({
-        title: 'GAGAL!',
-        text: error.message || 'Terjadi kesalahan',
-        icon: 'error',
-        confirmButtonColor: '#1c1c1b',
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      adminError({ title: 'GAGAL!', text: error.message || 'Terjadi kesalahan' });
       router.refresh();
     }
   };

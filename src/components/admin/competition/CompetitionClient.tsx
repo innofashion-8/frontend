@@ -7,7 +7,7 @@ import { ApiValidationErrors } from '@/types/api';
 import CompetitionCard from './CompetitionCard';
 import CompetitionModal from './CompetitionModal';
 import CompetitionSidebar from './CompetitionSidebar';
-import Swal from 'sweetalert2';
+import { adminConfirm, adminSuccess, adminError, adminLoading, adminToast } from '@/lib/admin-swal';
 
 interface CompetitionClientProps {
   initialCompetitions: Competition[];
@@ -91,60 +91,20 @@ export default function CompetitionClient({ initialCompetitions }: CompetitionCl
     const compToDelete = competitions.find(c => c.id === id);
     const compName = compToDelete?.name || 'Kompetisi ini';
 
-    Swal.fire({
+    adminConfirm({
       title: "HAPUS KOMPETISI?",
       text: `Data "${compName}" akan dihapus permanen dan tidak bisa dikembalikan.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#1c1c1b",
-      cancelButtonColor: "#979086",
       confirmButtonText: "YA, HANGUSKAN!",
       cancelButtonText: "BATAL",
-      customClass: {
-        popup: 'rounded-none border-4 border-[#1c1c1b]',
-        title: 'font-creato-title font-bold uppercase',
-        confirmButton: 'rounded-none font-creato-title font-bold uppercase tracking-widest',
-        cancelButton: 'rounded-none font-creato-title font-bold uppercase tracking-widest'
-      }
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          Swal.fire({
-            title: 'MENGHAPUS...',
-            allowOutsideClick: false,
-            didOpen: () => {
-              Swal.showLoading();
-            },
-            customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-          });
-
+          adminLoading('MENGHAPUS...');
           await competitionService.deleteEvent(id);
           setCompetitions(competitions.filter((comp) => comp.id !== id));
-
-          Swal.fire({
-            title: "TERHAPUS!",
-            text: "Kompetisi berhasil dilenyapkan dari database.",
-            icon: "success",
-            confirmButtonColor: "#6A5D52",
-            confirmButtonText: "MANTAP",
-            customClass: {
-              popup: 'rounded-none border-4 border-[#1c1c1b]',
-              title: 'font-creato-title font-bold uppercase',
-              confirmButton: 'rounded-none font-creato-title font-bold uppercase tracking-widest',
-            }
-          });
-
+          adminSuccess({ title: "TERHAPUS!", text: "Kompetisi berhasil dilenyapkan dari database." });
         } catch (error: any) {
-          Swal.fire({
-            title: "GAGAL!",
-            text: error.message || "Server lagi ngambek, coba lagi nanti.",
-            icon: "error",
-            confirmButtonColor: "#1c1c1b",
-            customClass: {
-              popup: 'rounded-none border-4 border-[#1c1c1b]',
-              confirmButton: 'rounded-none font-creato-title font-bold uppercase',
-            }
-          });
+          adminError({ title: "GAGAL!", text: error.message || "Server lagi ngambek, coba lagi nanti." });
         }
       }
     });
@@ -163,31 +123,13 @@ export default function CompetitionClient({ initialCompetitions }: CompetitionCl
       }
       setIsSidebarOpen(false);
       
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        title: isEditing ? 'Update Berhasil' : 'Kompetisi Disimpan',
-        showConfirmButton: false,
-        timer: 3000,
-        customClass: { popup: 'border-2 border-[#1c1c1b] rounded-none' }
-      });
+      adminToast(isEditing ? 'Update Berhasil' : 'Kompetisi Disimpan');
 
     } catch (error: any) {
       if (error.isValidationError) {
         setErrors(error.errors);
       } else {
-        Swal.fire({
-          title: "SYSTEM ERROR",
-          text: error.message || "Terjadi kesalahan saat menyimpan data.",
-          icon: "error",
-          confirmButtonColor: "#1c1c1b",
-          customClass: {
-            popup: 'rounded-none border-4 border-[#1c1c1b]',
-            title: 'font-creato-title font-black uppercase',
-            confirmButton: 'rounded-none font-creato-title font-bold uppercase tracking-widest',
-          }
-        });
+        adminError({ title: "SYSTEM ERROR", text: error.message || "Terjadi kesalahan saat menyimpan data." });
       }
     }
   };

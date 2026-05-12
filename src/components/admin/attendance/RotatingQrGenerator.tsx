@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { QRCodeSVG } from 'qrcode.react';
 import { eventService } from '@/services/event-service';
-import Swal from 'sweetalert2';
+import { adminError } from '@/lib/admin-swal';
 
 interface RotatingQrGeneratorProps {
   eventId: string;
@@ -33,19 +33,10 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
 
   useEffect(() => {
     if (isError) {
-      Swal.fire({
-        icon: 'error',
+      adminError({
         title: 'SYSTEM FAILURE',
         text: error?.message || 'Failed to initialize secure connection.',
-        background: '#1C1C1B',
-        color: '#E2E2DE',
-        confirmButtonColor: '#6A5D52',
         confirmButtonText: 'ACKNOWLEDGE',
-        customClass: {
-          popup: 'border-4 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]',
-          title: 'font-black tracking-[0.2em] uppercase text-xl',
-          confirmButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2 hover:scale-[1.02] transition-all'
-        }
       });
     }
   }, [isError, error]);

@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation"; // 👈 Import ini buat baca URL
-import Swal from "sweetalert2"; // 👈 Import Swal
+import { adminError } from "@/lib/admin-swal";
 
 export default function LoginCard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,18 +17,10 @@ export default function LoginCard() {
       setIsLoggedIn(false);
 
       // Munculin popup error brutalist
-      Swal.fire({
+      adminError({
         title: "ACCESS DENIED!",
         text: "Please use email @john.petra.ac.id to log in to the admin area.",
-        icon: "error",
-        confirmButtonColor: "#1c1c1b",
         confirmButtonText: "UNDERSTAND",
-        customClass: {
-          popup: "rounded-none border-4 border-[#1c1c1b]",
-          title: "font-creato-title font-black uppercase text-[#1c1c1b]",
-          confirmButton:
-            "rounded-none font-creato-title font-bold uppercase tracking-widest",
-        },
       });
     }
   }, [searchParams]);

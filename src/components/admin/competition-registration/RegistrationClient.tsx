@@ -5,7 +5,7 @@ import { UniversalTable, Column } from "@/components/admin/UniversalTable";
 import { UniversalPagination } from "@/components/admin/UniversalPagination";
 import { useRouter } from "next/navigation";
 import { registrationService } from "@/services/registration-service"; 
-import Swal from "sweetalert2";
+import { adminConfirm, adminSuccess, adminError, adminLoading, adminInput } from '@/lib/admin-swal';
 import { CompetitionRegistrationWithUserAndCompetition, RegistrationStatus } from "@/types/registration";
 import { PaginatedResponse } from "@/types";
 import { competitionService } from "@/services/competition-service";
@@ -124,24 +124,16 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     let rejectionReason = "";
 
     if (newStatus === "REJECTED") {
-      const { value: reason, isDismissed } = await Swal.fire({
+      const { value: reason, isDismissed } = await adminInput({
         title: 'ALASAN PENOLAKAN',
         input: 'textarea',
         inputPlaceholder: 'Tuliskan alasan penolakan...',
         showCancelButton: true,
-        confirmButtonColor: '#1c1c1b',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'TOLAK PESERTA',
         cancelButtonText: 'BATAL',
         inputValidator: (value) => {
           if (!value) return 'Alasan penolakan wajib diisi!';
         },
-        customClass: {
-          popup: 'rounded-none border-4 border-[#1c1c1b]',
-          confirmButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          cancelButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          input: 'border-2 border-[#1c1c1b] rounded-none focus:ring-0 text-lg p-3',
-        }
       });
 
       if (isDismissed) {
@@ -150,19 +142,10 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
       }
       rejectionReason = reason;
     } else {
-      const result = await Swal.fire({
+      const result = await adminConfirm({
         title: 'KONFIRMASI UPDATE',
         text: `Ubah status menjadi ${newStatus}?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#1c1c1b',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'YA, PROSES',
-        customClass: {
-          popup: 'rounded-none border-4 border-[#1c1c1b]',
-          confirmButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-          cancelButton: 'rounded-none font-bold uppercase tracking-widest text-lg',
-        }
       });
 
       if (!result.isConfirmed) {
@@ -172,21 +155,11 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     }
 
     try {
-      Swal.fire({
-        title: 'SEDANG MEMPROSES...',
-        allowOutsideClick: false,
-        didOpen: () => Swal.showLoading(),
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      adminLoading('SEDANG MEMPROSES...');
 
       await registrationService.updateCompetitionStatus(id, newStatus as RegistrationStatus, rejectionReason);
 
-      await Swal.fire({
-        title: 'BERHASIL!',
-        icon: 'success',
-        confirmButtonColor: '#1c1c1b',
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      await adminSuccess({ title: 'BERHASIL!' });
 
       if (selectedDetail && selectedDetail.id === id) {
           setSelectedDetail(prev => prev ? { ...prev, status: newStatus as RegistrationStatus, rejection_reason: rejectionReason } : null);
@@ -194,13 +167,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
 
       router.refresh();
     } catch (error: any) {
-      Swal.fire({
-        title: 'GAGAL!',
-        text: error.message || 'Terjadi kesalahan',
-        icon: 'error',
-        confirmButtonColor: '#1c1c1b',
-        customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
-      });
+      adminError({ title: 'GAGAL!', text: error.message || 'Terjadi kesalahan' });
       router.refresh();
     }
   };

@@ -7,7 +7,7 @@ import { ApiValidationErrors } from '@/types/api';
 import EventCard from './EventCard';
 import EventModal from './EventModal';
 import EventSidebar from './EventSidebar';
-import Swal from 'sweetalert2';
+import { adminConfirm, adminSuccess, adminError, adminLoading, adminToast } from '@/lib/admin-swal';
 
 interface EventClientProps {
   initialEvents: EventResource[];
@@ -57,20 +57,20 @@ export default function EventClient({ initialEvents }: EventClientProps) {
     const eventToDelete = events.find(e => e.id === id);
     const eventName = eventToDelete?.title || 'Event ini';
 
-    Swal.fire({
-      title: "HAPUS EVENT?", text: `Data "${eventName}" akan dihapus permanen.`, icon: "warning",
-      showCancelButton: true, confirmButtonColor: "#1c1c1b", cancelButtonColor: "#979086", 
-      confirmButtonText: "YA, HANGUSKAN!", cancelButtonText: "BATAL",
-      customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' }
+    adminConfirm({
+      title: "HAPUS EVENT?", 
+      text: `Data "${eventName}" akan dihapus permanen.`,
+      confirmButtonText: "YA, HANGUSKAN!", 
+      cancelButtonText: "BATAL",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          Swal.fire({ title: 'MENGHAPUS...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+          adminLoading('MENGHAPUS...');
           await eventService.deleteEvent(id);
           setEvents(events.filter((event) => event.id !== id));
-          Swal.fire({ title: "TERHAPUS!", icon: "success", confirmButtonColor: "#6A5D52" });
+          adminSuccess({ title: "TERHAPUS!", text: "Event berhasil dihapus." });
         } catch (error: any) {
-          Swal.fire({ title: "GAGAL!", text: error.message, icon: "error" });
+          adminError({ title: "GAGAL!", text: error.message });
         }
       }
     });
@@ -83,7 +83,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
     const selectedDate = new Date(formData.start_time);
     const now = new Date();
     if (selectedDate <= now) {
-      Swal.fire({ title: "TANGGAL INVALID!", text: "Tanggal dan jam event harus setelah waktu sekarang.", icon: "error", confirmButtonColor: "#1c1c1b" });
+      adminError({ title: "TANGGAL INVALID!", text: "Tanggal dan jam event harus setelah waktu sekarang." });
       return;
     }
 
@@ -101,13 +101,13 @@ export default function EventClient({ initialEvents }: EventClientProps) {
       }
       
       setIsSidebarOpen(false);
-      Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: isEditing ? 'Update Berhasil' : 'Event Disimpan', showConfirmButton: false, timer: 3000, customClass: { popup: 'border-2 border-[#1c1c1b] rounded-none' } });
+      adminToast(isEditing ? 'Update Berhasil' : 'Event Disimpan');
 
     } catch (error: any) {
       if (error.isValidationError) {
         setErrors(error.errors);
       } else {
-        Swal.fire({ title: "SYSTEM ERROR", text: error.message || "Terjadi kesalahan saat menyimpan data.", icon: "error", confirmButtonColor: "#1c1c1b", customClass: { popup: 'rounded-none border-4 border-[#1c1c1b]' } });
+        adminError({ title: "SYSTEM ERROR", text: error.message || "Terjadi kesalahan saat menyimpan data." });
       }
     }
   };
