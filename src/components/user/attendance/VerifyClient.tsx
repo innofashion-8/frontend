@@ -49,11 +49,11 @@ export default function VerifyClient() {
         setStatus('DENIED');
         
         let errorMessage = 'Verification failed. Target node unresponsive.';
-        if (error.isValidationError && error.errors) {
-          const firstKey = Object.keys(error.errors)[0];
-          errorMessage = error.errors[firstKey][0];
-        } else if (error.message) {
+        if (error.message) {
           errorMessage = error.message;
+        } else if (error.isValidationError && error.errors) {
+          const firstKey = Object.keys(error.errors)[0];
+          errorMessage = Array.isArray(error.errors[firstKey]) ? error.errors[firstKey][0] : error.errors[firstKey];
         }
 
         setMessage(errorMessage);

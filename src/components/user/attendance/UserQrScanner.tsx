@@ -63,10 +63,18 @@ export default function UserQrScanner() {
         }
       });
     } catch (error: any) {
+      let errorMessage = 'Verification failed. Target node unresponsive.';
+      if (error.message) {
+        errorMessage = error.message;
+      } else if (error.isValidationError && error.errors) {
+        const firstKey = Object.keys(error.errors)[0];
+        errorMessage = Array.isArray(error.errors[firstKey]) ? error.errors[firstKey][0] : error.errors[firstKey];
+      }
+
       Swal.fire({
         icon: 'error',
         title: 'ACCESS DENIED',
-        text: error.message || 'Verification failed. Target node unresponsive.',
+        text: errorMessage,
         background: '#1C1C1B',
         color: '#E2E2DE',
         confirmButtonColor: '#6A5D52',
