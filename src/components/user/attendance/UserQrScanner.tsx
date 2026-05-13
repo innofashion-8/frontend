@@ -93,7 +93,23 @@ export default function UserQrScanner() {
   const handleScan = (detectedCodes: any[]) => {
     if (detectedCodes.length > 0) {
       const scannedText = detectedCodes[0].rawValue;
-      processScan(scannedText);
+      let finalToken = scannedText;
+      
+      // If the scanned QR code is a full verification URL, extract the token parameter
+      if (scannedText && scannedText.includes('token=')) {
+        try {
+          const urlObj = new URL(scannedText);
+          const extractedToken = urlObj.searchParams.get('token');
+          if (extractedToken) finalToken = extractedToken;
+        } catch (e) {
+          const parts = scannedText.split('token=');
+          if (parts.length > 1) {
+            finalToken = parts[1].split('&')[0];
+          }
+        }
+      }
+
+      processScan(finalToken);
     }
   };
 
