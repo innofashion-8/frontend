@@ -141,7 +141,17 @@ export const eventService = {
                 data: res.data
             };
         } catch (error: any) {
-            if (error.isValidationError) throw { isValidationError: true, errors: error.data };
+            if (error.isValidationError) {
+                let msg = error.message;
+                if (!msg && error.data) {
+                    msg = typeof error.data === 'string' ? error.data : Object.values(error.data).flat()[0];
+                }
+                throw { 
+                    isValidationError: true, 
+                    errors: error.data, 
+                    message: msg || 'Verification failed. Invalid QR Code data.' 
+                };
+            }
             throw new Error(error.message);
         }
     }
