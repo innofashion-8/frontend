@@ -1,0 +1,503 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "hybrid",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/admin/admins/[id]",
+      "regex": "^/api/admin/admins/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/admins/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/competitions/[key]",
+      "regex": "^/api/admin/competitions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/admin/competitions/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/divisions/[id]",
+      "regex": "^/api/admin/divisions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/divisions/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/events/[key]",
+      "regex": "^/api/admin/events/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/admin/events/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/registrations/competitions/[id]",
+      "regex": "^/api/admin/registrations/competitions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/registrations/competitions/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/registrations/events/[id]/attendance",
+      "regex": "^/api/admin/registrations/events/([^/]+?)/attendance(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/registrations/events/(?<nxtPid>[^/]+?)/attendance(?:/)?$"
+    },
+    {
+      "page": "/api/admin/registrations/events/[id]/status",
+      "regex": "^/api/admin/registrations/events/([^/]+?)/status(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/registrations/events/(?<nxtPid>[^/]+?)/status(?:/)?$"
+    },
+    {
+      "page": "/api/admin/roles-permissions/permissions/[id]",
+      "regex": "^/api/admin/roles\\-permissions/permissions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/roles\\-permissions/permissions/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/roles-permissions/roles/[id]",
+      "regex": "^/api/admin/roles\\-permissions/roles/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/roles\\-permissions/roles/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/admin/roles-permissions/roles/[id]/permissions",
+      "regex": "^/api/admin/roles\\-permissions/roles/([^/]+?)/permissions(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/roles\\-permissions/roles/(?<nxtPid>[^/]+?)/permissions(?:/)?$"
+    },
+    {
+      "page": "/api/admin/users/[id]",
+      "regex": "^/api/admin/users/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/admin/users/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/competitions/[key]",
+      "regex": "^/api/competitions/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/competitions/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/competitions/[key]/draft",
+      "regex": "^/api/competitions/([^/]+?)/draft(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/competitions/(?<nxtPkey>[^/]+?)/draft(?:/)?$"
+    },
+    {
+      "page": "/api/competitions/[key]/status",
+      "regex": "^/api/competitions/([^/]+?)/status(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/competitions/(?<nxtPkey>[^/]+?)/status(?:/)?$"
+    },
+    {
+      "page": "/api/competitions/[key]/submit",
+      "regex": "^/api/competitions/([^/]+?)/submit(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/competitions/(?<nxtPkey>[^/]+?)/submit(?:/)?$"
+    },
+    {
+      "page": "/api/events/[key]",
+      "regex": "^/api/events/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/events/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/events/[key]/draft",
+      "regex": "^/api/events/([^/]+?)/draft(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/events/(?<nxtPkey>[^/]+?)/draft(?:/)?$"
+    },
+    {
+      "page": "/api/events/[key]/status",
+      "regex": "^/api/events/([^/]+?)/status(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/events/(?<nxtPkey>[^/]+?)/status(?:/)?$"
+    },
+    {
+      "page": "/api/events/[key]/submit",
+      "regex": "^/api/events/([^/]+?)/submit(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/api/events/(?<nxtPkey>[^/]+?)/submit(?:/)?$"
+    },
+    {
+      "page": "/dashboard/competition/[key]",
+      "regex": "^/dashboard/competition/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/dashboard/competition/(?<nxtPkey>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/dashboard/event/[key]",
+      "regex": "^/dashboard/event/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPkey": "nxtPkey"
+      },
+      "namedRegex": "^/dashboard/event/(?<nxtPkey>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/admin",
+      "regex": "^/admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin(?:/)?$"
+    },
+    {
+      "page": "/admin/admin-management",
+      "regex": "^/admin/admin\\-management(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/admin\\-management(?:/)?$"
+    },
+    {
+      "page": "/admin/competition",
+      "regex": "^/admin/competition(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/competition(?:/)?$"
+    },
+    {
+      "page": "/admin/competition-registration",
+      "regex": "^/admin/competition\\-registration(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/competition\\-registration(?:/)?$"
+    },
+    {
+      "page": "/admin/dashboard",
+      "regex": "^/admin/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/dashboard(?:/)?$"
+    },
+    {
+      "page": "/admin/division",
+      "regex": "^/admin/division(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/division(?:/)?$"
+    },
+    {
+      "page": "/admin/event",
+      "regex": "^/admin/event(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/event(?:/)?$"
+    },
+    {
+      "page": "/admin/event-attendance",
+      "regex": "^/admin/event\\-attendance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/event\\-attendance(?:/)?$"
+    },
+    {
+      "page": "/admin/event-registration",
+      "regex": "^/admin/event\\-registration(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/event\\-registration(?:/)?$"
+    },
+    {
+      "page": "/admin/login",
+      "regex": "^/admin/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/login(?:/)?$"
+    },
+    {
+      "page": "/admin/qr-event",
+      "regex": "^/admin/qr\\-event(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/qr\\-event(?:/)?$"
+    },
+    {
+      "page": "/admin/role-permission",
+      "regex": "^/admin/role\\-permission(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/role\\-permission(?:/)?$"
+    },
+    {
+      "page": "/admin/scan-attendance",
+      "regex": "^/admin/scan\\-attendance(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/scan\\-attendance(?:/)?$"
+    },
+    {
+      "page": "/admin/user",
+      "regex": "^/admin/user(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin/user(?:/)?$"
+    },
+    {
+      "page": "/api/admin/admins",
+      "regex": "^/api/admin/admins(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/admins(?:/)?$"
+    },
+    {
+      "page": "/api/admin/competitions",
+      "regex": "^/api/admin/competitions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/competitions(?:/)?$"
+    },
+    {
+      "page": "/api/admin/dashboard/stats",
+      "regex": "^/api/admin/dashboard/stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/dashboard/stats(?:/)?$"
+    },
+    {
+      "page": "/api/admin/divisions",
+      "regex": "^/api/admin/divisions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/divisions(?:/)?$"
+    },
+    {
+      "page": "/api/admin/events",
+      "regex": "^/api/admin/events(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/events(?:/)?$"
+    },
+    {
+      "page": "/api/admin/registrations/competitions",
+      "regex": "^/api/admin/registrations/competitions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/registrations/competitions(?:/)?$"
+    },
+    {
+      "page": "/api/admin/registrations/events",
+      "regex": "^/api/admin/registrations/events(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/registrations/events(?:/)?$"
+    },
+    {
+      "page": "/api/admin/roles-permissions/permissions",
+      "regex": "^/api/admin/roles\\-permissions/permissions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/roles\\-permissions/permissions(?:/)?$"
+    },
+    {
+      "page": "/api/admin/roles-permissions/roles",
+      "regex": "^/api/admin/roles\\-permissions/roles(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/roles\\-permissions/roles(?:/)?$"
+    },
+    {
+      "page": "/api/admin/users",
+      "regex": "^/api/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/users(?:/)?$"
+    },
+    {
+      "page": "/api/auth/admin-google",
+      "regex": "^/api/auth/admin\\-google(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/admin\\-google(?:/)?$"
+    },
+    {
+      "page": "/api/auth/google",
+      "regex": "^/api/auth/google(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/google(?:/)?$"
+    },
+    {
+      "page": "/api/auth/login",
+      "regex": "^/api/auth/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/login(?:/)?$"
+    },
+    {
+      "page": "/api/auth/logout",
+      "regex": "^/api/auth/logout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/logout(?:/)?$"
+    },
+    {
+      "page": "/api/auth/profile",
+      "regex": "^/api/auth/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/profile(?:/)?$"
+    },
+    {
+      "page": "/api/auth/register",
+      "regex": "^/api/auth/register(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/auth/register(?:/)?$"
+    },
+    {
+      "page": "/api/competitions",
+      "regex": "^/api/competitions(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/competitions(?:/)?$"
+    },
+    {
+      "page": "/api/complete-registration/draft",
+      "regex": "^/api/complete\\-registration/draft(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/complete\\-registration/draft(?:/)?$"
+    },
+    {
+      "page": "/api/complete-registration/status",
+      "regex": "^/api/complete\\-registration/status(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/complete\\-registration/status(?:/)?$"
+    },
+    {
+      "page": "/api/complete-registration/submit",
+      "regex": "^/api/complete\\-registration/submit(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/complete\\-registration/submit(?:/)?$"
+    },
+    {
+      "page": "/api/events",
+      "regex": "^/api/events(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/events(?:/)?$"
+    },
+    {
+      "page": "/api/registrations",
+      "regex": "^/api/registrations(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/registrations(?:/)?$"
+    },
+    {
+      "page": "/dashboard",
+      "regex": "^/dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard(?:/)?$"
+    },
+    {
+      "page": "/dashboard/attendance/verify",
+      "regex": "^/dashboard/attendance/verify(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/attendance/verify(?:/)?$"
+    },
+    {
+      "page": "/dashboard/competition",
+      "regex": "^/dashboard/competition(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/competition(?:/)?$"
+    },
+    {
+      "page": "/dashboard/event",
+      "regex": "^/dashboard/event(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/event(?:/)?$"
+    },
+    {
+      "page": "/dashboard/profile",
+      "regex": "^/dashboard/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dashboard/profile(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/icon.svg",
+      "regex": "^/icon\\.svg(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/icon\\.svg(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/registration",
+      "regex": "^/registration(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/registration(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}
