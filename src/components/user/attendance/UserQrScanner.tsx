@@ -93,10 +93,10 @@ export default function UserQrScanner() {
   const handleScan = (detectedCodes: any[]) => {
     if (detectedCodes.length > 0) {
       const scannedText = detectedCodes[0].rawValue;
-      let finalToken = scannedText;
       
-      // If the scanned QR code is a full verification URL, extract the token parameter
+      // If it contains a token, it's for check-in
       if (scannedText && scannedText.includes('token=')) {
+        let finalToken = scannedText;
         try {
           const urlObj = new URL(scannedText);
           const extractedToken = urlObj.searchParams.get('token');
@@ -107,9 +107,16 @@ export default function UserQrScanner() {
             finalToken = parts[1].split('&')[0];
           }
         }
+        processScan(finalToken);
+      } 
+      // If it's a URL without a token (like the checkout/evaluation URL), redirect the user
+      else if (scannedText && (scannedText.startsWith('http://') || scannedText.startsWith('https://'))) {
+        window.location.href = scannedText;
+      } 
+      // Fallback: treat as a raw token
+      else {
+        processScan(scannedText);
       }
-
-      processScan(finalToken);
     }
   };
 
