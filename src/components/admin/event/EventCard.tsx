@@ -1,7 +1,8 @@
-import { EventResource } from '@/types/event'; // 👈 Ubah import
+import Link from 'next/link';
+import { EventResource } from '@/types/event';
 
 interface EventCardProps {
-  event: EventResource; // 👈 Ubah tipe
+  event: EventResource;
   onViewDetail: (event: EventResource) => void;
   onEdit: (event: EventResource) => void;
   onDelete: (id: string) => void;
@@ -25,6 +26,9 @@ export default function EventCard({ event, onViewDetail, onEdit, onDelete }: Eve
         <button onClick={() => onViewDetail(event)} className="bg-[#6A5D52] cursor-pointer text-white px-4 py-2.5 font-black uppercase text-xs hover:bg-[#1C1C1B] transition-colors w-full border-[3px] border-[#1c1c1b] shadow-[3px_3px_0px_#1c1c1b] tracking-wider">
           View Details
         </button>
+        <Link href={`/admin/event/${event.id}/evaluation`} className="text-center bg-white cursor-pointer text-[#1c1c1b] px-4 py-2.5 font-black uppercase text-xs hover:bg-[#f7f7f7] transition-colors w-full border-[3px] border-[#1c1c1b] shadow-[3px_3px_0px_#1c1c1b] tracking-wider">
+          Evaluation Form
+        </Link>
         <div className="flex gap-3">
           <button onClick={() => onEdit(event)} className="flex-1 border-[3px] border-[#1c1c1b] cursor-pointer text-[#1c1c1b] bg-white px-3 py-2 font-black uppercase text-xs hover:bg-[#1c1c1b] hover:text-white transition-colors shadow-[3px_3px_0px_#1c1c1b] tracking-wider">
             Edit
