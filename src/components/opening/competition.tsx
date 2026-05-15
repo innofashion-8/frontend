@@ -295,6 +295,8 @@ const Competition = () => {
   const titleGroupRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<(HTMLDivElement | null)[]>([]);
   const shimmersRef = useRef<(HTMLDivElement | null)[]>([]);
+  const knowMoreRef = useRef<HTMLButtonElement>(null);
+  const knowMoreShimmerRef = useRef<HTMLSpanElement>(null);
   const dust1Ref = useRef<HTMLImageElement>(null);
   const dust2Ref = useRef<HTMLImageElement>(null);
   const dust3Ref = useRef<HTMLImageElement>(null);
@@ -358,6 +360,8 @@ const Competition = () => {
       const titleImages = gsap.utils.toArray(".title-img", titleGroupRef.current);
       const btnElements = buttonsRef.current.filter((el): el is HTMLDivElement => el !== null);
       const shimmerElements = shimmersRef.current.filter((el): el is HTMLDivElement => el !== null);
+      const animatedButtons = [...btnElements, knowMoreRef.current].filter(Boolean) as HTMLElement[];
+      const animatedShimmers = [...shimmerElements, knowMoreShimmerRef.current].filter(Boolean) as HTMLElement[];
 
       // --- 1. ANIMASI DEBU ---
       gsap.to(dust1Ref.current, { y: -30, x: 10, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
@@ -380,8 +384,8 @@ const Competition = () => {
       });
 
       // --- 3. Set posisi awal kartu & shimmer ---
-      gsap.set(btnElements, { opacity: 0 });
-      gsap.set(shimmerElements, { xPercent: -150 });
+      gsap.set(animatedButtons, { opacity: 0 });
+      gsap.set(animatedShimmers, { xPercent: -150 });
 
       // --- 4. MASTER TIMELINE SCRUB (DI-TWEAK SPEED-NYA) ---
       const tl = gsap.timeline({
@@ -400,8 +404,8 @@ const Competition = () => {
       const SLOT = 0.8;
       const GAP = 0.15;
 
-      btnElements.forEach((btn, i) => {
-        const shimmer = shimmerElements[i];
+      animatedButtons.forEach((btn, i) => {
+        const shimmer = animatedShimmers[i];
         // 🔥 REVISI: Dimulai dari 0.15 biar pas scroll langsung nongol ga pake nunggu lama 🔥
         const startAt = 0.15 + i * (SLOT + GAP);
 
@@ -485,6 +489,29 @@ const Competition = () => {
               />
             </div>
           ))}
+
+          <button
+            ref={knowMoreRef}
+            type="button"
+            onClick={() => router.push("/login?next=/dashboard/competition")}
+            className="group relative mt-1 w-[82%] max-w-[235px] overflow-hidden rounded-full border border-white/15 px-4 py-3 text-center text-[10px] font-black italic uppercase tracking-[0.16em] text-white/85 shadow-[0_8px_22px_rgba(0,0,0,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:border-white/30 hover:text-white hover:brightness-125 md:max-w-[315px] md:text-xs lg:max-w-[340px]"
+            style={{
+              background: "linear-gradient(180deg, rgba(92,92,92,0.44) 0%, rgba(18,18,18,0.9) 100%)",
+              boxShadow: "inset 0 1px 3px rgba(255,255,255,0.18), 0 8px 22px rgba(0,0,0,0.45)",
+              backdropFilter: "blur(8px)",
+            }}
+          >
+            <span
+              ref={knowMoreShimmerRef}
+              className="absolute top-0 -inset-full z-20 h-full w-[150%] -skew-x-12 pointer-events-none"
+              style={{
+                background: "linear-gradient(to right, transparent 0%, rgba(255,255,255,0.08) 20%, rgba(255,255,255,0.35) 38%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.35) 62%, rgba(255,255,255,0.08) 80%, transparent 100%)",
+                filter: "blur(2px)",
+              }}
+            />
+            <span className="absolute top-0 -inset-full z-20 h-full w-[150%] -skew-x-12 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-[1500ms] ease-in-out pointer-events-none group-hover:translate-x-[150%]" />
+            <span className="relative z-10">Click to Know More</span>
+          </button>
 
           {/* 🔥 MODAL OVERLAY BRIEFING 🔥 */}
           <div 

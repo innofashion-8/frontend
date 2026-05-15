@@ -204,8 +204,8 @@ export default function CompetitionRegisterPage() {
     if (!isGroup && !category) return toast.error('Category is required.', { style: { background: palette.onyx, color: palette.stucco, border: `1px solid ${palette.graphite}` } });
 
     const confirmation = await Swal.fire({
-      icon: 'warning', title: 'INITIATE PROTOCOL?', text: 'Are you sure you want to submit? Data cannot be altered later.',
-      background: palette.onyx, color: palette.stucco, showCancelButton: true, confirmButtonColor: palette.walnut, cancelButtonColor: palette.graphite, confirmButtonText: 'SECURE PASS', cancelButtonText: 'ABORT',
+      icon: 'warning', title: 'Submit Registration?', text: 'Are you sure you want to submit? Data cannot be altered later.',
+      background: palette.onyx, color: palette.stucco, showCancelButton: true, confirmButtonColor: palette.walnut, cancelButtonColor: palette.graphite, confirmButtonText: 'SUBMIT NOW', cancelButtonText: 'CANCEL',
       customClass: { popup: 'border border-[#7b787a] rounded-none', title: 'font-black tracking-[0.2em] uppercase text-xl', confirmButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2', cancelButton: 'font-bold tracking-widest uppercase rounded-none px-6 py-2' }
     });
 
@@ -254,13 +254,13 @@ export default function CompetitionRegisterPage() {
       if (error.isValidationError) {
         const validationErrors = error.errors;
         if (validationErrors.status) {
-          Swal.fire({ title: 'ACCESS RESTRICTED', text: validationErrors.status[0], icon: 'warning', background: palette.onyx, color: palette.stucco, confirmButtonColor: palette.walnut, confirmButtonText: 'RETURN TO TERMINAL', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } }).then(() => router.push('/dashboard'));
+          Swal.fire({ title: 'ACCESS RESTRICTED', text: validationErrors.status[0], icon: 'warning', background: palette.onyx, color: palette.stucco, confirmButtonColor: palette.walnut, confirmButtonText: 'BACK TO DASHBOARD', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } }).then(() => router.push('/dashboard'));
         } else {
           setFormErrors(validationErrors); 
-          Swal.fire({ title: 'DATA REJECTED', text: 'Data entry protocol rejected. Please verify the highlighted fields.', icon: 'error', background: palette.onyx, color: palette.stucco, confirmButtonColor: '#ef4444', confirmButtonText: 'RECALIBRATE', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } });
+          Swal.fire({ title: 'DATA REJECTED', text: 'Please verify the highlighted fields.', icon: 'error', background: palette.onyx, color: palette.stucco, confirmButtonColor: '#ef4444', confirmButtonText: 'REVIEW INPUTS', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } });
         }
       } else {
-        Swal.fire({ title: 'SYSTEM FAILURE', text: error.message || 'Registration protocol failed to execute.', icon: 'error', background: palette.onyx, color: palette.stucco, confirmButtonColor: '#ef4444', confirmButtonText: 'ACKNOWLEDGE', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } });
+        Swal.fire({ title: 'SUBMISSION FAILED', text: error.message || 'Registration failed. Please try again.', icon: 'error', background: palette.onyx, color: palette.stucco, confirmButtonColor: '#ef4444', confirmButtonText: 'CLOSE', customClass: { popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', title: 'font-black tracking-[0.2em]' } });
       }
     } finally {
       setIsSubmitting(false);
@@ -268,21 +268,21 @@ export default function CompetitionRegisterPage() {
   };
 
   if (isLoading || isStatusLoading) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse bg-[#0a0a0a]" style={{ color: palette.ash }}>ESTABLISHING CONNECTION...</div>;
-  if (isAlreadyRegistered) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>VERIFYING PROTOCOL...</div>;
+  if (isAlreadyRegistered) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>CHECKING REGISTRATION...</div>;
   if (regStatus?.is_eligible === false) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>ACCESS RESTRICTED...</div>;
-  if (!competition) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>SYSTEM NOTICE: COMPETITION NOT FOUND.</div>;
+  if (!competition) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>COMPETITION NOT FOUND.</div>;
 
   return (
     <div className="relative z-10 max-w-4xl mx-auto px-4">
         <button onClick={() => router.back()} className="mb-12 cursor-pointer font-bold text-xs tracking-[0.3em] uppercase transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
-          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> ABORT REGISTRATION
+          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> BACK
         </button>
 
         <div className="p-10 md:p-14 border backdrop-blur-md relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
           
           <div className="flex items-center gap-3 mb-6 relative z-10">
               <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>DATA ENTRY PROTOCOL</p>
+              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>COMPETITION REGISTRATION</p>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest relative z-10" style={{ color: palette.stucco }}>
@@ -445,7 +445,7 @@ export default function CompetitionRegisterPage() {
             )}
 
             <button type="submit" disabled={isSubmitting || isCompressing} className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer" style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}>
-              {isCompressing ? 'COMPRESSING FILES...' : isSubmitting ? 'PROCESSING...' : 'SUBMIT PROTOCOL'}
+              {isCompressing ? 'COMPRESSING FILES...' : isSubmitting ? 'PROCESSING...' : 'SUBMIT REGISTRATION'}
             </button>
           </form>
         </div>

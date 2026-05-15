@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/opening/navbar';
 import IntroVideo from '@/components/opening/introvideo';
 import Competition from '@/components/opening/competition';
@@ -96,6 +97,20 @@ export default function HomeClient() {
         </div>
         
       </div>
+
+      <Link
+        href="/login?next=/dashboard"
+        className={`fixed bottom-5 right-4 z-40 group flex items-center gap-3 rounded-full border border-white/20 bg-white/95 px-5 py-3 text-black shadow-[0_16px_40px_rgba(0,0,0,0.55)] transition-all duration-500 hover:-translate-y-1 hover:bg-white sm:bottom-8 sm:right-8 sm:px-6 sm:py-4 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6 pointer-events-none'}`}
+        aria-label="Register now"
+      >
+        <span className="flex flex-col leading-none">
+          <span className="text-[10px] font-black uppercase tracking-[0.18em] text-black/55">Start Here</span>
+          <span className="whitespace-nowrap text-sm font-black italic uppercase tracking-[0.06em] text-black sm:text-base">
+            Register Now
+          </span>
+        </span>
+        <span className="text-lg font-black transition-transform duration-300 group-hover:translate-x-1">&gt;</span>
+      </Link>
 
     </main>
   );

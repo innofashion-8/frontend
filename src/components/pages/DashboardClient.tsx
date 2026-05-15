@@ -63,7 +63,7 @@ export default function DashboardClient() {
           className="text-xs font-bold tracking-[0.4em] uppercase animate-pulse"
           style={{ color: palette.ash }}
         >
-          DECRYPTING IDENTITY...
+          LOADING DASHBOARD...
         </div>
       </div>
     );
@@ -215,7 +215,7 @@ export default function DashboardClient() {
           </div>
           
           <p style="color: ${palette.ash}; font-size: 10px; letter-spacing: 1px; margin-top: 15px; text-transform: uppercase;">
-            TICKET PROTOCOL ID:
+            TICKET ID:
           </p>
           <div style="padding: 10px; border: 1px dashed ${palette.graphite}; background: rgba(0,0,0,0.5); width: 100%;">
             <strong style="color: ${palette.stucco}; font-size: 12px; letter-spacing: 2px; word-break: break-all;">${regId}</strong>
@@ -228,7 +228,7 @@ export default function DashboardClient() {
       `,
       background: palette.onyx,
       color: palette.stucco,
-      confirmButtonText: "ACKNOWLEDGE",
+      confirmButtonText: "CLOSE",
       confirmButtonColor: palette.walnut,
       customClass: {
         popup: "border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]",
@@ -370,7 +370,7 @@ export default function DashboardClient() {
               className="text-xs font-bold tracking-[0.3em] uppercase"
               style={{ color: palette.greige }}
             >
-              [ REGISTRATION PROTOCOL STATUS ]
+              [ REGISTRATION STATUS ]
             </p>
           </div>
           {isRegLoading ? (
@@ -393,7 +393,7 @@ export default function DashboardClient() {
                 const itemName =
                   reg?.competition?.name ||
                   reg?.event?.title ||
-                  "UNKNOWN PROTOCOL";
+                  "UNKNOWN REGISTRATION";
                 const itemType = reg?.competition ? "COMPETITION" : "EVENT";
                 const statusStr = (reg?.status || "PENDING").toUpperCase();
                 const isRejected =
@@ -569,7 +569,7 @@ export default function DashboardClient() {
                             borderColor: '#ef4444', 
                           }}
                         >
-                          REVISE REGISTRATION PROTOCOL
+                          REVISE REGISTRATION
                         </button>
                       </div>
                     )}
@@ -627,7 +627,7 @@ export default function DashboardClient() {
                 className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white"
                 style={{ color: palette.stucco }}
               >
-                REGISTER EVENT ➔
+                REGISTER EVENT &gt;
               </span>
             </div>
           </div>
@@ -678,7 +678,7 @@ export default function DashboardClient() {
                 className="font-bold tracking-widest text-xs uppercase transition-colors group-hover:text-white"
                 style={{ color: palette.stucco }}
               >
-                VIEW COMPETITIONS ➔
+                VIEW COMPETITIONS &gt;
               </span>
             </div>
           </div>
@@ -782,7 +782,7 @@ export default function DashboardClient() {
                   className="flex-1 py-3 font-bold text-[10px] uppercase tracking-[0.2em] border hover:bg-white/5 transition-all cursor-pointer"
                   style={{ borderColor: palette.graphite, color: palette.ash }}
                 >
-                  ABORT
+                  CANCEL
                 </button>
                 <button
                   type="submit"
@@ -793,7 +793,7 @@ export default function DashboardClient() {
                     color: palette.onyx,
                   }}
                 >
-                  {isUploading ? "UPLOADING..." : "SECURE UPLOAD"}
+                  {isUploading ? "UPLOADING..." : "UPLOAD FILES"}
                 </button>
               </div>
             </form>

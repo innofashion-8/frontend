@@ -98,8 +98,8 @@ export default function ProfileClient() {
 
     const confirmation = await Swal.fire({
       icon: "question",
-      title: "UPDATE PROTOCOL?",
-      text: "Are you sure you want to alter your system identity?",
+      title: "Update Profile?",
+      text: "Are you sure you want to update your profile information?",
       background: palette.onyx,
       color: palette.stucco,
       showCancelButton: true,
@@ -160,7 +160,7 @@ export default function ProfileClient() {
           background: palette.onyx,
           color: palette.stucco,
           confirmButtonColor: "#ef4444",
-          confirmButtonText: "RECALIBRATE",
+          confirmButtonText: "REVIEW INPUTS",
           customClass: {
             popup: "border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]",
             title: "font-black tracking-[0.2em]",
@@ -168,13 +168,13 @@ export default function ProfileClient() {
         });
       } else {
         Swal.fire({
-          title: "SYSTEM FAILURE",
+          title: "UPDATE FAILED",
           text: error.message || "Failed to update profile.",
           icon: "error",
           background: palette.onyx,
           color: palette.stucco,
           confirmButtonColor: "#ef4444",
-          confirmButtonText: "ACKNOWLEDGE",
+          confirmButtonText: "CLOSE",
           customClass: {
             popup: "border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]",
             title: "font-black tracking-[0.2em]",
@@ -189,7 +189,7 @@ export default function ProfileClient() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse" style={{ color: palette.ash }}>
-        FETCHING IDENTITY PROTOCOL...
+        LOADING PROFILE...
       </div>
     );
   }
@@ -214,7 +214,7 @@ export default function ProfileClient() {
           style={{ color: palette.ash }}
         >
           <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> 
-          ABORT RECALIBRATION
+          BACK
         </button>
 
         <div
@@ -231,12 +231,12 @@ export default function ProfileClient() {
               style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}
             ></span>
             <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>
-              IDENTITY RECALIBRATION
+              PROFILE SETTINGS
             </p>
           </div>
 
           <h1 className="text-4xl md:text-5xl font-black mb-10 uppercase tracking-widest relative z-10" style={{ color: palette.stucco }}>
-            SYSTEM PROFILE
+            PROFILE
           </h1>
 
           <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
@@ -244,7 +244,7 @@ export default function ProfileClient() {
             {/* EMAIL (Read Only) */}
             <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
               <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                SYSTEM EMAIL (LOCKED)
+                EMAIL (LOCKED)
               </label>
               <input
                 type="email"
@@ -424,7 +424,7 @@ export default function ProfileClient() {
               className="w-full py-5 mt-6 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
               style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
             >
-              {isCompressing ? "COMPRESSING ID CARD..." : isSubmitting ? "PROCESSING..." : "UPDATE PROTOCOL"}
+              {isCompressing ? "COMPRESSING ID CARD..." : isSubmitting ? "PROCESSING..." : "UPDATE PROFILE"}
             </button>
 
           </form>

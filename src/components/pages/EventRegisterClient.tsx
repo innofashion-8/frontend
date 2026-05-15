@@ -181,7 +181,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
             background: palette.onyx,
             color: palette.stucco,
             confirmButtonColor: palette.walnut,
-            confirmButtonText: 'RETURN TO TERMINAL',
+            confirmButtonText: 'BACK TO DASHBOARD',
             customClass: {
               popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
               title: 'font-black tracking-[0.2em]',
@@ -202,7 +202,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
             background: palette.onyx,
             color: palette.stucco,
             confirmButtonColor: '#ef4444',
-            confirmButtonText: 'RECALIBRATE',
+            confirmButtonText: 'REVIEW INPUTS',
             customClass: {
               popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
               title: 'font-black tracking-[0.2em]',
@@ -212,13 +212,13 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
 
       } else {
         Swal.fire({
-          title: 'SYSTEM FAILURE',
+          title: 'SUBMISSION FAILED',
           text: error.message || 'Registration protocol failed to execute.',
           icon: 'error',
           background: palette.onyx,
           color: palette.stucco,
           confirmButtonColor: '#ef4444',
-          confirmButtonText: 'ACKNOWLEDGE',
+          confirmButtonText: 'CLOSE',
           customClass: {
             popup: 'border-2 border-[#494947] rounded-none shadow-[8px_8px_0px_#1a1a1a]', 
             title: 'font-black tracking-[0.2em]',
@@ -231,9 +231,9 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
   };
 
   // Layar Loading ditahan sampai API checkStatus selesai!
-  if (isLoading || isStatusLoading) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse bg-[#0a0a0a]" style={{ color: palette.ash }}>DECRYPTING PROTOCOL...</div>;
-  if (isAlreadyRegistered) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>VERIFYING PROTOCOL...</div>;
-  if (!event) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>SYSTEM NOTICE: EVENT PROTOCOL NOT FOUND.</div>;
+  if (isLoading || isStatusLoading) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase animate-pulse bg-[#0a0a0a]" style={{ color: palette.ash }}>LOADING EVENT...</div>;
+  if (isAlreadyRegistered) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>CHECKING REGISTRATION...</div>;
+  if (!event) return <div className="min-h-screen flex items-center justify-center font-bold tracking-[0.3em] uppercase bg-[#0a0a0a]" style={{ color: palette.ash }}>EVENT NOT FOUND.</div>;
 
   return (
     <div className="relative py-12 min-h-screen">
@@ -243,7 +243,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
 
       <div className="relative z-10 max-w-3xl mx-auto px-4">
         <button onClick={() => router.back()} className="mb-12 font-bold text-xs tracking-[0.3em] uppercase cursor-pointer transition-colors flex items-center gap-3 hover:text-white" style={{ color: palette.ash }}>
-          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> ABORT ENTRY
+          <span className="w-8 h-[1px] block transition-all" style={{ backgroundColor: palette.ash }}></span> BACK
         </button>
 
         <div className="p-10 md:p-14 border backdrop-blur-md relative overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" style={{ backgroundColor: palette.onyx, borderColor: palette.graphite, boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}>
@@ -253,7 +253,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
           
           <div className="flex items-center gap-3 mb-6 relative z-10">
               <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>PASS GENERATION PROTOCOL</p>
+              <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>EVENT REGISTRATION</p>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black mb-6 uppercase tracking-widest relative z-10" style={{ color: palette.stucco }}>
@@ -271,7 +271,7 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
               </span>
             </div>
             <div className="text-right hidden md:block">
-                <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>SYSTEM STATUS</p>
+                <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>STATUS</p>
                 <div className="text-xs font-bold uppercase tracking-widest" style={{ color: isRejected ? '#ef4444' : palette.greige }}>
                     {isRejected ? 'REJECTED - AWAITING RESUBMISSION' : isPaid ? 'AWAITING PAYMENT' : 'READY TO SECURE'}
                 </div>

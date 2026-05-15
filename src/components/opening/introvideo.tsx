@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import gsap from 'gsap';
 
 interface IntroVideoProps {
@@ -140,19 +141,34 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
             {/* Deskripsi */}
             <div
               ref={ctaRef}
-              className="opacity-0 mt-2 sm:mt-3 md:mt-5"
-              style={{
-                color: 'rgba(255,255,255,0.6)',
-                fontSize: 'clamp(11px, 3.2vw, 15px)',
-                fontWeight: 500,
-                letterSpacing: '0.04em',
-                maxWidth: '340px',
-                lineHeight: 1.6,
-              }}
+              className="opacity-0 mt-2 sm:mt-3 md:mt-5 flex flex-col items-start gap-5"
             >
-              Celebrate creativity, culture, and innovation{' '}
-              <br className="hidden sm:block" />
-              through the lens of fashion.
+              <div
+                style={{
+                  color: 'rgba(255,255,255,0.6)',
+                  fontSize: 'clamp(11px, 3.2vw, 15px)',
+                  fontWeight: 500,
+                  letterSpacing: '0.04em',
+                  maxWidth: '340px',
+                  lineHeight: 1.6,
+                }}
+              >
+                Celebrate creativity, culture, and innovation{' '}
+                <br className="hidden sm:block" />
+                through the lens of fashion.
+              </div>
+
+              <Link
+                href="/login?next=/dashboard"
+                className="group relative inline-flex min-h-12 items-center justify-center overflow-hidden rounded-full border border-white/20 px-7 py-3 text-sm font-black italic uppercase tracking-[0.12em] text-white shadow-[0_12px_30px_rgba(0,0,0,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-125 sm:px-9"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(245,245,245,0.26) 0%, rgba(70,70,70,0.85) 100%)',
+                  boxShadow: 'inset 0 2px 5px rgba(255,255,255,0.35), 0 14px 34px rgba(0,0,0,0.55)',
+                }}
+              >
+                <span className="absolute inset-y-0 -left-full w-2/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-1000 group-hover:translate-x-[320%]" />
+                <span className="relative z-10 whitespace-nowrap">Register Now</span>
+              </Link>
             </div>
 
           </div>

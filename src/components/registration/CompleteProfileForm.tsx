@@ -231,7 +231,7 @@ export function CompleteProfileForm() {
         background: palette.onyx,
         color: palette.stucco,
         confirmButtonColor: palette.walnut,
-        confirmButtonText: 'PROCEED TO TERMINAL',
+        confirmButtonText: 'GO TO DASHBOARD',
         customClass: {
             popup: 'border border-[#7b787a] rounded-none',
             title: 'font-black tracking-[0.2em] uppercase text-xl',
@@ -283,7 +283,7 @@ export function CompleteProfileForm() {
   };
 
   if (isLoadingStatus || status === 'loading') {
-    return <div className="relative z-10 text-xs font-bold tracking-[0.4em] uppercase animate-pulse" style={{ color: palette.ash }}>DECRYPTING IDENTITY...</div>;
+    return <div className="relative z-10 text-xs font-bold tracking-[0.4em] uppercase animate-pulse" style={{ color: palette.ash }}>LOADING PROFILE...</div>;
   }
   if (statusData?.is_completed) {
       return <div className="relative z-10 text-xs font-bold tracking-[0.4em] uppercase" style={{ color: palette.stucco }}>PROFILE COMPLETED. REDIRECTING...</div>;
@@ -302,14 +302,14 @@ export function CompleteProfileForm() {
 
         <div className="flex items-center gap-3 mb-6 relative z-10">
             <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: palette.stucco, boxShadow: `0 0 10px ${palette.stucco}` }}></span>
-            <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>IDENTITY VERIFICATION PROTOCOL</p>
+            <p className="text-[10px] font-bold tracking-[0.4em] uppercase" style={{ color: palette.ash }}>PROFILE VERIFICATION</p>
         </div>
 
         <h1 className="text-4xl md:text-5xl font-black mb-6 uppercase tracking-widest relative z-10" style={{ color: palette.stucco }}>
           COMPLETE PROFILE
         </h1>
         <p className="mb-10 text-sm font-medium tracking-wide leading-relaxed relative z-10" style={{ color: palette.ash }}>
-          Provide your valid credentials to gain full access to the Innofashion Show 8 terminal.
+          Complete your profile so you can register for Innofashion Show 8 events and competitions.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-8 relative z-10">

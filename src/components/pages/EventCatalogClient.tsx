@@ -58,7 +58,7 @@ export default function EventCatalogPage() {
             className="w-8 h-[1px] block transition-all"
             style={{ backgroundColor: palette.ash }}
           ></span>{" "}
-          RETURN TO TERMINAL
+          BACK TO DASHBOARD
         </button>
 
         <div className="mb-16">
@@ -96,7 +96,7 @@ export default function EventCatalogPage() {
               className="font-bold tracking-[0.3em] uppercase"
               style={{ color: palette.ash }}
             >
-              SYSTEM NOTICE: NO EVENT PROTOCOLS FOUND IN DATABASE.
+              No events are available yet.
             </p>
           </div>
         ) : (
@@ -250,7 +250,7 @@ export default function EventCatalogPage() {
                           className="block w- cursor-pointer text-center mt-6 font-bold uppercase tracking-widest text-[10px] transition-colors"
                           style={{ color: palette.gravel }}
                         >
-                          [ ABORT DETAIL VIEW ]
+                          Close details
                         </button>
                       </div>
                     ) : (
@@ -272,7 +272,7 @@ export default function EventCatalogPage() {
                           e.currentTarget.style.color = palette.greige;
                         }}
                       >
-                        EXPAND PROTOCOL
+                        View Details
                       </button>
                     )}
                   </div>

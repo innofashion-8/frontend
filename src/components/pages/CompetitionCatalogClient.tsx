@@ -20,8 +20,8 @@ export default function CompetitionCatalogPage() {
     if (!comp.slug || comp.slug === "undefined") {
       Swal.fire({
         icon: "error",
-        title: "SYSTEM ERROR",
-        text: "Protocol data is missing or corrupted. Please contact administrator.",
+        title: "Unable to Open Registration",
+        text: "Competition data is missing. Please contact the committee.",
         background: palette.onyx,
         color: palette.stucco,
         confirmButtonColor: "#ef4444",
@@ -61,7 +61,7 @@ export default function CompetitionCatalogPage() {
             className="w-8 h-[1px] block transition-all"
             style={{ backgroundColor: palette.ash }}
           ></span>{" "}
-          RETURN TO TERMINAL
+          BACK TO DASHBOARD
         </button>
 
         <div className="mb-16">
@@ -98,7 +98,7 @@ export default function CompetitionCatalogPage() {
               className="font-bold tracking-[0.3em] uppercase"
               style={{ color: palette.ash }}
             >
-              SYSTEM NOTICE: NO PROTOCOLS FOUND.
+              No competitions are available yet.
             </p>
           </div>
         ) : (
@@ -215,7 +215,7 @@ export default function CompetitionCatalogPage() {
                             boxShadow: `0 0 15px ${palette.greige}40`,
                           }}
                         >
-                          INITIATE REGISTRATION
+                          Register Now
                         </button>
 
                         <button
@@ -223,7 +223,7 @@ export default function CompetitionCatalogPage() {
                           className="block w-full text-center mt-6 cursor-pointer font-bold uppercase tracking-widest text-[10px] transition-colors"
                           style={{ color: palette.gravel }}
                         >
-                          [ ABORT DETAIL VIEW ]
+                          Close details
                         </button>
                       </div>
                     ) : (
@@ -245,7 +245,7 @@ export default function CompetitionCatalogPage() {
                           e.currentTarget.style.color = palette.greige;
                         }}
                       >
-                        EXPAND PROTOCOL
+                        View Details
                       </button>
                     )}
                   </div>
