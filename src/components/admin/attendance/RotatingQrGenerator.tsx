@@ -15,31 +15,39 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
   const [sessionTime, setSessionTime] = useState(600); // 10 minutes
   const [isZoomed, setIsZoomed] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [mode, setMode] = useState<'in' | 'out'>('in');
 
-  // Fetch token every 30 seconds to reduce server load
+  // Fetch token every 30 seconds to reduce server load only when in Check-In mode
   const { data, isError, error, refetch } = useQuery({
     queryKey: ['rotating-qr', eventId],
     queryFn: () => eventService.getRotatingQr(eventId),
-    refetchInterval: 30000,
+    refetchInterval: mode === 'in' ? 30000 : false,
+    enabled: mode === 'in',
     retry: 3,
   });
 
-  // Calculate full URL for QR code
+  // Calculate full URL for dynamic check-in QR code
   const getQrUrl = (token: string) => {
     // Gunakan env URL jika ada, jika tidak fallback ke origin window (buat testing lokal)
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' ? window.location.origin : '');
     return `${baseUrl}/dashboard/attendance/verify?token=${token}`;
   };
 
+  // Calculate full URL for static check-out evaluation route
+  const getStaticOutUrl = () => {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || (typeof window !== 'undefined' ? window.location.origin : '');
+    return `${baseUrl}/dashboard/events/${eventId}/evaluation`;
+  };
+
   useEffect(() => {
-    if (isError) {
+    if (isError && mode === 'in') {
       adminError({
         title: 'SYSTEM FAILURE',
         text: error?.message || 'Failed to initialize secure connection.',
         confirmButtonText: 'ACKNOWLEDGE',
       });
     }
-  }, [isError, error]);
+  }, [isError, error, mode]);
 
   // ESC key handler untuk close modal
   useEffect(() => {
@@ -112,6 +120,32 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
         </div>
       </div>
 
+      {/* MODE SELECTOR */}
+      <div className="w-full flex flex-col sm:flex-row gap-2 mb-6 border-2 border-[#1C1C1B] p-1 bg-[#1C1C1B]">
+        <button
+          type="button"
+          onClick={() => setMode('in')}
+          className={`flex-1 py-2 px-3 font-black text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer ${
+            mode === 'in'
+              ? 'bg-[#E2E2DE] text-[#1C1C1B] shadow-[2px_2px_0px_#6A5D52]'
+              : 'text-[#E2E2DE] hover:bg-white/10'
+          }`}
+        >
+          REGISTRATION IN (Dynamic)
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode('out')}
+          className={`flex-1 py-2 px-3 font-black text-xs sm:text-sm uppercase tracking-wider transition-all cursor-pointer ${
+            mode === 'out'
+              ? 'bg-[#E2E2DE] text-[#1C1C1B] shadow-[2px_2px_0px_#6A5D52]'
+              : 'text-[#E2E2DE] hover:bg-white/10'
+          }`}
+        >
+          REGISTRATION OUT (Static Link)
+        </button>
+      </div>
+
       <div
         className="relative bg-[#E2E2DE] p-2 sm:p-4 border-2 sm:border-4 border-[#494947] shadow-[4px_4px_0px_#6A5D52] sm:shadow-[8px_8px_0px_#6A5D52] mb-4 sm:mb-8 flex justify-center cursor-pointer hover:shadow-[8px_8px_0px_#1C1C1B] sm:hover:shadow-[12px_12px_0px_#1C1C1B] hover:-translate-y-1 hover:-translate-x-1 transition-all duration-300 ease-out group w-full max-w-full"
         onClick={() => setIsZoomed(true)}
@@ -119,7 +153,17 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
         <div className="absolute top-1 right-1 sm:top-2 sm:right-2 bg-[#1C1C1B] text-white text-[8px] sm:text-[10px] font-black px-1.5 py-0.5 sm:px-2 sm:py-1 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           CLICK TO ZOOM
         </div>
-        {data?.token ? (
+        {mode === 'out' ? (
+          <QRCodeSVG
+            value={getStaticOutUrl()}
+            size={400}
+            bgColor="#ffffff"
+            fgColor="#000000"
+            level="L"
+            className="p-2 sm:p-4 bg-white w-full h-auto max-w-[280px] sm:max-w-[380px]"
+            style={{ width: '100%', height: 'auto' }}
+          />
+        ) : data?.token ? (
           <QRCodeSVG
             value={getQrUrl(data.token)}
             size={400}
@@ -158,7 +202,7 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
           <div className="w-full flex justify-center items-center border-b-4 border-[#1C1C1B] pb-4 mb-6">
             <div className="text-center">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#1C1C1B] uppercase tracking-[0.2em] sm:tracking-[0.3em]">
-                SCAN NOW
+                {mode === 'in' ? 'SCAN CHECK-IN' : 'SCAN CHECK-OUT'}
               </h2>
               <p className="text-xs sm:text-sm font-bold text-[#6A5D52] uppercase tracking-wider mt-2">
                 Session: {formatTime(sessionTime)}
@@ -167,7 +211,17 @@ export default function RotatingQrGenerator({ eventId, onTerminate }: RotatingQr
           </div>
 
           <div className="flex justify-center mb-6">
-            {data?.token ? (
+            {mode === 'out' ? (
+              <QRCodeSVG
+                value={getStaticOutUrl()}
+                size={400}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="L"
+                className="p-4 sm:p-6 bg-white border-4 border-[#1C1C1B] w-full h-auto max-w-[320px] sm:max-w-[400px] md:max-w-[500px]"
+                style={{ width: '100%', height: 'auto' }}
+              />
+            ) : data?.token ? (
               <QRCodeSVG
                 value={getQrUrl(data.token)}
                 size={400}
