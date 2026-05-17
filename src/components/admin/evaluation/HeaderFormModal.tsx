@@ -28,7 +28,6 @@ export default function HeaderFormModal({
       type: 'header',
       options: null,
       is_required: false,
-      sort_order: 0,
       page_number: 1,
       header_title: '',
       header_description: '',
@@ -51,7 +50,6 @@ export default function HeaderFormModal({
       type: 'header',
       options: null,
       is_required: false,
-      sort_order: question.sort_order ?? 0,
       page_number: question.page_number ?? 1,
       header_title: question.header_title ?? '',
       header_description: question.header_description ?? '',
@@ -93,20 +91,6 @@ export default function HeaderFormModal({
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setErrors({});
-
-    const isDuplicate = existingQuestions.some(
-      (q) => 
-        q.page_number === formData.page_number && 
-        q.sort_order === formData.sort_order && 
-        q.id !== question?.id
-    );
-
-    if (isDuplicate) {
-      setErrors({ 
-        sort_order: `Sort order ${formData.sort_order} is already taken on Page ${formData.page_number}.` 
-      });
-      return;
-    }
 
     const headerTitle = (formData.header_title ?? '').toString().trim();
     if (!headerTitle) {
@@ -160,8 +144,7 @@ export default function HeaderFormModal({
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div>
+          <div>
               <label className="mb-2 block text-sm font-black uppercase tracking-wider text-[#1C1C1B]">
                 Page Number
               </label>
@@ -183,29 +166,6 @@ export default function HeaderFormModal({
                 <p className="mt-1 text-sm text-red-600">{errorText('page_number')}</p>
               )}
             </div>
-
-            <div>
-              <label className="mb-2 block text-sm font-black uppercase tracking-wider text-[#1C1C1B]">
-                Sort Order
-              </label>
-              <input
-                type="number"
-                min={0}
-                step={1}
-                value={formData.sort_order ?? 0}
-                onChange={(event) =>
-                  setFormData({
-                    ...formData,
-                    sort_order: Number(event.target.value || 0),
-                  })
-                }
-                className="w-full border-2 border-[#1C1C1B] bg-white px-3 py-2 text-sm font-bold outline-none focus:ring-2 focus:ring-[#6A5D52]"
-              />
-              {errorText('sort_order') && (
-                <p className="mt-1 text-sm text-red-600">{errorText('sort_order')}</p>
-              )}
-            </div>
-          </div>
 
           <div className="space-y-4">
             <div>

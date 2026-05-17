@@ -26,9 +26,6 @@ export interface EvaluationQuestionPayload {
   type: EvaluationQuestionType;
   options?: string[] | null;
   is_required: boolean;
-
-  // new fields
-  sort_order?: number;
   page_number?: number;
   header_title?: string | null;
   header_description?: string | null;
