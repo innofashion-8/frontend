@@ -118,9 +118,9 @@ export const eventService = {
         }
     },
 
-    getRotatingQr: async (key: string): Promise<{ token: string }> => {
+    getRotatingQr: async (key: string, validity: number = 30): Promise<{ token: string }> => {
         try {
-            const res = await fetchClient<ApiResponse<{ token: string }>>(`/api/admin/events/${key}/rotating-qr`, {
+            const res = await fetchClient<ApiResponse<{ token: string }>>(`/api/admin/events/${key}/rotating-qr?validity=${validity}`, {
                 method: 'GET',
             });
             return res.data!;
