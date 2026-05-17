@@ -76,7 +76,7 @@ export default function EvaluationResponsesClient({ eventId }: EvaluationRespons
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <div className="border-[3px] border-[#1C1C1B] bg-[#E2E2DE] p-5 shadow-[6px_6px_0px_#1C1C1B] xl:col-span-1">
+        <div className="min-w-0 overflow-hidden border-[3px] border-[#1C1C1B] bg-[#E2E2DE] p-5 shadow-[6px_6px_0px_#1C1C1B] xl:col-span-1">
           <h2 className="mb-4 font-creato-title text-xl font-black uppercase tracking-wider">
             Rating Summary
           </h2>
@@ -113,7 +113,7 @@ export default function EvaluationResponsesClient({ eventId }: EvaluationRespons
           )}
         </div>
 
-        <div className="border-[3px] border-[#1C1C1B] bg-[#E2E2DE] p-5 shadow-[6px_6px_0px_#1C1C1B] xl:col-span-2">
+        <div className="min-w-0 overflow-hidden border-[3px] border-[#1C1C1B] bg-[#E2E2DE] p-5 shadow-[6px_6px_0px_#1C1C1B] xl:col-span-2">
           <h2 className="mb-4 font-creato-title text-xl font-black uppercase tracking-wider">
             Choice Summary
           </h2>
@@ -130,12 +130,12 @@ export default function EvaluationResponsesClient({ eventId }: EvaluationRespons
                     {Object.entries(item.stats.distribution).map(([option, count]) => {
                       const percent = item.stats.count > 0 ? (count / item.stats.count) * 100 : 0;
                       return (
-                        <div key={option} className="grid grid-cols-[140px_minmax(0,1fr)_44px] items-center gap-3">
-                          <span className="truncate text-xs font-black uppercase text-[#6A5D52]">{option}</span>
-                          <div className="h-4 border-2 border-[#1C1C1B] bg-white">
+                        <div key={option} className="flex min-w-0 items-center gap-3">
+                          <span className="w-[120px] shrink-0 truncate text-xs font-black uppercase text-[#6A5D52]">{option}</span>
+                          <div className="h-4 min-w-0 flex-1 border-2 border-[#1C1C1B] bg-white">
                             <div className="h-full bg-[#6A5D52]" style={{ width: `${percent}%` }} />
                           </div>
-                          <span className="text-right font-mono text-sm font-black">{count}</span>
+                          <span className="w-[36px] shrink-0 text-right font-mono text-sm font-black">{count}</span>
                         </div>
                       );
                     })}

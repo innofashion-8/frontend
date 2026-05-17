@@ -8,12 +8,12 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-[100dvh] bg-[#dcdad9] text-[#1c1c1b] flex font-body">
+    <div className="min-h-[100dvh] bg-[#dcdad9] text-[#1c1c1b] flex font-body overflow-x-hidden">
       
       <Sidebar />
       
       {/* 2. AREA KONTEN UTAMA */}
-      <main className="flex-1 w-full lg:ml-[80px] transition-all duration-500 min-h-screen">
+      <main className="flex-1 min-w-0 lg:ml-[80px] transition-all duration-500 min-h-screen">
         <div className="p-6 md:p-8 lg:p-10">
           {children}
         </div>
