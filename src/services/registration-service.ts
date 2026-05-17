@@ -120,7 +120,7 @@ export const registrationService = {
         });
     },
 
-    async updateEventAttendance(id: string, attended: boolean): Promise<ApiResponse<null>> {
+    async updateEventAttendance(id: string, attended: string): Promise<ApiResponse<null>> {
         return await fetchClient<ApiResponse<null>>(`/api/admin/registrations/events/${id}/attendance`, {
             method: 'PATCH',
             body: JSON.stringify({ attended })

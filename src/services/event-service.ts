@@ -1,8 +1,7 @@
 import { fetchClient } from '@/lib/fetch-client';
 import { ApiResponse, ApiValidationErrors } from '@/types/api';
-import { Event, EventPayload, EventResource } from '@/types/event';
+import { EventPayload, EventResource } from '@/types/event';
 import { StatusResponse } from '@/types/registration';
-import { get } from 'http';
 
 export const eventService = {
   
@@ -119,9 +118,9 @@ export const eventService = {
         }
     },
 
-    getRotatingQr: async (key: string): Promise<{ token: string }> => {
+    getRotatingQr: async (key: string, validity: number = 30): Promise<{ token: string }> => {
         try {
-            const res = await fetchClient<ApiResponse<{ token: string }>>(`/api/admin/events/${key}/rotating-qr`, {
+            const res = await fetchClient<ApiResponse<{ token: string }>>(`/api/admin/events/${key}/rotating-qr?validity=${validity}`, {
                 method: 'GET',
             });
             return res.data!;
@@ -150,6 +149,43 @@ export const eventService = {
                     isValidationError: true, 
                     errors: error.data, 
                     message: msg || 'Verification failed. Invalid QR Code data.' 
+                };
+            }
+            throw new Error(error.message);
+        }
+    },
+
+    getEvaluationQuestions: async (key: string): Promise<any[]> => {
+        try {
+            const res = await fetchClient<ApiResponse<any[]>>(`/api/events/${key}/evaluation-questions`, {
+                method: 'GET',
+            });
+            return res.data || [];
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    },
+
+    submitEvaluation: async (key: string, answers: { question_id: string, value: any }[]): Promise<{ message: string, data: any }> => {
+        try {
+            const res = await fetchClient<ApiResponse<any>>(`/api/events/${key}/evaluation`, {
+                method: 'POST',
+                body: JSON.stringify({ answers }),
+            });
+            return {
+                message: res.message || 'Evaluasi berhasil disubmit',
+                data: res.data
+            };
+        } catch (error: any) {
+            if (error.isValidationError) {
+                let msg = error.message;
+                if (!msg && error.data) {
+                    msg = typeof error.data === 'string' ? error.data : Object.values(error.data).flat()[0];
+                }
+                throw { 
+                    isValidationError: true, 
+                    errors: error.data, 
+                    message: msg || 'Gagal mengirim evaluasi.' 
                 };
             }
             throw new Error(error.message);

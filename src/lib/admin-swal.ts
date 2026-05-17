@@ -1,10 +1,5 @@
 import Swal, { SweetAlertOptions, SweetAlertCustomClass } from 'sweetalert2';
 
-/**
- * Centralized SweetAlert2 theme for Admin Dashboard.
- * Dark mode with Dystopian Brutalism aesthetics.
- */
-
 const baseCustomClass: SweetAlertCustomClass = {
   popup: 'rounded-none border-[3px] border-[#494947] shadow-[8px_8px_0px_#000000]',
   title: 'font-creato-title font-black uppercase tracking-wider text-[#E2E2DE]',

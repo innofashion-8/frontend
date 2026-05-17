@@ -100,6 +100,30 @@ export function Sidebar() {
     },
     {
       type: "group",
+      label: "EVALUATION",
+      permission: "manage_events",
+      icon: <><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></>,
+      items: [
+        {
+          path: "/admin/evaluation-builder",
+          name: "Form Builder",
+          isActive: (currentPath: string | null) =>
+            currentPath === "/admin/evaluation-builder" ||
+            (!!currentPath && currentPath.includes("/evaluation") && !currentPath.includes("/responses")),
+          icon: <><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h10" /><path d="M18 15l3 3l-3 3" /></>
+        },
+        {
+          path: "/admin/evaluation-responses",
+          name: "Responses",
+          isActive: (currentPath: string | null) =>
+            currentPath === "/admin/evaluation-responses" ||
+            (!!currentPath && currentPath.includes("/evaluation/responses")),
+          icon: <><path d="M3 3v18h18" /><path d="M7 15l4 -4l3 3l5 -7" /></>
+        }
+      ]
+    },
+    {
+      type: "group",
       label: "ATTENDANCE",
       permission: "scan_attendance", // Permission udah disamain biar panitia scan bisa buka semua
       icon: <><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7v-1a2 2 0 0 1 2 -2h2" /><path d="M4 17v1a2 2 0 0 0 2 2h2" /><path d="M16 4h2a2 2 0 0 1 2 2v1" /><path d="M16 20h2a2 2 0 0 0 2 -2v-1" /><path d="M5 12l14 0" /></>,
@@ -154,7 +178,9 @@ export function Sidebar() {
 
   useEffect(() => {
     const currentGroup = allowedMenus.find(menu =>
-      menu.type === "group" && menu.items?.some(item => pathname?.startsWith(item.path))
+      menu.type === "group" && menu.items?.some((item: any) =>
+        item.isActive ? item.isActive(pathname) : pathname?.startsWith(item.path)
+      )
     );
     if (currentGroup) {
       setOpenGroups(prev => ({ ...prev, [currentGroup.label as string]: true }));
@@ -163,7 +189,9 @@ export function Sidebar() {
 
   const renderMenuItem = (item: any, key: string | number, isChild: boolean = false) => {
     const isCurrent =
-      item.path === "/admin/dashboard"
+      item.isActive
+        ? item.isActive(pathname)
+        : item.path === "/admin/dashboard"
         ? pathname === "/admin/dashboard"
         : pathname === item.path || pathname?.startsWith(`${item.path}/`);
 
