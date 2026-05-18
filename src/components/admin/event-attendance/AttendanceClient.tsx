@@ -23,6 +23,7 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [filterUserType, setFilterUserType] = useState<string>(searchParams?.get('user_type') || 'ALL');
   const [filterEventName, setFilterEventName] = useState<string>(searchParams?.get('event_name') || '');
+  const [filterAttendedStatus, setFilterAttendedStatus] = useState<string>(searchParams?.get('attended_status') || 'ALL');
   const [eventOptions, setEventOptions] = useState<string[]>([]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -49,6 +50,7 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
     if (finalSearch) params.set('search', finalSearch);
     if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
     if (filterEventName) params.set('event_name', filterEventName);
+    if (filterAttendedStatus !== 'ALL') params.set('attended_status', filterAttendedStatus);
     router.push(`?${params.toString()}`);
   };
 
@@ -68,6 +70,7 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
     if (searchQuery) params.set('search', searchQuery);
     if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
     if (filterEventName) params.set('event_name', filterEventName);
+    if (filterAttendedStatus !== 'ALL') params.set('attended_status', filterAttendedStatus);
     router.push(`?${params.toString()}`);
   };
 
@@ -232,12 +235,12 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
               <path d="M4 4h16v2.172a2 2 0 0 1 -.586 1.414l-4.414 4.414v7l-6 2v-8.5l-4.48 -4.928a2 2 0 0 1 -.52 -1.345v-2.227z" />
             </svg>
             FILTER
-            {(filterUserType !== 'ALL' || filterEventName) && (
+            {(filterUserType !== 'ALL' || filterEventName || filterAttendedStatus !== 'ALL') && (
               <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-black">!</span>
             )}
           </button>
         </div>
-        {(searchQuery || filterUserType !== 'ALL' || filterEventName) && (
+        {(searchQuery || filterUserType !== 'ALL' || filterEventName || filterAttendedStatus !== 'ALL') && (
           <p className="mt-2 text-sm font-bold text-[#6A5D52]">
             Found {meta.total} result{meta.total !== 1 ? 's' : ''} in Total
           </p>
@@ -313,6 +316,20 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
                   ))}
                 </select>
               </div>
+
+              <div>
+                <label className="text-sm font-black text-[#6A5D52] uppercase block mb-2 tracking-wider">Attendance Status</label>
+                <select
+                  value={filterAttendedStatus}
+                  onChange={(e) => setFilterAttendedStatus(e.target.value)}
+                  className="w-full px-4 py-3 border-[3px] border-[#1c1c1b] bg-white font-black text-[#1c1c1b] cursor-pointer focus:outline-none shadow-[4px_4px_0px_#1c1c1b] uppercase"
+                >
+                  <option value="ALL">ALL STATUS</option>
+                  <option value="pending">PENDING</option>
+                  <option value="checked_in">CHECKED IN</option>
+                  <option value="checked_out">CHECKED OUT</option>
+                </select>
+              </div>
             </div>
 
             <div className="flex gap-3 mt-8">
@@ -320,6 +337,7 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
                 onClick={() => {
                   setFilterUserType('ALL');
                   setFilterEventName('');
+                  setFilterAttendedStatus('ALL');
                   setShowFilterModal(false);
                   router.push('?page=1');
                 }}

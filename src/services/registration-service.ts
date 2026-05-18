@@ -47,7 +47,7 @@ export const registrationService = {
         }
     },
 
-    async getEventRegistrations(params: { page?: number; search?: string; status?: string; event_name?: string; user_type?: string } = {}): Promise<PaginatedResponse<EventRegistrationWithUserAndEvent>> {
+    async getEventRegistrations(params: { page?: number; search?: string; status?: string; event_name?: string; user_type?: string; attended_status?: string } = {}): Promise<PaginatedResponse<EventRegistrationWithUserAndEvent>> {
         const session = await getServerSession(authOptions);
         const token = session?.accessToken;
 
@@ -61,6 +61,7 @@ export const registrationService = {
         if (params.status && params.status !== 'ALL') queryParams.append('status', params.status);
         if (params.event_name && params.event_name !== 'ALL') queryParams.append('event_name', params.event_name);
         if (params.user_type && params.user_type !== 'ALL') queryParams.append('user_type', params.user_type);
+        if (params.attended_status && params.attended_status !== 'ALL') queryParams.append('attended_status', params.attended_status);
 
         const res = await fetchBackend(`/admin/registrations/events?${queryParams.toString()}`, {
             method: 'GET',
@@ -75,6 +76,7 @@ export const registrationService = {
         
         throw new Error(response.message || "Gagal mengambil data dari server");
     },
+
 
     async updateEventStatus(id: string, status: RegistrationStatus, rejection_reason?: string): Promise<ApiResponse<null>> {
         return await fetchClient<ApiResponse<null>>(`/api/admin/registrations/events/${id}/status`, {
