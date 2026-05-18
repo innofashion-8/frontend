@@ -161,7 +161,7 @@ export const userService = {
         }
     },
 
-    getUsers: async(page: number = 1): Promise<PaginatedResponse<UserWithRegistrations>> => {
+    getUsers: async(page: number = 1, search: string = '', type: string = ''): Promise<PaginatedResponse<UserWithRegistrations>> => {
         try {
             const session = await getServerSession(authOptions);
             const token = session?.accessToken;
@@ -170,7 +170,12 @@ export const userService = {
                 throw new Error("Unauthorized: Tidak ada token session.");
             }
 
-            const res = await fetchBackend(`/admin/users?page=${page}`, {
+            const params = new URLSearchParams();
+            params.set('page', String(page));
+            if (search) params.set('search', search);
+            if (type && type !== 'ALL') params.set('type', type);
+
+            const res = await fetchBackend(`/admin/users?${params.toString()}`, {
                 method: 'GET',
                 token: token as string,
             });
