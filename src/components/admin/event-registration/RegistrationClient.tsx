@@ -83,6 +83,16 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
     applyFilters('');
   };
 
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    if (searchQuery) params.set('search', searchQuery);
+    if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
+    if (filterEventName) params.set('event_name', filterEventName);
+    if (filterStatus !== 'ALL') params.set('status', filterStatus);
+    router.push(`?${params.toString()}`);
+  };
+
   const filteredData = data;
 
   // Fungsi untuk menutup modal dengan animasi
@@ -330,7 +340,7 @@ export default function EventRegistrationClient({ data, meta, title }: EventRegi
 
       <UniversalPagination
         meta={meta}
-        onPageChange={(page) => router.push(`?page=${page}`)}
+        onPageChange={handlePageChange}
       />
 
       {/* FILTER MODAL */}

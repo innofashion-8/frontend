@@ -62,6 +62,15 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
     applyFilters('');
   };
 
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    if (searchQuery) params.set('search', searchQuery);
+    if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
+    if (filterEventName) params.set('event_name', filterEventName);
+    router.push(`?${params.toString()}`);
+  };
+
   // Fungsi untuk menutup modal dengan animasi
   const handleCloseModal = () => {
     setIsClosing(true);
@@ -253,7 +262,7 @@ export default function AttendanceClient({ data, meta, title }: AttendanceClient
 
       <UniversalPagination
         meta={meta}
-        onPageChange={(page) => router.push(`?page=${page}`)}
+        onPageChange={handlePageChange}
       />
 
       {/* FILTER MODAL */}
