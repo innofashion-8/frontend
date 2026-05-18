@@ -48,7 +48,10 @@ export default function UserQrScanner() {
     try {
       const res = await eventService.userScanCheckIn(token);
 
-      Swal.fire({
+      // Matikan kamera jika sukses agar tidak scan berulang
+      setCameraActive(false);
+
+      await Swal.fire({
         icon: 'success',
         title: 'ACCESS GRANTED',
         text: res.message,
@@ -71,7 +74,10 @@ export default function UserQrScanner() {
         errorMessage = Array.isArray(error.errors[firstKey]) ? error.errors[firstKey][0] : error.errors[firstKey];
       }
 
-      Swal.fire({
+      // Matikan kamera juga saat error agar user sadar dan tidak looping error
+      setCameraActive(false);
+
+      await Swal.fire({
         icon: 'error',
         title: 'ACCESS DENIED',
         text: errorMessage,
