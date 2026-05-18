@@ -467,6 +467,19 @@ export default function DashboardClient() {
                             {reg?.region} {reg?.category && `| ${reg.category}`}
                           </div>
                         )}
+                        {isEvent && reg?.event?.start_time_human && (
+                          <div
+                            className="text-[10px] font-bold tracking-widest uppercase mt-2 flex items-center gap-2"
+                            style={{ color: palette.stucco }}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3" style={{ color: palette.greige }} viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                              <circle cx="12" cy="12" r="9"></circle>
+                              <polyline points="12 7 12 12 15 15"></polyline>
+                            </svg>
+                            START: {reg.event.start_time_human}
+                          </div>
+                        )}
                       </div>
 
                       <div className="w-full sm:w-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">

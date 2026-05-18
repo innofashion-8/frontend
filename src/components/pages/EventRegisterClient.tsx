@@ -264,11 +264,19 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
           </p>
 
           <div className="border p-8 mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 relative z-10" style={{ backgroundColor: palette.obsidian, borderColor: palette.graphite }}>
-            <div>
-              <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>CLEARANCE FEE</p>
-              <span className="text-3xl font-black tracking-widest" style={{ color: isPaid ? palette.stucco : palette.greige }}>
-                {isPaid ? `Rp ${Number(event.price).toLocaleString('id-ID')}` : 'NO CHARGE'}
-              </span>
+            <div className="flex flex-col gap-6">
+              <div>
+                <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>START TIME</p>
+                <span className="text-lg font-black tracking-widest" style={{ color: palette.stucco }}>
+                  {event.start_time_human || 'TBA'}
+                </span>
+              </div>
+              <div>
+                <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>CLEARANCE FEE</p>
+                <span className="text-3xl font-black tracking-widest" style={{ color: isPaid ? palette.stucco : palette.greige }}>
+                  {isPaid ? `Rp ${Number(event.price).toLocaleString('id-ID')}` : 'NO CHARGE'}
+                </span>
+              </div>
             </div>
             <div className="text-right hidden md:block">
                 <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>STATUS</p>

@@ -183,6 +183,14 @@ export default function EventCatalogPage() {
                   </h2>
 
                   <div className="mb-8 grid grid-cols-2 gap-4">
+                    <div className="col-span-2 mb-2">
+                      <p className="text-[9px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>
+                        START TIME
+                      </p>
+                      <p className="text-sm font-bold tracking-widest mt-1 uppercase" style={{ color: palette.stucco }}>
+                        {evt.start_time_human || "TBA"}
+                      </p>
+                    </div>
                     <div>
                       <p
                         className="text-[9px] tracking-[0.2em] mb-2 uppercase"
