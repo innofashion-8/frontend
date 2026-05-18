@@ -1,0 +1,3 @@
+{
+  "/api/events/[key]": "pages/api/events/[key].js"
+}
