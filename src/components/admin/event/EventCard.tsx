@@ -13,13 +13,23 @@ export default function EventCard({ event, onViewDetail, onEdit, onDelete }: Eve
     <div className="bg-[#E2E2DE] p-6 border-[3px] border-[#1c1c1b] shadow-[6px_6px_0px_#1c1c1b] hover:shadow-[8px_8px_0px_#1c1c1b] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200 flex flex-col justify-between">
       <div>
         <h3 className="text-2xl font-black font-creato-title uppercase text-[#1C1C1B] mb-3 leading-tight">{event.title}</h3>
-        <span className="inline-flex items-center gap-1 bg-[#1C1C1B] text-white text-xs font-black px-3 py-1.5 border-2 border-[#1c1c1b] shadow-[2px_2px_0px_#1c1c1b] mb-3 uppercase tracking-wider">
-          {event.category}
-        </span>
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          <span className="inline-flex items-center gap-1 bg-[#1C1C1B] text-white text-xs font-black px-3 py-1.5 border-2 border-[#1c1c1b] shadow-[2px_2px_0px_#1c1c1b] uppercase tracking-wider">
+            {event.category}
+          </span>
+          <span className={`inline-flex items-center text-xs font-black px-2.5 py-1.5 border-2 border-[#1c1c1b] shadow-[2px_2px_0px_#1c1c1b] uppercase tracking-wider ${event.is_registration_open ? 'bg-green-100 text-green-700 border-green-600' : 'bg-red-100 text-red-700 border-red-600'}`}>
+            {event.is_registration_open ? '✓ Open' : '✗ Closed'}
+          </span>
+        </div>
         <p className="text-[#1C1C1B] text-sm font-bold mb-1">Price: Rp {event.price.toLocaleString('id-ID')}</p>
         <p className="text-[#6A5D52] text-xs font-bold mb-1">Quota: {event.quota} seats</p>
         <p className="text-[#1C1C1B] text-xs font-bold mb-1">Available: {event.quota_left} seats</p>
-        <p className="text-[#6A5D52] text-xs font-bold">Start: {event.start_time_input.replace('T', ' ')}</p>
+        <p className="text-[#6A5D52] text-xs font-bold mb-1">Start: {event.start_time_input.replace('T', ' ')}</p>
+        {event.close_registration_at_input ? (
+          <p className="text-xs font-bold text-red-600">Close Reg: {event.close_registration_at_input.replace('T', ' ')}</p>
+        ) : (
+          <p className="text-xs font-bold text-[#978D82]">Close Reg: Tidak ada batas</p>
+        )}
       </div>
       <hr className="my-4 border-[#1c1c1b] border-2" />
       <div className="flex flex-col gap-3 mt-auto">

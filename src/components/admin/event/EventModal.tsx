@@ -94,6 +94,26 @@ export default function EventModal({ event, onClose }: EventModalProps) {
               <p className="font-bold text-sm text-[#B1A79B]">{event.start_time_human || event.start_time_input.replace('T', ' ')}</p>
             </div>
           </div>
+
+          <div className="flex items-center gap-3 p-4 bg-white border-[3px] border-[#1c1c1b] shadow-[4px_4px_0px_#1c1c1b]">
+            <div className={`p-2 ${event.is_registration_open ? 'bg-green-600' : 'bg-red-600'}`}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 11m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" /><path d="M11 16m0 1a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M8 11v-4a4 4 0 0 1 8 0v4" /></svg>
+            </div>
+            <div>
+              <p className="text-xs font-black text-[#6A5D52] uppercase tracking-wider">Registration Status</p>
+              <p className={`font-black text-sm uppercase ${event.is_registration_open ? 'text-green-600' : 'text-red-600'}`}>
+                {event.is_registration_open ? '✓ Open' : '✗ Closed'}
+              </p>
+              {event.close_registration_at_human && (
+                <p className="text-xs text-[#978D82] font-medium mt-0.5">
+                  Deadline: {event.close_registration_at_human}
+                </p>
+              )}
+              {!event.close_registration_at && (
+                <p className="text-xs text-[#978D82] font-medium mt-0.5">Tidak ada batas waktu</p>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="mb-6">

@@ -126,6 +126,34 @@ export default function EventSidebar({
           </div>
 
           <div>
+            <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">
+              Close Registration At
+              <span className="ml-2 text-xs font-normal text-[#978D82]">(opsional — kosongkan jika tidak ada batas)</span>
+            </label>
+            <input
+              type="datetime-local"
+              min={formData.start_time || undefined}
+              className="w-full border-2 border-[#B2B4B2] bg-white text-[#1C1C1B] rounded-lg p-3 focus:outline-none focus:border-[#5B4D4B] transition-colors cursor-pointer
+              [&::-webkit-calendar-picker-indicator]:cursor-pointer 
+              [&::-webkit-calendar-picker-indicator]:opacity-60
+              hover:[&::-webkit-calendar-picker-indicator]:opacity-100
+              [&::-webkit-calendar-picker-indicator]:invert-[43%] [&::-webkit-calendar-picker-indicator]:sepia-[16%] [&::-webkit-calendar-picker-indicator]:saturate-[500%] [&::-webkit-calendar-picker-indicator]:hue-rotate-[350deg] [&::-webkit-calendar-picker-indicator]:brightness-[90%] [&::-webkit-calendar-picker-indicator]:contrast-[85%]"
+              value={formData.close_registration_at || ''}
+              onChange={(e) => onChange({ ...formData, close_registration_at: e.target.value || null })}
+            />
+            {formData.close_registration_at && (
+              <button
+                type="button"
+                onClick={() => onChange({ ...formData, close_registration_at: null })}
+                className="mt-1 text-xs text-[#978D82] hover:text-red-500 transition-colors cursor-pointer underline"
+              >
+                × Hapus batas tutup
+              </button>
+            )}
+            {errors?.close_registration_at && <p className="text-red-600 text-sm mt-1">{errors.close_registration_at[0]}</p>}
+          </div>
+
+          <div>
             <label className="block text-sm font-bold mb-2 text-[#5B4D4B]">Description</label>
             <textarea 
               required 

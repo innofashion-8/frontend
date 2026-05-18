@@ -18,7 +18,9 @@ export default function EventClient({ initialEvents }: EventClientProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<EventPayload>({ 
-    title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, start_time: '', is_active: true,
+    title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, start_time: '',
+    close_registration_at: null,
+    is_active: true,
     bank_name: null, bank_account_name: null, bank_account_number: null, transfer_note_format: null,
   });
   const [errors, setErrors] = useState<ApiValidationErrors | null>(null);
@@ -26,7 +28,12 @@ export default function EventClient({ initialEvents }: EventClientProps) {
   const [viewDetail, setViewDetail] = useState<EventResource | null>(null); 
 
   const handleOpenCreate = () => {
-    setFormData({ title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, wa_link: '', start_time: '', is_active: true, bank_name: null, bank_account_name: null, bank_account_number: null, transfer_note_format: null });
+    setFormData({
+      title: '', category: 'SEMINAR', description: '', price: 0, quota: 1, wa_link: '',
+      start_time: '', close_registration_at: null,
+      is_active: true,
+      bank_name: null, bank_account_name: null, bank_account_number: null, transfer_note_format: null,
+    });
     setErrors(null);
     setIsEditing(false);
     setIsSidebarOpen(true);
@@ -41,6 +48,7 @@ export default function EventClient({ initialEvents }: EventClientProps) {
       quota: event.quota,
       wa_link: event.wa_link || '',
       start_time: event.start_time_input,
+      close_registration_at: event.close_registration_at_input || null,
       is_active: event.is_active,
       bank_name: event.payment_details?.bank_name || null,
       bank_account_name: event.payment_details?.bank_account_name || null,
@@ -80,11 +88,14 @@ export default function EventClient({ initialEvents }: EventClientProps) {
     e.preventDefault();
     setErrors(null);
 
-    const selectedDate = new Date(formData.start_time);
-    const now = new Date();
-    if (selectedDate <= now) {
-      adminError({ title: "TANGGAL INVALID!", text: "Tanggal dan jam event harus setelah waktu sekarang." });
-      return;
+    // Validasi: start_time harus diisi (hanya saat create)
+    if (!isEditing) {
+      const selectedDate = new Date(formData.start_time);
+      const now = new Date();
+      if (selectedDate <= now) {
+        adminError({ title: "TANGGAL INVALID!", text: "Tanggal dan jam event harus setelah waktu sekarang." });
+        return;
+      }
     }
 
     try {
