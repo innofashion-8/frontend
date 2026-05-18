@@ -75,6 +75,19 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
     applyFilters('');
   };
 
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    if (searchQuery) params.set('search', searchQuery);
+    if (filterUserType !== 'ALL') params.set('user_type', filterUserType);
+    if (filterCompetitionCategory !== 'ALL') params.set('category', filterCompetitionCategory);
+    if (filterCompetitionName) params.set('competition_name', filterCompetitionName);
+    if (filterStatus !== 'ALL') params.set('status', filterStatus);
+    router.push(`?${params.toString()}`);
+  };
+
+  const filteredData = data;
+
   const handleExport = async () => {
     try {
       setIsExporting(true);
@@ -85,8 +98,6 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
       setIsExporting(false);
     }
   };
-
-  const filteredData = data;
 
   const handleCloseModal = () => {
     setIsClosing(true);
@@ -338,7 +349,7 @@ export default function CompetitionRegistrationClient({ data, meta, title }: Com
       
       <UniversalPagination 
         meta={meta} 
-        onPageChange={(page) => router.push(`?page=${page}`)} 
+        onPageChange={handlePageChange} 
       />
 
       {showFilterModal && (
