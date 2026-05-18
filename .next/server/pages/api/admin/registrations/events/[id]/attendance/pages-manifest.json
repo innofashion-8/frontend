@@ -1,0 +1,3 @@
+{
+  "/api/admin/registrations/events/[id]/attendance": "pages/api/admin/registrations/events/[id]/attendance.js"
+}
