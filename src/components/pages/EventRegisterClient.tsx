@@ -173,10 +173,11 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
       if (error.isValidationError) {
         const validationErrors = error.errors;
 
-        if (validationErrors.status) {
+        if (validationErrors.status || validationErrors.quota) {
+          const errorMessage = validationErrors.status ? validationErrors.status[0] : validationErrors.quota[0];
           Swal.fire({
             title: 'ACCESS RESTRICTED',
-            text: validationErrors.status[0],
+            text: errorMessage,
             icon: 'warning',
             background: palette.onyx,
             color: palette.stucco,
