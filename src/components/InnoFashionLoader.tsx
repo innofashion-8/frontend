@@ -8,18 +8,18 @@ const BRAND_TEXT = "INNOFASHION SHOW";
 const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
 
 const SPARKLE_POSITIONS = [
-  { top: "8%", left: "12%", delay: 0.0, duration: 2.2 },
-  { top: "12%", right: "10%", delay: 0.5, duration: 1.8 },
-  { top: "78%", left: "8%", delay: 0.8, duration: 2.5 },
-  { top: "82%", right: "15%", delay: 1.3, duration: 2.0 },
-  { top: "50%", left: "3%", delay: 0.3, duration: 2.3 },
-  { top: "48%", right: "4%", delay: 0.9, duration: 1.9 },
-  { top: "25%", left: "45%", delay: 0.6, duration: 2.1 },
-  { top: "88%", left: "50%", delay: 1.1, duration: 2.4 },
-  { top: "35%", left: "5%", delay: 1.5, duration: 2.0 },
-  { top: "65%", right: "6%", delay: 0.2, duration: 2.6 },
-  { top: "18%", left: "30%", delay: 1.7, duration: 1.7 },
-  { top: "75%", right: "35%", delay: 0.7, duration: 2.2 },
+  { top: "8%", left: "12%", delay: 0.0, duration: 2.0 },
+  { top: "12%", right: "10%", delay: 0.15, duration: 1.8 },
+  { top: "78%", left: "8%", delay: 0.3, duration: 2.2 },
+  { top: "82%", right: "15%", delay: 0.1, duration: 1.9 },
+  { top: "50%", left: "3%", delay: 0.2, duration: 2.4 },
+  { top: "48%", right: "4%", delay: 0.25, duration: 1.7 },
+  { top: "25%", left: "45%", delay: 0.35, duration: 2.1 },
+  { top: "88%", left: "50%", delay: 0.05, duration: 2.0 },
+  { top: "35%", left: "5%", delay: 0.4, duration: 1.8 },
+  { top: "65%", right: "6%", delay: 0.1, duration: 2.3 },
+  { top: "18%", left: "30%", delay: 0.3, duration: 1.9 },
+  { top: "75%", right: "35%", delay: 0.2, duration: 2.1 },
 ];
 
 const FLOAT_PARTICLES = [
@@ -40,6 +40,11 @@ interface LuxuryLoaderProps {
 export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
   const [scrambledText, setScrambledText] = useState("");
   const [isRevealing, setIsRevealing] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let iteration = 0;
@@ -185,18 +190,34 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
               }}
               exit={{ opacity: 0 }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 + spark.delay }}
+              animate={{ opacity: isRevealing ? 0.5 : 0.8 }}
+              transition={{
+                opacity: {
+                  duration: 0.6,
+                  delay: spark.delay,
+                },
+              }}
             >
+              {/* Middle wrapper for CSS horizontal swing — separate from framer-motion's transform */}
               <div
-                className="sparkle-inner"
+                className={!isRevealing ? "sparkle-swing" : "sparkle-stopped"}
                 style={
                   {
-                    "--delay": `${spark.delay}s`,
-                    "--duration": `${spark.duration}s`,
+                    "--swing-delay": `${spark.delay}s`,
+                    "--swing-duration": `${spark.duration}s`,
                   } as React.CSSProperties
                 }
-              />
+              >
+                <div
+                  className={`sparkle-inner ${isRevealing ? "sparkle-settled" : ""}`}
+                  style={
+                    {
+                      "--delay": `${spark.delay}s`,
+                      "--duration": `${spark.duration}s`,
+                    } as React.CSSProperties
+                  }
+                />
+              </div>
             </motion.div>
           ))}
 

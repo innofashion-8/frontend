@@ -418,6 +418,34 @@ body {
     0 0 12px rgba(200, 210, 220, 0.4);
 }
 
+.sparkle-swing {
+  animation: sparkleSwing var(--swing-duration) ease-in-out infinite;
+  animation-delay: var(--swing-delay);
+}
+
+.sparkle-stopped {
+  animation: none;
+  transform: translateX(0);
+}
+
+@keyframes sparkleSwing {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(120px);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(-120px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .sparkle-inner {
   width: 100%;
   height: 100%;
@@ -425,6 +453,12 @@ body {
   background: inherit;
   animation: sparklePulse var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
+}
+
+.sparkle-inner.sparkle-settled {
+  animation: sparkleSettledGlow 3s ease-in-out infinite;
+  opacity: 0.5;
+  transform: scale(1);
 }
 
 @keyframes sparklePulse {
@@ -444,6 +478,17 @@ body {
   85% {
     opacity: 1;
     transform: scale(1.2);
+  }
+}
+
+@keyframes sparkleSettledGlow {
+  0%, 100% {
+    opacity: 0.3;
+    box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.25);
   }
 }
 

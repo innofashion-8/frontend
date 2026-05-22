@@ -47,6 +47,14 @@ body {
 }
 
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
   .card-bubble-glass {
     position: relative;
     
@@ -121,4 +129,17 @@ body {
   0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
   50% { text-shadow: 0 0 22px rgba(255, 255, 255, 0.9); }
   100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@utility animate-shimmer {
+  animation: shimmer 2s infinite linear;
 }
