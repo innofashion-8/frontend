@@ -281,8 +281,8 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
             </div>
             <div className="text-right hidden md:block">
                 <p className="text-[10px] tracking-[0.2em] mb-2 uppercase" style={{ color: palette.ash }}>STATUS</p>
-                <div className="text-xs font-bold uppercase tracking-widest" style={{ color: isRejected ? '#ef4444' : palette.greige }}>
-                    {isRejected ? 'REJECTED - AWAITING RESUBMISSION' : isPaid ? 'AWAITING PAYMENT' : 'READY TO SECURE'}
+                <div className="text-xs font-bold uppercase tracking-widest" style={{ color: !event.is_registration_open || isRejected ? '#ef4444' : palette.greige }}>
+                    {!event.is_registration_open ? 'REGISTRATION CLOSED' : isRejected ? 'REJECTED - AWAITING RESUBMISSION' : isPaid ? 'AWAITING PAYMENT' : 'READY TO SECURE'}
                 </div>
             </div>
           </div>
@@ -311,6 +311,14 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
             </div>
           )}
 
+          {/* 🔥 4. KASIH WARNING KALAU EVENT SUDAH DITUTUP 🔥 */}
+          {!event.is_registration_open && (
+            <div className="border p-6 mb-8 relative z-10 text-center" style={{ borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
+              <h3 className="text-red-500 font-bold tracking-[0.2em] uppercase mb-2 text-sm">⚠️ REGISTRATION CLOSED</h3>
+              <p className="text-red-200 text-sm mb-1">Sorry, the registration for this event has been closed or the quota is full.</p>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-10 relative z-10">
             {isPaid && (
               <div>
@@ -320,7 +328,8 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
                 <input 
                   type="file" accept=".jpg,.jpeg,.png,.pdf"
                   onChange={handleFileUpload}
-                  className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest transition-all focus:outline-none focus:border-white/50"
+                  disabled={!event.is_registration_open}
+                  className="w-full text-sm border p-4 cursor-pointer file:mr-6 file:py-3 file:px-6 file:border-0 file:font-bold file:uppercase file:tracking-widest transition-all focus:outline-none focus:border-white/50 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ backgroundColor: palette.obsidian, borderColor: formErrors?.payment_proof ? '#ef4444' : palette.graphite, color: palette.ash }}
                 />
                 {formErrors?.payment_proof && <p className="text-red-500 text-[10px] mt-3 font-bold uppercase tracking-[0.2em]">⚠️ {formErrors.payment_proof[0]}</p>}
@@ -341,11 +350,11 @@ const { data: regStatus, isLoading: isStatusLoading } = useQuery({
             )}
 
             <button 
-              type="submit" disabled={isSubmitting || isCompressing}
-              className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
+              type="submit" disabled={isSubmitting || isCompressing || !event.is_registration_open}
+              className={`w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 ${!event.is_registration_open ? 'cursor-not-allowed' : 'cursor-pointer'}`}
               style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
             >
-              {isCompressing ? 'COMPRESSING FILE...' : isSubmitting ? 'PROCESSING...' : (isPaid ? 'SUBMIT REGISTRATION' : 'REGISTER NOW')}
+              {!event.is_registration_open ? 'REGISTRATION CLOSED' : isCompressing ? 'COMPRESSING FILE...' : isSubmitting ? 'PROCESSING...' : (isPaid ? 'SUBMIT REGISTRATION' : 'REGISTER NOW')}
             </button>
           </form>
         </div>

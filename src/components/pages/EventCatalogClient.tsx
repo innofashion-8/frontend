@@ -243,14 +243,15 @@ export default function EventCatalogPage() {
                           onClick={() =>
                             router.push(`/dashboard/event/${evt.slug}`)
                           }
-                          className="w-full py-5 font-black uppercase tracking-[0.2em] cursor-pointer transition-all duration-300 text-sm hover:scale-[1.03]"
+                          disabled={!evt.is_registration_open}
+                          className={`w-full py-5 font-black uppercase tracking-[0.2em] transition-all duration-300 text-sm ${evt.is_registration_open ? 'cursor-pointer hover:scale-[1.03]' : 'cursor-not-allowed opacity-50'}`}
                           style={{
                             backgroundColor: palette.stucco,
                             color: palette.onyx,
-                            boxShadow: `0 0 15px ${palette.greige}40`,
+                            boxShadow: evt.is_registration_open ? `0 0 15px ${palette.greige}40` : 'none',
                           }}
                         >
-                          OBTAIN PASS
+                          {evt.is_registration_open ? 'OBTAIN PASS' : 'REGISTRATION CLOSED'}
                         </button>
 
                         <button
