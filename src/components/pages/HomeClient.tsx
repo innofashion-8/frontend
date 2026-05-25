@@ -12,11 +12,11 @@ import ContactPage from "@/components/ContactUs";
 import LogoLoop from "@/components/Logoloop";
 
 const sponsorLogos = [
-  { src: "/assets/logoloop/Anita’s kitchen.png", alt: "Anita's Kitchen" },
-  { src: "/assets/logoloop/DeMandailing - Logo EPS 2x2m.jpeg", alt: "DeMandailing",},
-  { src: "/assets/logoloop/IMG_0799.jpg", alt: "Partner Logo" },
-  { src: "/assets/logoloop/MAKE OVER - LOGO Putih.png", alt: "Make Over" },
-  { src: "/assets/logoloop/logo pnp hijau tua-1.png", alt: "PNP" },
+  { src: "/assets/logoloop/anitas-kitchen.png", alt: "Anita's Kitchen" },
+  { src: "/assets/logoloop/demandailing.jpeg", alt: "DeMandailing" },
+  { src: "/assets/logoloop/hope-beauty.jpg", alt: "Partner Logo" },
+  { src: "/assets/logoloop/make-over.png", alt: "Make Over" },
+  { src: "/assets/logoloop/logo-pnp.png", alt: "PNP" },
 ];
 
 const renderSponsorItem = (item: any) => {
