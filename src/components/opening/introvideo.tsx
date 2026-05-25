@@ -19,7 +19,18 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
   useEffect(() => {
     if (!isFinished) return;
 
-    const tl = gsap.timeline({ delay: 0.3 });
+    gsap.set([line1Ref.current, line2Ref.current, line3Ref.current, subtitleRef.current, ctaRef.current], { 
+      willChange: "transform, opacity" 
+    });
+
+    const tl = gsap.timeline({ 
+      delay: 1.2,
+      onComplete: () => {
+        gsap.set([line1Ref.current, line2Ref.current, line3Ref.current, subtitleRef.current, ctaRef.current], { 
+          clearProps: "willChange" 
+        });
+      }
+    });
 
     tl.fromTo(line1Ref.current,
       { x: -80, opacity: 0, skewX: -8 },
@@ -58,8 +69,17 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
       }}
     >
       {/* VIDEO */}
-      <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster='/photo/teaser-poster.png'
+        className="w-full h-full object-cover transform-gpu"
+      >
         <source src="/photo/teaser.webm" type="video/webm" />
+        <source src="/photo/teaser.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay */}
