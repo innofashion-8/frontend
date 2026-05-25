@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -18,12 +18,37 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
   const pathname = usePathname();
   const { status } = useSession();
 
+  const [showNav, setShowNav] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
   const navLinks = [
     { id: 'about', label: 'ABOUT US' },
     { id: 'competitions', label: 'COMPETITIONS' },
     { id: 'timeline', label: 'TIMELINE' },
     { id: 'contact', label: 'CONTACT US' },
   ];
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (isOpen) return;
+
+        if (window.scrollY > lastScrollY && window.scrollY > 80) {
+          setShowNav(false);
+        } else {
+          setShowNav(true);
+        }
+
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener('scroll', controlNavbar);
+
+    return () => {
+      window.removeEventListener('scroll', controlNavbar);
+    };
+  }, [lastScrollY, isOpen]);
 
   const handleScroll = (id: string) => {
     setIsOpen(false);
@@ -40,11 +65,13 @@ const Navbar: React.FC<NavbarProps> = ({ isVisible }) => {
     await signOut({ callbackUrl: '/' });
   };
 
+  const shouldShowNavbar = isVisible && (showNav || isOpen);
+
   return (
     <>
       {/* DESKTOP NAVBAR */}
       <div className={`fixed top-0 left-0 w-full z-50 transition-all duration-1000 ease-in-out 
-        ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}
+        ${shouldShowNavbar ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}
       >
         <div className="w-full flex justify-center py-4 lg:py-6 px-4 bg-transparent">
           <nav className="relative w-full max-w-[1500px] h-16 lg:h-22 flex items-center px-4 lg:px-8">
