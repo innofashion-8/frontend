@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./loader.css";
 const BRAND_TEXT = "INNOFASHION SHOW";
 const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
@@ -41,22 +41,23 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
   const [scrambledText, setScrambledText] = useState("");
   const [isRevealing, setIsRevealing] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const iterationRef = useRef(0);
+  const displayedText = isLoading ? scrambledText : BRAND_TEXT;
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    let iteration = 0;
     let intervalId: NodeJS.Timeout;
 
     if (isLoading) {
-      // Start the scrambling effect
+      // Start the scrambling effect slowly
       intervalId = setInterval(() => {
         setScrambledText(
           BRAND_TEXT.split("")
             .map((char, index) => {
-              if (index < iteration) {
+              if (index < iterationRef.current) {
                 return char;
               }
               return CHARACTERS[Math.floor(Math.random() * CHARACTERS.length)];
@@ -64,20 +65,22 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
             .join(""),
         );
 
-        if (iteration >= BRAND_TEXT.length) {
+        if (iterationRef.current >= BRAND_TEXT.length) {
           clearInterval(intervalId);
           setIsRevealing(true);
         }
 
-        iteration += 1 / 3; // Controls the speed of reveal
+        iterationRef.current += 1 / 3; // Controls the speed of reveal
       }, 50);
     } else {
-      // Instantly reveal if not loading
+      // Instantly reveal the full text when loading is finished
       setScrambledText(BRAND_TEXT);
       setIsRevealing(true);
     }
 
-    return () => clearInterval(intervalId);
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [isLoading]);
 
   return (
@@ -128,7 +131,7 @@ export default function LuxuryLoader({ isLoading }: LuxuryLoaderProps) {
             className="flex flex-col items-center justify-center gap-4 relative z-50 w-full"
           >
             <div className="font-mono text-xs tracking-[0.3em] text-white/80 h-4 text-silver-glow whitespace-nowrap flex">
-              {scrambledText.split("").map((char, i) => (
+              {displayedText.split("").map((char, i) => (
                 <motion.span
                   key={i}
                   exit={

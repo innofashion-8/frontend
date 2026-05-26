@@ -8,12 +8,13 @@ export default function GlobalLoader() {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
-  // Skip loader untuk halaman admin
+  // Skip loader untuk halaman admin dan homepage
   const isAdminPage = pathname?.startsWith('/admin');
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
-    // Jangan tampilkan loader kalau di halaman admin
-    if (isAdminPage) {
+    // Jangan tampilkan loader kalau di halaman admin atau homepage
+    if (isAdminPage || isHomePage) {
       setIsLoading(false);
       return;
     }
@@ -27,10 +28,10 @@ export default function GlobalLoader() {
     }, 2600); // Dikurangi dari 2800ms ke 1500ms
 
     return () => clearTimeout(timer);
-  }, [pathname, isAdminPage]);
+  }, [pathname, isAdminPage, isHomePage]);
 
-  // Jangan render loader sama sekali kalau di admin
-  if (isAdminPage) return null;
+  // Jangan render loader sama sekali kalau di admin atau homepage
+  if (isAdminPage || isHomePage) return null;
 
   return <InnoFashionLoader isLoading={isLoading} />;
 }

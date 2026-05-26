@@ -6,9 +6,10 @@ import gsap from 'gsap';
 
 interface IntroVideoProps {
   isFinished: boolean;
+  onVideoReady?: () => void;
 }
 
-const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
+const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished, onVideoReady }) => {
   const heroTextRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
@@ -77,6 +78,8 @@ const IntroVideo: React.FC<IntroVideoProps> = ({ isFinished }) => {
         preload="auto"
         poster='/photo/teaser-poster.png'
         className="w-full h-full object-cover transform-gpu"
+        onCanPlayThrough={onVideoReady}
+        onLoadedData={onVideoReady}
       >
         <source src="/photo/teaser.webm" type="video/webm" />
         <source src="/photo/teaser.mp4" type="video/mp4" />
