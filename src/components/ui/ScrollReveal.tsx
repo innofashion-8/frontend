@@ -15,6 +15,7 @@ interface ScrollRevealProps {
   blurStrength?: number;
   containerClassName?: string;
   textClassName?: string;
+  start?: string;
   rotationEnd?: string;
   wordAnimationEnd?: string;
 }
@@ -23,13 +24,14 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   scrollContainerRef,
   enableBlur = true,
-  baseOpacity = 0.1,
+  baseOpacity = 0.15,
   baseRotation = 3,
   blurStrength = 4,
   containerClassName = '',
   textClassName = '',
-  rotationEnd = 'bottom center',
-  wordAnimationEnd = 'center center'
+  start = 'top bottom-=15%',
+  rotationEnd = 'top center+=15%',
+  wordAnimationEnd = 'top center+=15%'
 }) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
 
@@ -80,7 +82,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
           scrollTrigger: {
             trigger: el,
             scroller,
-            start: 'top bottom-=20%',
+            start: start,
             end: wordAnimationEnd,
             scrub: true
           }
@@ -98,7 +100,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
             scrollTrigger: {
               trigger: el,
               scroller,
-              start: 'top bottom-=20%',
+              start: start,
               end: wordAnimationEnd,
               scrub: true
             }
@@ -108,7 +110,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     }, el);
 
     return () => ctx.revert(); // Cleanup yang aman!
-  }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, rotationEnd, wordAnimationEnd, blurStrength]);
+  }, [scrollContainerRef, enableBlur, baseRotation, baseOpacity, start, rotationEnd, wordAnimationEnd, blurStrength]);
 
   return (
     <h2 ref={containerRef} className={`my-5 ${containerClassName}`}>
