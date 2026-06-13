@@ -87,6 +87,29 @@ export default function DashboardClient() {
     return null;
   };
 
+  const uploadFileInChunks = async (file: File, fileId: string, fileType: string) => {
+    const chunkSize = 1024 * 1024; // 1MB chunks
+    const totalChunks = Math.ceil(file.size / chunkSize);
+
+    for (let i = 0; i < totalChunks; i++) {
+      const start = i * chunkSize;
+      const end = Math.min(start + chunkSize, file.size);
+      const chunk = file.slice(start, end);
+
+      const chunkData = new FormData();
+      chunkData.append("file", chunk, file.name);
+      chunkData.append("file_id", fileId);
+      chunkData.append("file_type", fileType);
+      chunkData.append("chunk_index", i.toString());
+      chunkData.append("total_chunks", totalChunks.toString());
+
+      await fetchClient(`/api/competitions/${uploadCompKey}/chunk-upload`, {
+        method: "POST",
+        body: chunkData,
+      });
+    }
+  };
+
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!artworkFile || !conceptFile) {
@@ -102,14 +125,21 @@ export default function DashboardClient() {
 
     setIsUploading(true);
     try {
-      const formData = new FormData();
-      formData.append("artwork", artworkFile);
-      formData.append("concept", conceptFile);
+      const fileId = Date.now().toString() + Math.random().toString(36).substring(7);
 
+      toast.loading("Uploading Artwork (Please wait)...", { id: "uploading-toast" });
+      await uploadFileInChunks(artworkFile, fileId, "artwork");
+      
+      toast.loading("Uploading Concept (Please wait)...", { id: "uploading-toast" });
+      await uploadFileInChunks(conceptFile, fileId, "concept");
+
+      toast.loading("Finalizing Submission...", { id: "uploading-toast" });
       await fetchClient(`/api/competitions/${uploadCompKey}/submission`, {
         method: "POST",
-        body: formData,
+        body: JSON.stringify({ file_id: fileId }),
+        headers: { "Content-Type": "application/json" }
       });
+      toast.dismiss("uploading-toast");
 
       toast.success("Artwork successfully uploaded!", {
         style: {
