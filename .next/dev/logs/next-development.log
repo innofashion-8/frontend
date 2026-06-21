@@ -1,0 +1,241 @@
+[00:00:09.747] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:11.220] Server  LOG     ✓ Ready in 8.6s
+[00:01:58.840] Server  LOG     ○ Compiling / ...
+[00:02:06.438] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:07.563] Server  LOG       Reload env: .env
+[00:02:07.947] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:02:07.947] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:02:09.507] Server  WARN    [next-auth][warn][NEXTAUTH_URL] "\nhttps://next-auth.js.org/warnings#nextauth_url"
+[00:02:09.509] Server  WARN    [next-auth][warn][NO_SECRET] "\nhttps://next-auth.js.org/warnings#no_secret"
+[00:02:09.739] Server  LOG     ✓ Compiled in 903ms
+[00:02:09.775] Server  LOG       Reload env: .env
+[00:02:11.945] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:02:12.713] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:02:12.814] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:02:14.614] Browser WARN    Image with src "/assets/dust.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[00:02:14.614] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:02:21.220] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:02:48.450] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:49.594] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:02:49.594] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:02:49.594] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:02:57.802] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:02:57.986] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:02:58.341] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:04:31.684] Server  LOG     ✓ Compiled in 496ms
+[00:04:48.428] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:04:49.074] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:04:49.075] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:04:49.075] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:05:07.491] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:05:08.181] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:05:08.315] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:05:14.479] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:05:14.886] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:05:21.268] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:05:21.542] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:05:28.068] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:28.746] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:05:39.357] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:05:40.071] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:06:08.196] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:06:08.940] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:06:08.940] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:06:20.530] Browser ERROR   Draft save failed: {"errors":{"draft_data.phone":["WhatsApp number must be a valid international phone number starting with country code (e.g., +628123456789 or +123456789)."]},"isValidationError":true}
+[00:06:28.998] Browser LOG     Draft auto-saved
+[00:06:47.602] Browser LOG     Draft auto-saved
+[00:06:55.284] Browser LOG     Draft auto-saved
+[00:07:08.129] Browser LOG     Draft auto-saved
+[00:07:13.736] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:14.115] Server  ERROR   Error: aborted
+[00:07:14.119] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:07:14.121] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:07:14.540] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:15.207] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:07:15.207] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:07:16.317] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:16.317] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:16.642] Server  ERROR   Error: aborted
+[00:07:16.644] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:07:16.647] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:07:17.025] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:17.627] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:07:17.627] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:07:18.709] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:18.709] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:19.043] Server  ERROR   Error: aborted
+[00:07:19.047] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:07:19.049] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:07:19.399] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:20.010] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:07:20.010] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:07:21.180] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:21.180] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:21.526] Server  ERROR   Error: aborted
+[00:07:21.527] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:07:21.529] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:07:21.860] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:23.523] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:23.523] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:24.047] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:25.614] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:25.614] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:26.142] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:27.714] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:27.714] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:28.243] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:29.776] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:29.776] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:30.370] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:31.882] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:31.882] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:32.403] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:33.937] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:33.937] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:34.466] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:36.034] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:36.034] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:36.538] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:38.031] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:38.031] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:38.535] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:40.061] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:40.061] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:40.556] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:42.105] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:42.105] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:42.608] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:44.107] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:44.107] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:44.675] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:46.261] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:46.261] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:46.813] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:48.321] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:48.321] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:48.817] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:50.351] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:50.351] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:50.866] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:52.385] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:52.386] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:52.630] Server  ERROR   Error: aborted
+[00:07:52.632] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:07:52.634] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:07:52.916] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:54.394] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:54.394] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:54.939] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:56.556] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:56.557] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:57.075] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:07:58.568] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:58.568] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:07:59.080] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:00.605] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:00.605] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:01.110] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:02.606] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:02.606] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:03.120] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:04.627] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:04.627] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:05.136] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:06.856] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:06.856] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:07.446] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:09.419] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:09.419] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:09.479] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:09.479] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:10.112] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:10.751] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:10.751] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:11.998] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:11.998] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:12.457] Server  ERROR   Error: aborted
+[00:08:12.459] Server  ERROR   ⨯ "uncaughtException:" Error: aborted
+[00:08:12.461] Server  ERROR   ⨯ "uncaughtException: " Error: aborted
+[00:08:12.864] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:13.541] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:13.541] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:14.772] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:14.989] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:16.734] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:17.299] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:17.299] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:18.343] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:18.343] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:18.955] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:19.518] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:19.518] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:20.626] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:20.626] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:21.251] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:21.802] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:22.380] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:22.380] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:08:23.463] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:23.463] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:08:24.791] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:26.102] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:26.102] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:26.102] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:26.102] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:26.102] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:26.102] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:31.909] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:32.778] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:08:32.778] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:32.778] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:32.778] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:32.778] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:32.778] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:08:59.431] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:09:10.558] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:09:11.219] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:09:11.219] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:09:11.219] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:09:17.811] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[00:09:17.811] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:09:18.779] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:09:55.205] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:09:55.376] Browser LOG     THREE.WebGLRenderer: Context Lost.
+[00:12:15.545] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:15.878] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:12:29.830] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:30.603] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:12:30.603] Browser WARN    Image with src "/assets/board-frame.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:12:30.603] Browser WARN    Image with src "/assets/layer20.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:12:30.603] Browser WARN    Image with src "/assets/model-blurry.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:12:30.603] Browser WARN    Image with src "/assets/model-shadow.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:12:30.603] Browser WARN    Image with src "/assets/model-main.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:12:37.759] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:38.327] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:12:54.893] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:12:55.523] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:12:55.523] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:13:09.560] Browser LOG     Draft auto-saved
+[00:13:13.527] Browser LOG     Draft auto-saved
+[00:13:18.540] Browser LOG     Draft auto-saved
+[00:13:23.611] Browser LOG     Draft auto-saved
+[00:13:32.540] Browser LOG     Draft auto-saved
+[00:13:36.923] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:13:37.740] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:38.476] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:13:38.476] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:13:38.476] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:15:41.189] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:41.537] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:15:52.553] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:15:53.214] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:15:53.214] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:16:07.833] Browser LOG     Draft auto-saved
+[00:16:16.897] Browser LOG     Draft auto-saved
+[00:16:33.271] Browser LOG     Draft auto-saved
+[00:16:33.672] Browser LOG     [SYSTEM] Sinkronisasi Token...
+[00:16:34.445] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:35.140] Browser WARN    Image with src "/logo_INNOF.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:16:35.140] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[00:16:35.140] Browser WARN    THREE.THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
