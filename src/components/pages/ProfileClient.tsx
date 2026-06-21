@@ -11,6 +11,7 @@ import imageCompression from "browser-image-compression";
 import { authService } from "@/services/auth-service";
 import { UserWithRegistrations } from "@/types/user";
 import palette from "@/config/palette";
+import PhoneInput from "@/components/ui/PhoneInput";
 
 export default function ProfileClient() {
   const router = useRouter();
@@ -270,20 +271,16 @@ export default function ProfileClient() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* PHONE */}
               <div className="border p-6" style={{ borderColor: palette.graphite, backgroundColor: palette.obsidian }}>
-                <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>
-                  WHATSAPP CONTACT *
-                </label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 border text-sm focus:outline-none"
-                  style={{ backgroundColor: palette.onyx, borderColor: formErrors?.phone ? "#ef4444" : palette.graphite, color: palette.stucco }}
-                  required
+                <PhoneInput 
+                  value={phone} 
+                  onChange={setPhone} 
+                  error={formErrors?.phone?.[0]} 
+                  bgClass={palette.onyx}
+                  pClass="p-3"
+                  containerClass=""
+                  label="WHATSAPP CONTACT"
                 />
-                {formErrors?.phone && <p className="text-red-500 text-[10px] mt-2 font-bold uppercase tracking-wider animate-pulse">{formErrors.phone[0]}</p>}
               </div>
 
               {/* LINE (OPTIONAL) */}
@@ -433,3 +430,5 @@ export default function ProfileClient() {
     </div>
   );
 }
+
+

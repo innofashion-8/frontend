@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import imageCompression from 'browser-image-compression';
 import palette from '@/config/palette';
+import PhoneInput from '@/components/ui/PhoneInput';
 
 interface Member {
   name: string; email: string; phone: string; id_card: File | null; preview?: string | null;
@@ -380,11 +381,15 @@ export default function CompetitionRegisterPage() {
                         <input type="email" value={member.email} onChange={(e) => handleMemberChange(index, 'email', e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed" style={{ backgroundColor: palette.onyx, borderColor: formErrors?.[`members.${index - 1}.email`] ? '#ef4444' : palette.graphite, color: palette.stucco }} disabled={index === 0 && !!regStatus?.user_profile?.email} required />
                         {getMemberError(index, 'email')}
                       </div>
-                      <div>
-                        <label className="block text-[10px] font-bold mb-2 uppercase tracking-[0.2em]" style={{ color: palette.greige }}>Whatsapp Contact *</label>
-                        <input type="tel" value={member.phone} onChange={(e) => handleMemberChange(index, 'phone', e.target.value)} className="w-full px-4 py-3 border text-sm focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed" style={{ backgroundColor: palette.onyx, borderColor: formErrors?.[`members.${index - 1}.phone`] ? '#ef4444' : palette.graphite, color: palette.stucco }} disabled={index === 0 && !!regStatus?.user_profile?.phone} required />
-                        {getMemberError(index, 'phone')}
-                      </div>
+                      <PhoneInput 
+                        value={member.phone} 
+                        onChange={(val: string) => handleMemberChange(index, 'phone', val)} 
+                        error={formErrors?.[`members.${index - 1}.phone`] ? formErrors[`members.${index - 1}.phone`][0] : false} 
+                        disabled={index === 0 && !!regStatus?.user_profile?.phone} 
+                        bgClass={palette.onyx}
+                        pClass="p-3"
+                        containerClass=""
+                      />
 
                       {index === 0 ? (
                         regStatus?.user_profile?.ktm_path || regStatus?.user_profile?.id_card_path ? (
@@ -452,3 +457,5 @@ export default function CompetitionRegisterPage() {
       </div>
   );
 }
+
+

@@ -7,6 +7,7 @@ import { userService } from '@/services/user-service';
 import { useSession } from 'next-auth/react';
 import Swal from 'sweetalert2'; 
 import imageCompression from 'browser-image-compression';
+import PhoneInput from '@/components/ui/PhoneInput';
 
 // INJEKSI COLOR PALETTE DYSTOPIAN
 const palette = {
@@ -47,6 +48,7 @@ export function CompleteProfileForm() {
   const [batch, setBatch] = useState('');
   const [institution, setInstitution] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCompressing, setIsCompressing] = useState(false);
   const [formErrors, setFormErrors] = useState<any>(null);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +66,7 @@ export function CompleteProfileForm() {
         });
     }
 
+    setIsCompressing(true);
     try {
         const options = {
             maxSizeMB: 0.8,
@@ -96,16 +99,27 @@ export function CompleteProfileForm() {
         });
         setDocumentFile(null);
         e.target.value = '';
+    } finally {
+        setIsCompressing(false);
     }
   };
+
+  const isUpdatingRef = useRef(false);
 
   useEffect(() => {
     if (statusData?.is_completed) {
       if (session?.user?.is_profile_complete !== true) {
-        console.log("[SYSTEM] Sinkronisasi Token...");
-        update({ is_profile_complete: true }).then(() => {
-          window.location.href = '/dashboard';
-        });
+        if (!isUpdatingRef.current) {
+          isUpdatingRef.current = true;
+          console.log("[SYSTEM] Sinkronisasi Token...");
+          update({ is_profile_complete: true }).then(() => {
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 300);
+          }).catch(() => {
+            isUpdatingRef.current = false;
+          });
+        }
       } else {
         router.push('/dashboard');
       }
@@ -239,7 +253,9 @@ export function CompleteProfileForm() {
         }
       });
 
-      window.location.href = '/dashboard';
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 300);
       
     } catch (error: any) {
       console.error("DEBUG ERROR DARI LARAVEL:", error);
@@ -340,7 +356,7 @@ export function CompleteProfileForm() {
           <DystopianInput label="MAJOR / JURUSAN" placeholder="Enter your major" value={major} onChange={setMajor} error={formErrors?.major} />
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <DystopianInput label="ACTIVE WHATSAPP" placeholder="+62..." value={phone} onChange={setPhone} error={formErrors?.phone} />
+              <PhoneInput label="ACTIVE WHATSAPP" value={phone} onChange={setPhone} error={formErrors?.phone} bgClass={palette.obsidian} pClass="p-4" />
               <DystopianInput label="LINE ID (OPTIONAL)" placeholder="Your Line ID" value={line} onChange={setLine} required={false} error={formErrors?.line} />
           </div>
 
@@ -363,11 +379,11 @@ export function CompleteProfileForm() {
           </div>
 
           <button 
-            type="submit" disabled={isLoading}
+            type="submit" disabled={isLoading || isCompressing}
             className="w-full py-5 font-black text-sm uppercase tracking-[0.2em] transition-all hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100 mt-6 cursor-pointer"
             style={{ backgroundColor: palette.stucco, color: palette.onyx, boxShadow: `0 0 15px ${palette.greige}40` }}
           >
-            {isLoading ? 'SYNCING DATA...' : 'SUBMIT & CONTINUE'}
+            {isCompressing ? 'COMPRESSING FILE...' : isLoading ? 'SYNCING DATA...' : 'SUBMIT & CONTINUE'}
           </button>
         </form>
       </div>
@@ -400,3 +416,5 @@ function DystopianInput({ label, placeholder, value, onChange, required = true, 
     </div>
   );
 }
+
+
